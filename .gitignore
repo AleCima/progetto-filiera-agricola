@@ -12,3 +12,9 @@ Filiera agricola.vpp.bak_016d
 Filiera agricola.vpp.bak_017d
 Filiera agricola.vpp.bak_018d
 Filiera agricola.vpp.bak_019d
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
