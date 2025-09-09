@@ -1,19 +1,19 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Pacchetto extends Contenuto {
     String nome;
-    List<Prodotto> listaProdotti;
+    List<Contenuto> listaProdotti;
     double prezzo;
     Venditore distributore;
 
-    public Pacchetto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, int id1, String nome, List<Prodotto> listaProdotti, double prezzo, Venditore distributore) {
+    public Pacchetto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, String nome, double prezzo, Venditore distributore) {
         super(id, statoConferma, dataCaricamento, descrizione);
-        this.id = id1;
         this.nome = nome;
-        this.listaProdotti = listaProdotti;
+        this.listaProdotti = new ArrayList<>();
         this.prezzo = prezzo;
         this.distributore = distributore;
     }
@@ -26,12 +26,16 @@ public class Pacchetto extends Contenuto {
         this.nome = nome;
     }
 
-    public List<Prodotto> getListaProdotti() {
+    public List<Contenuto> getListaProdotti() {
         return listaProdotti;
     }
 
-    public void setListaProdotti(List<Prodotto> listaProdotti) {
-        this.listaProdotti = listaProdotti;
+    public void addProdotto(Contenuto prodotto) {
+        listaProdotti.add(prodotto);
+    }
+
+    public void removeProdotto(Contenuto contenuto) {
+        listaProdotti.remove(contenuto);
     }
 
     public double getPrezzo() {

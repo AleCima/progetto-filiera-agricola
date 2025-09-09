@@ -1,5 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,14 +13,22 @@ public class Prodotto extends Contenuto {
     List<Trasformazione> listaTrasformazioni;
     Date dataProduzione;
 
-    public Prodotto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, String nome, String metodoDiColtivazione, double prezzoUnitario, Venditore produttore, List<String> certificazioni, List<Trasformazione> listaTrasformazioni, Date dataProduzione) {
-        super(id, statoConferma, dataCaricamento, descrizione);
+    public Prodotto(int id,
+                    Date dataCaricamento,
+                    String descrizione,
+                    String nome,
+                    String metodoDiColtivazione,
+                    double prezzoUnitario,
+                    Venditore produttore,
+                    List<String> certificazioni,
+                    Date dataProduzione) {
+        super(id, Conferma.ATTESA, dataCaricamento, descrizione);
         this.nome = nome;
         this.metodoDiColtivazione = metodoDiColtivazione;
         this.prezzoUnitario = prezzoUnitario;
         this.produttore = produttore;
         this.certificazioni = certificazioni;
-        this.listaTrasformazioni = listaTrasformazioni;
+        this.listaTrasformazioni = new ArrayList<>();
         this.dataProduzione = dataProduzione;
     }
 
@@ -67,8 +76,12 @@ public class Prodotto extends Contenuto {
         return listaTrasformazioni;
     }
 
-    public void setListaTrasformazioni(List<Trasformazione> listaTrasformazioni) {
-        this.listaTrasformazioni = listaTrasformazioni;
+    public void addTrasformazione(Trasformazione trasformazione) {
+        listaTrasformazioni.add(trasformazione);
+    }
+
+    public void removeTrasformazione(Trasformazione trasformazione) {
+        listaTrasformazioni.remove(trasformazione);
     }
 
     public Date getDataProduzione() {
