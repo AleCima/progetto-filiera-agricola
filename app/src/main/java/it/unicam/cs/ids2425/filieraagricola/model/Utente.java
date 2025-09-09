@@ -1,0 +1,35 @@
+package it.unicam.cs.ids2425.filieraagricola.model;
+
+import java.util.List;
+
+public class Utente extends Account{
+    String nome;
+    String cognome;
+    Carrello carrello;
+    public Utente(String email, String password, List<Ruolo> ruoli, String nome, String cognome) {
+        super(email, password, ruoli);
+        this.nome = nome;
+        this.cognome = cognome;
+        this.carrello = null;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCognome() {
+        return cognome;
+    }
+
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+
+    public Carrello getCarrello() {
+        return carrello;
+    }
+}
