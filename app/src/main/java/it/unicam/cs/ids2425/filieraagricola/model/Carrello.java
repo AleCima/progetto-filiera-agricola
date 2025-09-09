@@ -8,7 +8,7 @@ public class Carrello {
     // Attributi
     private int id;
     private double prezzoTotale;
-    private List<Contenuto> contenuti;
+    private List<RigaCarrello> contenuti;
 
     // Costruttore
     public Carrello(int id) {
@@ -25,18 +25,17 @@ public class Carrello {
         return prezzoTotale;
     }
 
-    public List<Contenuto> getContenuti() {
+    public List<RigaCarrello> getContenuti() {
         return contenuti;
     }
 
-    public void aggiungiContenuto(Contenuto contenuto, int quantita) {
-        for (int i = 0; i < quantita; i++) {
-            contenuti.add(contenuto);
-        }
-        prezzoTotale += contenuto.getPrezzo() * quantita;
+    public void aggiungiContenuto(RigaCarrello contenuto) {
+
+        contenuti.add(contenuto);
+        prezzoTotale += contenuto.getPrezzo();
     }
 
-    public void rimuoviContenuto(Contenuto contenuto) {
+    public void rimuoviContenuto(RigaCarrello contenuto) {
         contenuti.remove(contenuto);
         prezzoTotale -= contenuto.getPrezzo();
     }

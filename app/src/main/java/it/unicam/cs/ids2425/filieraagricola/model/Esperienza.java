@@ -3,13 +3,13 @@ package it.unicam.cs.ids2425.filieraagricola.model;
 public abstract class Esperienza {
     private String organizzatore;
     private String dataEsperienza;
-    private int partecipanti;
+    private List<Utente> partecipanti;
     private int numMaxPartecipanti;
 
-    public Esperienza(String organizzatore, String dataEsperienza, int partecipanti, int numMaxPartecipanti) {
+    public Esperienza(String organizzatore, String dataEsperienza, int numMaxPartecipanti) {
         this.organizzatore = organizzatore;
         this.dataEsperienza = dataEsperienza;
-        this.partecipanti = partecipanti;
+        this.partecipanti = new ArrayList<Utente>();
         this.numMaxPartecipanti = numMaxPartecipanti;
     }
 
@@ -29,12 +29,12 @@ public abstract class Esperienza {
         this.dataEsperienza = dataEsperienza;
     }
 
-    public int getPartecipanti() {
+    public List<Utente> getPartecipanti() {
         return partecipanti;
     }
 
-    public void setPartecipanti(int partecipanti) {
-        this.partecipanti = partecipanti;
+    public void aggiungiPartecipante(Utente u) {
+        partecipanti.add(u);
     }
 
     public int getNumMaxPartecipanti() {
