@@ -6,13 +6,13 @@ import java.util.List;
 public class Prodotto extends Contenuto {
     String nome;
     String metodoDiColtivazione;
-    float prezzoUnitario;
+    double prezzoUnitario;
     Venditore produttore;
     List<String> certificazioni;
     List<Trasformazione> listaTrasformazioni;
     Date dataProduzione;
 
-    public Prodotto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, String nome, String metodoDiColtivazione, float prezzoUnitario, Venditore produttore, List<String> certificazioni, List<Trasformazione> listaTrasformazioni, Date dataProduzione) {
+    public Prodotto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, String nome, String metodoDiColtivazione, double prezzoUnitario, Venditore produttore, List<String> certificazioni, List<Trasformazione> listaTrasformazioni, Date dataProduzione) {
         super(id, statoConferma, dataCaricamento, descrizione);
         this.nome = nome;
         this.metodoDiColtivazione = metodoDiColtivazione;
@@ -39,11 +39,11 @@ public class Prodotto extends Contenuto {
         this.metodoDiColtivazione = metodoDiColtivazione;
     }
 
-    public float getPrezzoUnitario() {
+    public double getPrezzoUnitario() {
         return prezzoUnitario;
     }
 
-    public void setPrezzoUnitario(float prezzoUnitario) {
+    public void setPrezzoUnitario(double prezzoUnitario) {
         this.prezzoUnitario = prezzoUnitario;
     }
 

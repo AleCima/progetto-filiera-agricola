@@ -6,10 +6,10 @@ import java.util.List;
 public class Pacchetto extends Contenuto {
     String nome;
     List<Prodotto> listaProdotti;
-    float prezzo;
+    double prezzo;
     Venditore distributore;
 
-    public Pacchetto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, int id1, String nome, List<Prodotto> listaProdotti, float prezzo, Venditore distributore) {
+    public Pacchetto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, int id1, String nome, List<Prodotto> listaProdotti, double prezzo, Venditore distributore) {
         super(id, statoConferma, dataCaricamento, descrizione);
         this.id = id1;
         this.nome = nome;
@@ -34,11 +34,11 @@ public class Pacchetto extends Contenuto {
         this.listaProdotti = listaProdotti;
     }
 
-    public float getPrezzo() {
+    public double getPrezzo() {
         return prezzo;
     }
 
-    public void setPrezzo(float prezzo) {
+    public void setPrezzo(double prezzo) {
         this.prezzo = prezzo;
     }
 
