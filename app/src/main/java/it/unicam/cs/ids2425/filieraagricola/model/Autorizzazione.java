@@ -1,10 +1,10 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
 public class Autorizzazione {
-    Utente curatore;
-    Contenuto contenutoDaApprovare;
-    String motivazione;
-    boolean autorizzato;
+    private Utente curatore;
+    private Contenuto contenutoDaApprovare;
+    private String motivazione;
+    private boolean autorizzato;
 
     public Autorizzazione(Utente curatore, Contenuto contenutoDaApprovare, String motivazione, boolean autorizzato) {
         this.curatore = curatore;

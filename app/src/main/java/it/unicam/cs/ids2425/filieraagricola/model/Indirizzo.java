@@ -1,10 +1,10 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
 public class Indirizzo {
-    String Via;
-    short nCivico;
-    String comune;
-    int CAP;
+    private String Via;
+    private short nCivico;
+    private String comune;
+    private int CAP;
 
     public Indirizzo(String via, short nCivico, String comune, int CAP) {
         Via = via;

@@ -3,12 +3,12 @@ package it.unicam.cs.ids2425.filieraagricola.model;
 import java.util.Date;
 
 public class Ordine {
-    Date dataOrdine;
-    Carrello carrello;
-    Double totale;
-    boolean evaso;
-    Pagamento cartaDiCredito;
-    Indirizzo indirizzoDiFatturazione;
+    private Date dataOrdine;
+    private Carrello carrello;
+    private Double totale;
+    private boolean evaso;
+    private Pagamento cartaDiCredito;
+    private Indirizzo indirizzoDiFatturazione;
 
     public Ordine(Date dataOrdine, Carrello carrello, Double totale, boolean evaso, Pagamento cartaDiCredito, Indirizzo indirizzoDiFatturazione) {
         this.dataOrdine = dataOrdine;

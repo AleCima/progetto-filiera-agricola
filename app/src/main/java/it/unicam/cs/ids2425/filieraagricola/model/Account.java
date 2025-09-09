@@ -3,9 +3,9 @@ package it.unicam.cs.ids2425.filieraagricola.model;
 import java.util.List;
 
 public abstract class Account {
-    String email;
-    String password;
-    List<Ruolo> ruoli;
+    private String email;
+    private String password;
+    private List<Ruolo> ruoli;
 
     public Account(String email, String password, List<Ruolo> ruoli) {
         this.email = email;
@@ -13,19 +13,19 @@ public abstract class Account {
         this.ruoli = ruoli;
     }
 
-    String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    void setEmail(String s) {
+    public void setEmail(String s) {
         this.email = s;
     }
 
-    String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    List<Ruolo> getRuoli() {
+    public List<Ruolo> getRuoli() {
         return ruoli;
     }
 }

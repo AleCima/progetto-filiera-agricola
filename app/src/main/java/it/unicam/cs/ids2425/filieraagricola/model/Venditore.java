@@ -3,9 +3,9 @@ package it.unicam.cs.ids2425.filieraagricola.model;
 import java.util.List;
 
 public class Venditore extends Account{
-    String PIVA;
-    String ragioneFiscale;
-    String descrizione;
+    private String PIVA;
+    private String ragioneFiscale;
+    private String descrizione;
 
     public Venditore(String email, String password, List<Ruolo> ruoli, String PIVA, String ragioneFiscale, String descrizione) {
         super(email, password, ruoli);

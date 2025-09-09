@@ -3,9 +3,9 @@ package it.unicam.cs.ids2425.filieraagricola.model;
 import java.util.Date;
 
 public class Pagamento {
-    int numCarta;
-    short CVV;
-    Date scadenza;
+    private int numCarta;
+    private short CVV;
+    private Date scadenza;
 
     public Pagamento(int numCarta, short CVV, Date scadenza) {
         this.numCarta = numCarta;

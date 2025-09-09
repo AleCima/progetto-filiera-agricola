@@ -3,9 +3,9 @@ package it.unicam.cs.ids2425.filieraagricola.model;
 import java.util.List;
 
 public class Utente extends Account{
-    String nome;
-    String cognome;
-    Carrello carrello;
+    private String nome;
+    private String cognome;
+    private Carrello carrello;
     public Utente(String email, String password, List<Ruolo> ruoli, String nome, String cognome) {
         super(email, password, ruoli);
         this.nome = nome;
