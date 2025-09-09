@@ -1,5 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Account {
@@ -7,10 +8,10 @@ public abstract class Account {
     private String password;
     private List<Ruolo> ruoli;
 
-    public Account(String email, String password, List<Ruolo> ruoli) {
+    public Account(String email, String password) {
         this.email = email;
         this.password = password;
-        this.ruoli = ruoli;
+        this.ruoli = new ArrayList<>();
     }
 
     public String getEmail() {
@@ -23,6 +24,10 @@ public abstract class Account {
 
     public String getPassword() {
         return password;
+    }
+
+    public void addRuolo(Ruolo r){
+        ruoli.add(r);
     }
 
     public List<Ruolo> getRuoli() {

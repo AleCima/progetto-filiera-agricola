@@ -7,8 +7,8 @@ public class Venditore extends Account{
     private String ragioneFiscale;
     private String descrizione;
 
-    public Venditore(String email, String password, List<Ruolo> ruoli, String PIVA, String ragioneFiscale, String descrizione) {
-        super(email, password, ruoli);
+    public Venditore(String email, String password, String PIVA, String ragioneFiscale, String descrizione) {
+        super(email, password);
         this.PIVA = PIVA;
         this.ragioneFiscale = ragioneFiscale;
         this.descrizione = descrizione;

@@ -6,11 +6,11 @@ public class Utente extends Account{
     private String nome;
     private String cognome;
     private Carrello carrello;
-    public Utente(String email, String password, List<Ruolo> ruoli, String nome, String cognome) {
-        super(email, password, ruoli);
+    public Utente(String email, String password, String nome, String cognome) {
+        super(email, password);
         this.nome = nome;
         this.cognome = cognome;
-        this.carrello = null;
+        this.carrello = new Carrello();
     }
 
     public String getNome() {
