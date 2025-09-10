@@ -6,12 +6,14 @@ public class Venditore extends Account{
     private String PIVA;
     private String ragioneFiscale;
     private String descrizione;
+    private PuntoMappa posizione;
 
-    public Venditore(String email, String password, String PIVA, String ragioneFiscale, String descrizione) {
+    public Venditore(String email, String password, String PIVA, String ragioneFiscale, String descrizione, PuntoMappa posizione) {
         super(email, password);
         this.PIVA = PIVA;
         this.ragioneFiscale = ragioneFiscale;
         this.descrizione = descrizione;
+        this.posizione = posizione;
     }
 
     public String getPIVA() {
@@ -36,5 +38,13 @@ public class Venditore extends Account{
 
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
+    }
+
+    public PuntoMappa getPosizione() {
+        return posizione;
+    }
+
+    public void setPosizione(PuntoMappa posizione) {
+        this.posizione = posizione;
     }
 }
