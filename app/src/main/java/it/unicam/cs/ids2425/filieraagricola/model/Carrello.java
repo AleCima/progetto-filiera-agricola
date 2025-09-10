@@ -11,7 +11,7 @@ public class Carrello {
     private List<RigaCarrello> contenuti;
 
     // Costruttore
-    public Carrello(int id) {
+    public Carrello() {
         this.id = id;
         this.prezzoTotale = 0.0;
         this.contenuti = new ArrayList<>();

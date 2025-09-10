@@ -7,14 +7,12 @@ import java.util.List;
 public class Pacchetto extends Contenuto {
     String nome;
     List<Contenuto> listaProdotti;
-    double prezzo;
     Venditore distributore;
 
     public Pacchetto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, String nome, double prezzo, Venditore distributore) {
-        super(id, statoConferma, dataCaricamento, descrizione);
+        super(id, statoConferma, dataCaricamento, descrizione, prezzo);
         this.nome = nome;
         this.listaProdotti = new ArrayList<>();
-        this.prezzo = prezzo;
         this.distributore = distributore;
     }
 
@@ -32,18 +30,13 @@ public class Pacchetto extends Contenuto {
 
     public void addProdotto(Contenuto prodotto) {
         listaProdotti.add(prodotto);
+        //Aggiora prezzo pacchetto
+        setPrezzo(getPrezzo() + prodotto.getPrezzo());
     }
 
-    public void removeProdotto(Contenuto contenuto) {
-        listaProdotti.remove(contenuto);
-    }
-
-    public double getPrezzo() {
-        return prezzo;
-    }
-
-    public void setPrezzo(double prezzo) {
-        this.prezzo = prezzo;
+    public void removeProdotto(Contenuto prodotto) {
+        listaProdotti.remove(prodotto);
+        setPrezzo(getPrezzo() - prodotto.getPrezzo());
     }
 
     public Venditore getDistributore() {

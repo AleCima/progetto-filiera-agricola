@@ -30,6 +30,10 @@ public abstract class Account {
         ruoli.add(r);
     }
 
+    public void removeRuolo(Ruolo r){
+        ruoli.remove(r);
+    }
+
     public List<Ruolo> getRuoli() {
         return ruoli;
     }

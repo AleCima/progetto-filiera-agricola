@@ -3,18 +3,18 @@ package it.unicam.cs.ids2425.filieraagricola.model;
 import java.util.Date;
 
 public class Ordine {
-    private Date dataOrdine;
-    private Carrello carrello;
-    private Double totale;
+    private final Date dataOrdine;
+    private final Carrello carrello;
+    private final Double totale;
     private boolean evaso;
     private Pagamento cartaDiCredito;
     private Indirizzo indirizzoDiFatturazione;
 
-    public Ordine(Date dataOrdine, Carrello carrello, Double totale, boolean evaso, Pagamento cartaDiCredito, Indirizzo indirizzoDiFatturazione) {
+    public Ordine(Date dataOrdine, Carrello carrello, Pagamento cartaDiCredito, Indirizzo indirizzoDiFatturazione) {
         this.dataOrdine = dataOrdine;
         this.carrello = carrello;
-        this.totale = totale;
-        this.evaso = evaso;
+        this.totale = carrello.getPrezzoTotale();
+        this.evaso = false;
         this.cartaDiCredito = cartaDiCredito;
         this.indirizzoDiFatturazione = indirizzoDiFatturazione;
     }
@@ -23,8 +23,16 @@ public class Ordine {
         return indirizzoDiFatturazione;
     }
 
+    public void setIndirizzoDiFatturazione(Indirizzo indirizzoDiFatturazione) {
+        this.indirizzoDiFatturazione = indirizzoDiFatturazione;
+    }
+
     public Pagamento getCartaDiCredito() {
         return cartaDiCredito;
+    }
+
+    public void setCartaDiCredito(Pagamento cartaDiCredito) {
+        this.cartaDiCredito = cartaDiCredito;
     }
 
     public boolean isEvaso() {

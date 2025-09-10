@@ -7,7 +7,6 @@ import java.util.List;
 public class Prodotto extends Contenuto {
     String nome;
     String metodoDiColtivazione;
-    double prezzoUnitario;
     Venditore produttore;
     List<String> certificazioni;
     List<Trasformazione> listaTrasformazioni;
@@ -18,14 +17,13 @@ public class Prodotto extends Contenuto {
                     String descrizione,
                     String nome,
                     String metodoDiColtivazione,
-                    double prezzoUnitario,
+                    double prezzo,
                     Venditore produttore,
                     List<String> certificazioni,
                     Date dataProduzione) {
-        super(id, Conferma.ATTESA, dataCaricamento, descrizione);
+        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo);
         this.nome = nome;
         this.metodoDiColtivazione = metodoDiColtivazione;
-        this.prezzoUnitario = prezzoUnitario;
         this.produttore = produttore;
         this.certificazioni = certificazioni;
         this.listaTrasformazioni = new ArrayList<>();
@@ -46,14 +44,6 @@ public class Prodotto extends Contenuto {
 
     public void setMetodoDiColtivazione(String metodoDiColtivazione) {
         this.metodoDiColtivazione = metodoDiColtivazione;
-    }
-
-    public double getPrezzoUnitario() {
-        return prezzoUnitario;
-    }
-
-    public void setPrezzoUnitario(double prezzoUnitario) {
-        this.prezzoUnitario = prezzoUnitario;
     }
 
     public Venditore getProduttore() {

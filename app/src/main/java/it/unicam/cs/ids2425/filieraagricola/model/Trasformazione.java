@@ -9,8 +9,9 @@ public class Trasformazione extends Contenuto {
     public Trasformazione(int id,
                           Date dataCaricamento,
                           String descrizione,
-                          Venditore trasformatore) {
-        super(id, Conferma.ATTESA, dataCaricamento, descrizione);
+                          Venditore trasformatore,
+                          double prezzo) {
+        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo);
         this.trasformatore = trasformatore;
     }
 

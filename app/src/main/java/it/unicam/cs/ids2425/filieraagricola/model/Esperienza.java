@@ -1,31 +1,31 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public abstract class Esperienza {
-    private String organizzatore;
-    private String dataEsperienza;
+    private Utente organizzatore;
+    private Date dataEsperienza;
     private List<Utente> partecipanti;
     private int numMaxPartecipanti;
 
-    public Esperienza(String organizzatore, String dataEsperienza, int numMaxPartecipanti) {
+    public Esperienza(Utente organizzatore, Date dataEsperienza, int numMaxPartecipanti) {
         this.organizzatore = organizzatore;
         this.dataEsperienza = dataEsperienza;
-        this.partecipanti = new ArrayList<Utente>();
+        this.partecipanti = new ArrayList<>();
         this.numMaxPartecipanti = numMaxPartecipanti;
     }
 
-    public String getOrganizzatore() {
+    public Utente getOrganizzatore() {
         return organizzatore;
     }
 
-    public void setOrganizzatore(String organizzatore) {
-        this.organizzatore = organizzatore;
-    }
-
-    public String getDataEsperienza() {
+    public Date getDataEsperienza() {
         return dataEsperienza;
     }
 
-    public void setDataEsperienza(String dataEsperienza) {
+    public void setDataEsperienza(Date dataEsperienza) {
         this.dataEsperienza = dataEsperienza;
     }
 
