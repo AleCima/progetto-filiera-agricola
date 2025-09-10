@@ -39,5 +39,10 @@ public class Carrello {
         contenuti.remove(contenuto);
         prezzoTotale -= contenuto.getPrezzo();
     }
+
+    public void svuota(){
+        prezzoTotale = 0.0;
+        contenuti = new ArrayList<>();
+    }
 }
 
