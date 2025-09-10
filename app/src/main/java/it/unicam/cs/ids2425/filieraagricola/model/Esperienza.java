@@ -9,12 +9,14 @@ public abstract class Esperienza {
     private Date dataEsperienza;
     private List<Utente> partecipanti;
     private int numMaxPartecipanti;
+    private PuntoMappa posizione;
 
-    public Esperienza(Utente organizzatore, Date dataEsperienza, int numMaxPartecipanti) {
+    public Esperienza(Utente organizzatore, Date dataEsperienza, int numMaxPartecipanti, PuntoMappa posizione) {
         this.organizzatore = organizzatore;
         this.dataEsperienza = dataEsperienza;
         this.partecipanti = new ArrayList<>();
         this.numMaxPartecipanti = numMaxPartecipanti;
+        this.posizione = posizione;
     }
 
     public Utente getOrganizzatore() {
@@ -43,5 +45,13 @@ public abstract class Esperienza {
 
     public void setNumMaxPartecipanti(int numMaxPartecipanti) {
         this.numMaxPartecipanti = numMaxPartecipanti;
+    }
+
+    public PuntoMappa getPosizione() {
+        return posizione;
+    }
+
+    public void setPosizione(PuntoMappa posizione) {
+        this.posizione = posizione;
     }
 }
