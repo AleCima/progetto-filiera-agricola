@@ -6,10 +6,10 @@ public class RigaCarrello {
     private int quantita;
     private double prezzo;
 
-    public RigaCarrello(Contenuto contenuto, int quantita, double prezzo) {
+    public RigaCarrello(Contenuto contenuto, int quantita) {
         this.contenuto = contenuto;
         this.quantita = quantita;
-        this.prezzo = prezzo;
+        this.prezzo = contenuto.getPrezzo() * quantita;
     }
 
     public Contenuto getContenuto() {

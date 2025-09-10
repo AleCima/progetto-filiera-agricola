@@ -7,12 +7,14 @@ public abstract class Contenuto {
     Conferma statoConferma;
     Date dataCaricamento;
     String descrizione;
+    double prezzo;
 
-    public Contenuto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione) {
+    public Contenuto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, double prezzo) {
         this.id = id;
         this.statoConferma = statoConferma;
         this.dataCaricamento = dataCaricamento;
         this.descrizione = descrizione;
+        this.prezzo = prezzo;
     }
 
     public void setStatoConferma(Conferma statoConferma) {
@@ -37,6 +39,14 @@ public abstract class Contenuto {
 
     public int getId() {
         return id;
+    }
+
+    public double getPrezzo() {
+        return prezzo;
+    }
+
+    public void setPrezzo(double prezzo) {
+        this.prezzo = prezzo;
     }
 }
 

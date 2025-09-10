@@ -11,17 +11,15 @@ public class Proposta {
 
     // Costruttore
     public Proposta(String titolo, String descrizione, Utente organizzatore,
-                    Venditore destinatario, boolean accettata) {
+                    Venditore destinatario) {
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.organizzatore = organizzatore;
         this.destinatario = destinatario;
-        this.accettata = accettata;
+        this.accettata = false;
     }
 
     // Getter e Setter
-
-
     public String getTitolo() {
         return titolo;
     }
@@ -33,7 +31,7 @@ public class Proposta {
     public Utente getOrganizzatore() {
         return organizzatore;
     }
-    // Getter e Setter per il Destinatario
+
     public Venditore getDestinatario() {
         return destinatario;
     }

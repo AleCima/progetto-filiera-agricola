@@ -1,8 +1,10 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import java.util.Date;
+
 public class Evento extends Esperienza{
 
-    public Evento(String organizzatore, String dataEsperienza, int partecipanti, int numMaxPartecipanti) {
-        super(organizzatore, dataEsperienza, partecipanti, numMaxPartecipanti);
+    public Evento(Utente organizzatore, Date dataEsperienza, int numMaxPartecipanti) {
+        super(organizzatore, dataEsperienza, numMaxPartecipanti);
     }
 }
