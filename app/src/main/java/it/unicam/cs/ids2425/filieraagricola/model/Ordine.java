@@ -3,6 +3,7 @@ package it.unicam.cs.ids2425.filieraagricola.model;
 import java.util.Date;
 
 public class Ordine {
+    private final int Id;
     private final Date dataOrdine;
     private final Carrello carrello;
     private final Double totale;
@@ -10,7 +11,8 @@ public class Ordine {
     private Pagamento cartaDiCredito;
     private Indirizzo indirizzoDiFatturazione;
 
-    public Ordine(Date dataOrdine, Carrello carrello, Pagamento cartaDiCredito, Indirizzo indirizzoDiFatturazione) {
+    public Ordine(int Id, Date dataOrdine, Carrello carrello, Pagamento cartaDiCredito, Indirizzo indirizzoDiFatturazione) {
+        this.Id = Id;
         this.dataOrdine = dataOrdine;
         this.carrello = carrello;
         this.totale = carrello.getPrezzoTotale();
@@ -53,5 +55,9 @@ public class Ordine {
 
     public Date getDataOrdine() {
         return dataOrdine;
+    }
+
+    public int getId() {
+        return Id;
     }
 }

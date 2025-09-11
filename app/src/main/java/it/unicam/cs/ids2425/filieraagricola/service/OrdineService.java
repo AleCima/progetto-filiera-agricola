@@ -4,6 +4,8 @@ import it.unicam.cs.ids2425.filieraagricola.model.Ordine;
 import it.unicam.cs.ids2425.filieraagricola.model.Utente;
 import it.unicam.cs.ids2425.filieraagricola.model.Venditore;
 
+import java.util.List;
+
 public class OrdineService {
 
     //Necessaria repository "Ordine"
@@ -19,24 +21,23 @@ public class OrdineService {
         //TODO
     }
 
+    public void removeOrdine(Ordine ordine) {
+        //TODO
+    }
 
     public Ordine getOrdineById(int id) {
         //TODO
         return null;
     }
 
-    public Ordine getOrdineByUtente(Utente utente) {
+    public List<Ordine> getOrdineByUtente(Utente utente) {
         //TODO
         return null;
     }
 
-    public Ordine getOrdineByVenditore(Venditore venditore) {
+    public List<Ordine> getOrdineByVenditore(Venditore venditore) {
         //TODO
         return null;
-    }
-
-    public void removeOrdine(Ordine ordine) {
-        //TODO
     }
 
 }

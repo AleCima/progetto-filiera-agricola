@@ -9,8 +9,8 @@ public class Pacchetto extends Contenuto {
     List<Contenuto> listaProdotti;
     Venditore distributore;
 
-    public Pacchetto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, String nome, double prezzo, Venditore distributore) {
-        super(id, statoConferma, dataCaricamento, descrizione, prezzo);
+    public Pacchetto(int id, Date dataCaricamento, String descrizione, String nome, double prezzo, Venditore distributore) {
+        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo);
         this.nome = nome;
         this.listaProdotti = new ArrayList<>();
         this.distributore = distributore;

@@ -6,18 +6,18 @@ import it.unicam.cs.ids2425.filieraagricola.service.AutorizzazioneService;
 import java.util.List;
 
 public class AutorizzazioneController {
-    private AutorizzazioneService autorizzazione;
-    private List<Contenuto> contenuti;
+    private AutorizzazioneService autorizzazioneService;
 
-    private List<Contenuto> getContenutiInAttesa( ){
-        return autorizzazione.getContenutiInAttesa();
+
+    public List<Contenuto> getContenutiInAttesa() {
+        return autorizzazioneService.getContenutiInAttesa();
     }
 
-    private void autorizzaContenuto(Contenuto contenuti){
-        autorizzazione.Autorizza(contenuti);
+    public void autorizzaContenuto(Contenuto contenuti) {
+        autorizzazioneService.Autorizza(contenuti);
     }
 
-    private void rifiutaContenuto(Contenuto contenuti){
-        autorizzazione.Rifiuta(contenuti);
+    public void rifiutaContenuto(Contenuto contenuti) {
+        autorizzazioneService.Rifiuta(contenuti);
     }
 }

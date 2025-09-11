@@ -17,6 +17,16 @@ public class EsperienzaService {
         return null;
     }
 
+    public List<Esperienza> getEsperienzeByAnimatore(Utente utente) {
+        //TODO
+        return null;
+    }
+
+    public Esperienza getEsperienzaById(int id) {
+        //TODO
+        return null;
+    }
+
     public void addPartecipante(Esperienza esperienza, Utente utente) {
         //TODO aggiungo partecipante all' esperienza passata come parametro
     }
