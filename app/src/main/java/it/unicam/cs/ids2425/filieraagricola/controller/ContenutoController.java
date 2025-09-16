@@ -11,8 +11,13 @@ import java.util.Date;
 import java.util.List;
 
 public class ContenutoController {
-    ContenutoService contenutoService = new ContenutoService();
-    AccountService accountService = new AccountService(); //Probabilmente servira per controllare chi pubblica cosa(?)
+    ContenutoService contenutoService;
+    AccountService accountService; //Probabilmente servira per controllare chi pubblica cosa(?)
+
+    public ContenutoController(ContenutoService contenutoService, AccountService accountService) {
+        this.contenutoService = contenutoService;
+        this.accountService = accountService;
+    }
 
     //addProdotto
     public void addContenuto(int id,

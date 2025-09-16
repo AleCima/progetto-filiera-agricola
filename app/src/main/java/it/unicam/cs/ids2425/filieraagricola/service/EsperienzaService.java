@@ -2,9 +2,11 @@ package it.unicam.cs.ids2425.filieraagricola.service;
 
 import it.unicam.cs.ids2425.filieraagricola.model.Esperienza;
 import it.unicam.cs.ids2425.filieraagricola.model.Utente;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class EsperienzaService {
 
     //Necessaria repository "Esperienza"

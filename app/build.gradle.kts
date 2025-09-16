@@ -6,31 +6,35 @@
  */
 
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
-    application
+    java
+    id("org.springframework.boot") version "3.4.2"
+    id("io.spring.dependency-management") version "1.1.7"
 }
 
-repositories {
-    // Use Maven Central for resolving dependencies.
-    mavenCentral()
+group = "it.unicam.cs.ids2425"
+version = "0.0.1-SNAPSHOT"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     // Use JUnit test framework.
     testImplementation(libs.junit)
-
     // This dependency is used by the application.
     implementation(libs.guava)
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("com.h2database:h2") // DB in memoria, comodo per test
 }
 
-// Apply a specific Java toolchain to ease working on different environments.
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
+tasks.test {
+    useJUnitPlatform()
 }
 
-application {
-    // Define the main class for the application.
-    mainClass = "org.example.App"
+repositories {
+    mavenCentral()
 }
+

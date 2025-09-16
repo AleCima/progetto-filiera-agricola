@@ -3,9 +3,11 @@ package it.unicam.cs.ids2425.filieraagricola.service;
 import it.unicam.cs.ids2425.filieraagricola.model.Contenuto;
 import it.unicam.cs.ids2425.filieraagricola.model.Pacchetto;
 import it.unicam.cs.ids2425.filieraagricola.model.Venditore;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PacchettoService {
     //Necessaria repository "Contenuto"
 
