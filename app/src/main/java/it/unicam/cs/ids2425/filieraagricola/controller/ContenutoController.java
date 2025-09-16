@@ -49,4 +49,12 @@ public class ContenutoController {
         contenutoService.removeContenuto(id);
     }
 
+    public void addTrasformazioneTo(int idProdotto, int idTrasformazione) {
+        contenutoService.addTrasformazioneTo(idProdotto, idTrasformazione);
+    }
+
+    public void removeTrasformazioneFrom(int idProdotto, int idTrasformazione) {
+        contenutoService.removeTrasformazioneFrom(idProdotto, idTrasformazione);
+    }
+
 }
