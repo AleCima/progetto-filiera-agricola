@@ -1,8 +1,17 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Proposta {
 
     // Attributi
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    int id;
     private String titolo;
     private String descrizione;
     private Utente organizzatore;

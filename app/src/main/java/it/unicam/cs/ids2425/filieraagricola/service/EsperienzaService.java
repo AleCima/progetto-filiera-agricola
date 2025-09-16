@@ -2,6 +2,8 @@ package it.unicam.cs.ids2425.filieraagricola.service;
 
 import it.unicam.cs.ids2425.filieraagricola.model.Esperienza;
 import it.unicam.cs.ids2425.filieraagricola.model.Utente;
+import it.unicam.cs.ids2425.filieraagricola.repository.EsperienzaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,10 +11,13 @@ import java.util.List;
 @Service
 public class EsperienzaService {
 
-    //Necessaria repository "Esperienza"
+    private final EsperienzaRepository esperienzaRepository;
 
-    public EsperienzaService() {
+    @Autowired
+    public EsperienzaService(EsperienzaRepository esperienzaRepository) {
+        this.esperienzaRepository = esperienzaRepository;
     }
+
 
     public List<Esperienza> getEsperienze() {
         //TODO

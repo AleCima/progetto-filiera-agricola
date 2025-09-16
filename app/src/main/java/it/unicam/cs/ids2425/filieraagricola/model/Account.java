@@ -1,11 +1,18 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public abstract class Account {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    int id;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
     private List<Ruolo> ruoli;
 
     public Account(String email, String password) {
@@ -26,11 +33,11 @@ public abstract class Account {
         return password;
     }
 
-    public void addRuolo(Ruolo r){
+    public void addRuolo(Ruolo r) {
         ruoli.add(r);
     }
 
-    public void removeRuolo(Ruolo r){
+    public void removeRuolo(Ruolo r) {
         ruoli.remove(r);
     }
 

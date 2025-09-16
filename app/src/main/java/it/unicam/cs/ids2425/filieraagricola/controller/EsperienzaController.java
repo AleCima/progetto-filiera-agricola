@@ -9,9 +9,15 @@ import it.unicam.cs.ids2425.filieraagricola.service.PropostaService;
 import java.util.Date;
 
 public class EsperienzaController {
-    EsperienzaService espService = new EsperienzaService();
-    AccountService accService = new AccountService();
-    PropostaService propService = new PropostaService();
+    EsperienzaService espService;
+    AccountService accService;
+    PropostaService propService;
+
+    public EsperienzaController(EsperienzaService espService, AccountService accService, PropostaService propService) {
+        this.espService = espService;
+        this.accService = accService;
+        this.propService = propService;
+    }
 
     public void inviaProposta(String titolo, String descrizione, Utente organizzatore, Venditore destinatario) {
         propService.aggiungiProposta(new Proposta(titolo, descrizione, organizzatore, destinatario));
