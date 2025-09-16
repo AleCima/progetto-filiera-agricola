@@ -1,10 +1,19 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public abstract class Esperienza {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    int id;
     private Utente organizzatore;
     private Date dataEsperienza;
     private List<Utente> partecipanti;

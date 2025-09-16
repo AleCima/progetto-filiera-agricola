@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ContenutoController {
     ContenutoService contenutoService;
-    AccountService accountService; //Probabilmente servira per controllare chi pubblica cosa(?)
+    AccountService accountService; //Probabilmente servira' per controllare chi pubblica cosa(?)
 
     public ContenutoController(ContenutoService contenutoService, AccountService accountService) {
         this.contenutoService = contenutoService;
