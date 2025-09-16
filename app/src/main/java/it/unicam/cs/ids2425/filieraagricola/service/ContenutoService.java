@@ -8,7 +8,7 @@ import java.util.List;
 public class ContenutoService {
 
     //Necessaria repository "Contenuto"
-    
+
 
     public List<Contenuto> getContenuti() {
         //TODO
@@ -37,4 +37,11 @@ public class ContenutoService {
         //TODO
     }
 
+    public void addTrasformazioneTo(int idProdotto, int idTrasformazione) {
+        //TODO
+    }
+
+    public void removeTrasformazioneFrom(int idProdotto, int idTrasformazione) {
+        //TODO
+    }
 }
