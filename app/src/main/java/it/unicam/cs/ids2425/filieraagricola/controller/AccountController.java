@@ -5,8 +5,13 @@ import it.unicam.cs.ids2425.filieraagricola.service.AccountService;
 import it.unicam.cs.ids2425.filieraagricola.service.ContenutoService;
 
 public class AccountController {
-    AccountService accService = new AccountService();
-    ContenutoService conService = new ContenutoService();
+    AccountService accService;
+    ContenutoService conService;
+
+    public AccountController(AccountService accService, ContenutoService conService) {
+        this.accService = accService;
+        this.conService = conService;
+    }
 
     public void creaUtente(String email, String password, String nome, String cognome) {
         Utente u = new Utente(email, password, nome, cognome);

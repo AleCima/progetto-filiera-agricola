@@ -1,9 +1,15 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import jakarta.persistence.*;
+
 import java.util.Date;
 
+@Entity
 public abstract class Contenuto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
+    @Enumerated(EnumType.STRING)
     Conferma statoConferma;
     Date dataCaricamento;
     String descrizione;

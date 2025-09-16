@@ -3,9 +3,11 @@ package it.unicam.cs.ids2425.filieraagricola.service;
 import it.unicam.cs.ids2425.filieraagricola.model.Ordine;
 import it.unicam.cs.ids2425.filieraagricola.model.Utente;
 import it.unicam.cs.ids2425.filieraagricola.model.Venditore;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class OrdineService {
 
     //Necessaria repository "Ordine"
