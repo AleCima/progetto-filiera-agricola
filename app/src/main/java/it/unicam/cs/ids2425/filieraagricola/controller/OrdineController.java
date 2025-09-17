@@ -4,9 +4,10 @@ import it.unicam.cs.ids2425.filieraagricola.model.Ordine;
 import it.unicam.cs.ids2425.filieraagricola.service.OrdineService;
 
 public class OrdineController {
-    OrdineService ordineService = new OrdineService();
+    OrdineService ordineService;
 
-    public OrdineController() {
+    public OrdineController(OrdineService ordineService) {
+        this.ordineService = ordineService;
     }
 
     public void addOrdine(Ordine ordine) {
