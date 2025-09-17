@@ -5,17 +5,24 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Contenuto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
-    @Enumerated(EnumType.STRING)
-    Conferma statoConferma;
-    Date dataCaricamento;
-    String descrizione;
-    double prezzo;
+    private int id;
 
-    public Contenuto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, double prezzo) {
+    @Enumerated(EnumType.STRING)
+    private Conferma statoConferma;
+
+    private Date dataCaricamento;
+    private String descrizione;
+    private double prezzo;
+
+    @ManyToOne
+    @JoinColumn(name = "venditore_email", referencedColumnName = "email")
+    private Venditore venditore;
+
+    public Contenuto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, double prezzo, Venditore venditore) {
         this.id = id;
         this.statoConferma = statoConferma;
         this.dataCaricamento = dataCaricamento;

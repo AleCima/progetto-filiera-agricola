@@ -1,8 +1,21 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Autorizzazione {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "curatore_id")
     private Utente curatore;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contenutoDaApprovare_id", referencedColumnName = "id")
     private Contenuto contenutoDaApprovare;
+
     private String motivazione;
     private boolean autorizzato;
 

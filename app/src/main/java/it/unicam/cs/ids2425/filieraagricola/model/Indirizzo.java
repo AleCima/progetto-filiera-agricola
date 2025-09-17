@@ -1,6 +1,17 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Indirizzo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    
     private String Via;
     private short nCivico;
     private String comune;

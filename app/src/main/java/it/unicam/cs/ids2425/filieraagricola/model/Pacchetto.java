@@ -1,19 +1,27 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Pacchetto extends Contenuto {
+
     String nome;
-    List<Contenuto> listaProdotti;
-    Venditore distributore;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "contenuto_id")
+    private List<Contenuto> listaProdotti;
 
     public Pacchetto(int id, Date dataCaricamento, String descrizione, String nome, double prezzo, Venditore distributore) {
-        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo);
+        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo, distributore);
         this.nome = nome;
         this.listaProdotti = new ArrayList<>();
-        this.distributore = distributore;
     }
 
     public String getNome() {
@@ -30,7 +38,7 @@ public class Pacchetto extends Contenuto {
 
     public void addProdotto(Contenuto prodotto) {
         listaProdotti.add(prodotto);
-        //Aggiora prezzo pacchetto
+        //Aggiorna prezzo pacchetto
         setPrezzo(getPrezzo() + prodotto.getPrezzo());
     }
 
@@ -39,12 +47,5 @@ public class Pacchetto extends Contenuto {
         setPrezzo(getPrezzo() - prodotto.getPrezzo());
     }
 
-    public Venditore getDistributore() {
-        return distributore;
-    }
-
-    public void setDistributore(Venditore distributore) {
-        this.distributore = distributore;
-    }
 }
 

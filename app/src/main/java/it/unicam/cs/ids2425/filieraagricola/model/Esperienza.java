@@ -1,9 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,10 +11,25 @@ public abstract class Esperienza {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
+
+    @ManyToOne
+    @JoinColumn(name = "organizzatore_id")
     private Utente organizzatore;
+
     private Date dataEsperienza;
-    private List<Utente> partecipanti;
+
+    @ManyToMany
+    @JoinTable(
+            name = "esperienza_partecipanti",
+            joinColumns = @JoinColumn(name = "esperienza_id"),
+            inverseJoinColumns = @JoinColumn(name = "utente_email")
+    )
+    private List<Utente> partecipanti = new ArrayList<>();
+
     private int numMaxPartecipanti;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "posizione_id", referencedColumnName = "id")
     private PuntoMappa posizione;
 
     public Esperienza(Utente organizzatore, Date dataEsperienza, int numMaxPartecipanti, PuntoMappa posizione) {

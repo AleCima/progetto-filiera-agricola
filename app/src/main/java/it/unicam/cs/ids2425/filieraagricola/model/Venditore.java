@@ -1,15 +1,34 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
-public class Venditore extends Account{
+@Entity
+public class Venditore implements Account {
+    @Id
+    private String email;
+
+    private String password;
+
+    @ElementCollection(targetClass = Ruolo.class)
+    @CollectionTable(name = "ruoliUtente", joinColumns = @JoinColumn(name = "email"))
+    @Column(name = "ruolo")
+    @Enumerated(EnumType.STRING)
+    private List<Ruolo> ruoli;
+
     private String PIVA;
     private String ragioneFiscale;
     private String descrizione;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "posizione_id", referencedColumnName = "id")
     private PuntoMappa posizione;
 
-    public Venditore(String email, String password, String PIVA, String ragioneFiscale, String descrizione, PuntoMappa posizione) {
-        super(email, password);
+    public Venditore(String email, String password, String PIVA, String ragioneFiscale, String descrizione, PuntoMappa posizione, List<Ruolo> ruoli) {
+        this.ruoli = ruoli;
+        this.email = email;
+        this.password = password;
         this.PIVA = PIVA;
         this.ragioneFiscale = ragioneFiscale;
         this.descrizione = descrizione;
@@ -46,5 +65,35 @@ public class Venditore extends Account{
 
     public void setPosizione(PuntoMappa posizione) {
         this.posizione = posizione;
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public List<Ruolo> getRuoli() {
+        return ruoli;
+    }
+
+    @Override
+    public void addRuolo(Ruolo ruolo) {
+        //TODO
+    }
+
+    @Override
+    public void setRuoli(List<Ruolo> ruoli) {
+        //TODO
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public void removeRuolo(Ruolo ruolo) {
+        //TODO
     }
 }

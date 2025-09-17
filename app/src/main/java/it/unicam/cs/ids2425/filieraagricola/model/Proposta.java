@@ -1,9 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Proposta {
@@ -14,8 +11,15 @@ public class Proposta {
     int id;
     private String titolo;
     private String descrizione;
+
+    @ManyToOne
+    @JoinColumn(name = "organizzatore_email", referencedColumnName = "email")
     private Utente organizzatore;
+
+    @ManyToOne
+    @JoinColumn(name = "destinatario_email", referencedColumnName = "email")
     private Venditore destinatario;
+
     private boolean accettata;
 
     // Costruttore

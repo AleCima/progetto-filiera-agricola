@@ -19,25 +19,21 @@ public class AccountController {
     }
 
     public void modificaUtente(String precEmail, String email, String password, String nome, String cognome) {
-        Utente u = new Utente(email, password, nome, cognome);
-        //TODO finire
-        accService.modificaUtente();
+        //TODO
     }
 
     public void rimuoviUtente(String email) {
-        //TODO modifica
-        accService.rimuoviUtente(null);
+        //TODO
     }
 
     public void creaVenditore(String email, String password, String PIVA, String ragioneFiscale, String descrizione, PuntoMappa posizione) {
-        Venditore v = new Venditore(email, password, PIVA, ragioneFiscale, descrizione, posizione);
-        accService.aggiungiVenditore(v);
+        //TODO
     }
 
     public void modificaVenditore(String precEmail, String email, String password, String PIVA, String ragioneFiscale, String descrizione, PuntoMappa posizione) {
-        Venditore v = new Venditore(email, password, PIVA, ragioneFiscale, descrizione, posizione);
+
         //TODO finire
-        accService.modificaVenditore();
+
     }
 
     public void rimuoviVenditore(String PIVA) {

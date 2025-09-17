@@ -3,21 +3,30 @@ package it.unicam.cs.ids2425.filieraagricola.service;
 import it.unicam.cs.ids2425.filieraagricola.model.Ruolo;
 import it.unicam.cs.ids2425.filieraagricola.model.Utente;
 import it.unicam.cs.ids2425.filieraagricola.model.Venditore;
+import it.unicam.cs.ids2425.filieraagricola.repository.UtenteRepository;
+import it.unicam.cs.ids2425.filieraagricola.repository.VenditoreRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class AccountService {
-    private List<Utente> utenti;
-    private List<Venditore> venditori;
+    private UtenteRepository utenteRepository;
+    private VenditoreRepository venditoreRepository;
+
+    @Autowired
+    public AccountService(UtenteRepository utenteRepository, VenditoreRepository venditoreRepository) {
+        this.utenteRepository = utenteRepository;
+        this.venditoreRepository = venditoreRepository;
+    }
 
     public void aggiungiUtente(Utente u) {
-        utenti.add(u);
+        //TODO
     }
 
     public void rimuoviUtente(Utente u) {
-        utenti.remove(u);
+        //TODO
     }
 
     public void modificaUtente() {
@@ -25,11 +34,11 @@ public class AccountService {
     }
 
     public void aggiungiVenditore(Venditore v) {
-        venditori.add(v);
+        //TODO
     }
 
     public void rimuoviVenditore(Venditore v) {
-        venditori.remove(v);
+        //TODO
     }
 
     public void modificaVenditore() {
@@ -55,10 +64,12 @@ public class AccountService {
     }
 
     public List<Utente> getUtenti() {
-        return utenti;
+        //TODO
+        return null;
     }
 
     public List<Venditore> getVenditori() {
-        return venditori;
+        return null;
+        //TODO
     }
 }
