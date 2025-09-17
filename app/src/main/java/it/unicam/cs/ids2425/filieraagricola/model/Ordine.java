@@ -1,18 +1,38 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import jakarta.persistence.*;
+
 import java.util.Date;
 
+@Entity
 public class Ordine {
-    private final int Id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
     private final Date dataOrdine;
-    private final Carrello carrello;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carrello_id", referencedColumnName = "id")
+    private Carrello carrello;
+
+    @ManyToOne
+    @JoinColumn(name = "utente_id")
+    private Utente utente;
+
     private final Double totale;
     private boolean evaso;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pagamento_id", referencedColumnName = "id")
     private Pagamento cartaDiCredito;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "indirizzo_id", referencedColumnName = "id")
     private Indirizzo indirizzoDiFatturazione;
 
-    public Ordine(int Id, Date dataOrdine, Carrello carrello, Pagamento cartaDiCredito, Indirizzo indirizzoDiFatturazione) {
-        this.Id = Id;
+    public Ordine(int id, Date dataOrdine, Carrello carrello, Pagamento cartaDiCredito, Indirizzo indirizzoDiFatturazione) {
+        this.id = id;
         this.dataOrdine = dataOrdine;
         this.carrello = carrello;
         this.totale = carrello.getPrezzoTotale();
@@ -58,6 +78,6 @@ public class Ordine {
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 }

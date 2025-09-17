@@ -1,8 +1,18 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import jakarta.persistence.*;
+
+@Entity
 public class RigaCarrello {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contenuto_id", referencedColumnName = "id")
     private Contenuto contenuto;
+
     private int quantita;
     private double prezzo;
 

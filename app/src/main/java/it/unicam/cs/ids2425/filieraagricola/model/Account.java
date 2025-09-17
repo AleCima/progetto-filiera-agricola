@@ -1,47 +1,19 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
-import jakarta.persistence.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-public abstract class Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
-    private String email;
-    private String password;
-    @Enumerated(EnumType.STRING)
-    private List<Ruolo> ruoli;
+public interface Account {
 
-    public Account(String email, String password) {
-        this.email = email;
-        this.password = password;
-        this.ruoli = new ArrayList<>();
-    }
+    String getEmail();
 
-    public String getEmail() {
-        return email;
-    }
+    List<Ruolo> getRuoli();
 
-    public void setEmail(String s) {
-        this.email = s;
-    }
+    void addRuolo(Ruolo ruolo);
 
-    public String getPassword() {
-        return password;
-    }
+    void setRuoli(List<Ruolo> ruoli);
 
-    public void addRuolo(Ruolo r) {
-        ruoli.add(r);
-    }
+    String getPassword();
 
-    public void removeRuolo(Ruolo r) {
-        ruoli.remove(r);
-    }
+    void removeRuolo(Ruolo ruolo);
 
-    public List<Ruolo> getRuoli() {
-        return ruoli;
-    }
 }

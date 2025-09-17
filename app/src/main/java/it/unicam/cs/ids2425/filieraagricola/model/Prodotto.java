@@ -1,16 +1,24 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Prodotto extends Contenuto {
-    String nome;
-    String metodoDiColtivazione;
-    Venditore produttore;
-    List<String> certificazioni;
-    List<Trasformazione> listaTrasformazioni;
-    Date dataProduzione;
+    private String nome;
+    private String metodoDiColtivazione;
+    private List<String> certificazioni;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "trasformazione_id")
+    private List<Trasformazione> listaTrasformazioni;
+    private Date dataProduzione;
 
     public Prodotto(int id,
                     Date dataCaricamento,
@@ -21,10 +29,9 @@ public class Prodotto extends Contenuto {
                     Venditore produttore,
                     List<String> certificazioni,
                     Date dataProduzione) {
-        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo);
+        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo, produttore);
         this.nome = nome;
         this.metodoDiColtivazione = metodoDiColtivazione;
-        this.produttore = produttore;
         this.certificazioni = certificazioni;
         this.listaTrasformazioni = new ArrayList<>();
         this.dataProduzione = dataProduzione;
@@ -44,14 +51,6 @@ public class Prodotto extends Contenuto {
 
     public void setMetodoDiColtivazione(String metodoDiColtivazione) {
         this.metodoDiColtivazione = metodoDiColtivazione;
-    }
-
-    public Venditore getProduttore() {
-        return produttore;
-    }
-
-    public void setProduttore(Venditore produttore) {
-        this.produttore = produttore;
     }
 
     public List<String> getCertificazioni() {

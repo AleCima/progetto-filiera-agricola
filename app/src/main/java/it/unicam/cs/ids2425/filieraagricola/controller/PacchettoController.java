@@ -6,7 +6,11 @@ import it.unicam.cs.ids2425.filieraagricola.service.PacchettoService;
 import java.util.List;
 
 public class PacchettoController {
-    PacchettoService pacchettoService = new PacchettoService();
+    PacchettoService pacchettoService;
+
+    public PacchettoController(PacchettoService pacchettoService) {
+        this.pacchettoService = pacchettoService;
+    }
 
     public void newPacchetto(List<Contenuto> contenuti) {
         pacchettoService.newPacchetto(contenuti);

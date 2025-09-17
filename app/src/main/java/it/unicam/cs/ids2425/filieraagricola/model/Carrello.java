@@ -1,18 +1,26 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Carrello {
 
-    // Attributi
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     private double prezzoTotale;
+
+    // Un carrello può avere più righe
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "carrello_id")
     private List<RigaCarrello> contenuti;
 
     // Costruttore
     public Carrello() {
-        this.id = id;
         this.prezzoTotale = 0.0;
         this.contenuti = new ArrayList<>();
     }
@@ -40,7 +48,7 @@ public class Carrello {
         prezzoTotale -= contenuto.getPrezzo();
     }
 
-    public void svuota(){
+    public void svuota() {
         prezzoTotale = 0.0;
         contenuti = new ArrayList<>();
     }
