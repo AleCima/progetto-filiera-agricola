@@ -1,5 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import it.unicam.cs.ids2425.filieraagricola.model.builder.ProdottoBuilder;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -35,6 +36,15 @@ public class Prodotto extends Contenuto {
         this.certificazioni = certificazioni;
         this.listaTrasformazioni = new ArrayList<>();
         this.dataProduzione = dataProduzione;
+    }
+
+    public Prodotto(ProdottoBuilder builder) {
+        super(builder.getId(), Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore());
+        this.nome = builder.getNome();
+        this.metodoDiColtivazione = builder.getMetodoDiColtivazione();
+        this.certificazioni = builder.getCertificazioni();
+        this.listaTrasformazioni = builder.getListaTrasformazioni();
+        this.dataProduzione = builder.getDataProduzione();
     }
 
     public String getNome() {
