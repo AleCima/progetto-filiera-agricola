@@ -1,5 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
+import it.unicam.cs.ids2425.filieraagricola.model.builder.PacchettoBuilder;
+import it.unicam.cs.ids2425.filieraagricola.model.builder.ProdottoBuilder;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -23,6 +25,12 @@ public class Pacchetto extends Contenuto {
         this.nome = nome;
         this.listaProdotti = new ArrayList<>();
     }
+
+    public Pacchetto(PacchettoBuilder builder) {
+        super(builder.getId(), Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore());
+        this.nome = builder.getNome();
+    }
+
 
     public String getNome() {
         return nome;

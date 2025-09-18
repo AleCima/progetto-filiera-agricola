@@ -14,7 +14,7 @@ public class ProdottoBuilder implements ContenutoBuilder {
     private Date dataCaricamento;
     private String descrizione;
     private double prezzo;
-    private Venditore venditore;
+    private Venditore produttore;
 
     private String nome;
     private String metodoDiColtivazione;
@@ -49,7 +49,7 @@ public class ProdottoBuilder implements ContenutoBuilder {
 
     @Override
     public ProdottoBuilder setVenditore(Venditore venditore) {
-        this.venditore = venditore;
+        produttore = venditore;
         return this;
     }
 
@@ -104,7 +104,7 @@ public class ProdottoBuilder implements ContenutoBuilder {
     }
 
     public Venditore getVenditore() {
-        return venditore;
+        return produttore;
     }
 
     public String getNome() {
