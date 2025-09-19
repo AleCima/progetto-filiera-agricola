@@ -22,15 +22,17 @@ public class AccountService {
     }
 
     public void aggiungiUtente(Utente u) {
-        //TODO
+        utenteRepository.save(u);
     }
 
     public void rimuoviUtente(Utente u) {
         //TODO
     }
 
-    public void modificaUtente() {
-        //TODO
+    public void modificaUtente(String email, Utente utenteModificato) {
+        if (utenteRepository.findById(email).isPresent()){
+            utenteRepository.save(utenteModificato);
+        }
     }
 
     public void aggiungiVenditore(Venditore v) {
@@ -54,8 +56,7 @@ public class AccountService {
     }
 
     public Utente getUtenteByEmail(String email) {
-        //TODO
-        return null;
+        return utenteRepository.findById(email).orElse(null);
     }
 
     public Venditore getVenditoreByPIVA(String PIVA) {

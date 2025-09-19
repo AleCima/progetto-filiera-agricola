@@ -12,7 +12,7 @@ public class Venditore implements Account {
     private String password;
 
     @ElementCollection(targetClass = Ruolo.class)
-    @CollectionTable(name = "ruoliUtente", joinColumns = @JoinColumn(name = "email"))
+    @CollectionTable(name = "ruoliVenditore", joinColumns = @JoinColumn(name = "email"))
     @Column(name = "ruolo")
     @Enumerated(EnumType.STRING)
     private List<Ruolo> ruoli;
