@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "9f9294ab-91b4-4fb8-a204-a734784aab42",
+		"name": "Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48611562",
+		"_collection_link": "https://lorenzo-perini-2296891.postman.co/workspace/Lorenzo's-Workspace~2fb27dc1-ef12-4c14-8809-b1e1cd9edd45/collection/48611562-9f9294ab-91b4-4fb8-a204-a734784aab42?action=share&source=collection_link&creator=48611562"
+	},
+	"item": [
+		{
+			"name": "Aggiungi Utente",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"mario\",\r\n    \"cognome\": \"rossi\",\r\n    \"email\": \"mario.rossi@example.com\",\r\n    \"password\": \"password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/account/Registrazione",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						"Registrazione"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ricerca Utente con Email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/account/ricercaUtente?email=mario.rossi@example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						"ricercaUtente"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "mario.rossi@example.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modifica Utente",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"mario\",\r\n    \"cognome\": \"bianchi\",\r\n    \"email\": \"mario.rossi@example.com\",\r\n    \"password\": \"password333\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/account/ModificaUtente?precEmail=mario.rossi@example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						"ModificaUtente"
+					],
+					"query": [
+						{
+							"key": "precEmail",
+							"value": "mario.rossi@example.com"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

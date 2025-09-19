@@ -1,9 +1,15 @@
 package it.unicam.cs.ids2425.filieraagricola.controller;
 
+import it.unicam.cs.ids2425.filieraagricola.controller.DTO.UtenteDTO;
 import it.unicam.cs.ids2425.filieraagricola.model.*;
 import it.unicam.cs.ids2425.filieraagricola.service.AccountService;
 import it.unicam.cs.ids2425.filieraagricola.service.ContenutoService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping("/account")
 public class AccountController {
     AccountService accService;
     ContenutoService conService;
@@ -13,13 +19,17 @@ public class AccountController {
         this.conService = conService;
     }
 
-    public void creaUtente(String email, String password, String nome, String cognome) {
-        Utente u = new Utente(email, password, nome, cognome);
+    @PostMapping("/Registrazione")
+    public ResponseEntity<Object> creaUtente(@RequestBody UtenteDTO uDTO) {
+        Utente u = new Utente(uDTO.getEmail(), uDTO.getPassword(), uDTO.getNome(), uDTO.getCognome());
         accService.aggiungiUtente(u);
+        return new ResponseEntity<>("Utente creato con successo", HttpStatus.CREATED);
     }
-
-    public void modificaUtente(String precEmail, String email, String password, String nome, String cognome) {
-        //TODO
+    @PutMapping("/ModificaUtente")
+    public ResponseEntity<Object> modificaUtente(@RequestParam String precEmail, @RequestBody UtenteDTO uDTO) {
+        //TODO controllo autenticazione
+        accService.modificaUtente(precEmail, new Utente(uDTO.getEmail(), uDTO.getPassword(), uDTO.getNome(), uDTO.getCognome()));
+        return new ResponseEntity<>("Utente modificato con successo", HttpStatus.CREATED);
     }
 
     public void rimuoviUtente(String email) {
@@ -41,8 +51,9 @@ public class AccountController {
         accService.rimuoviVenditore(null);
     }
 
-    public Utente getUtente(String email) {
-        return accService.getUtenteByEmail(email);
+    @GetMapping("/ricercaUtente")
+    public ResponseEntity<Object> getUtente(@RequestParam String email) {
+        return  new ResponseEntity<>(accService.getUtenteByEmail(email), HttpStatus.OK);
     }
 
     public Venditore getVenditore(String PIVA) {

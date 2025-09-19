@@ -28,6 +28,8 @@ public class Utente implements Account {
     @ManyToMany(mappedBy = "partecipanti")
     private List<Esperienza> esperienze = new ArrayList<>();
 
+    public Utente(){}
+
     public Utente(String email, String password, String nome, String cognome) {
         this.email = email;
         this.password = password;
@@ -36,6 +38,8 @@ public class Utente implements Account {
         this.carrello = new Carrello();
         ruoli.add(Ruolo.ACQUIRENTE);
     }
+
+
 
     public String getNome() {
         return nome;
@@ -70,12 +74,15 @@ public class Utente implements Account {
 
     @Override
     public void addRuolo(Ruolo ruolo) {
-        //TODO
+        if (!ruoli.contains(ruolo)){
+            ruoli.add(ruolo);
+        }
     }
 
     @Override
     public void setRuoli(List<Ruolo> ruoli) {
-        //TODO
+        this.ruoli.clear();
+        this.ruoli.addAll(ruoli);
     }
 
     @Override
@@ -85,6 +92,14 @@ public class Utente implements Account {
 
     @Override
     public void removeRuolo(Ruolo ruolo) {
-        //TODO
+        ruoli.remove(ruolo);
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

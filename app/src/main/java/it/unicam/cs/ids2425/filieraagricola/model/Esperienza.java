@@ -75,4 +75,6 @@ public abstract class Esperienza {
     public void setPosizione(PuntoMappa posizione) {
         this.posizione = posizione;
     }
+
+
 }
