@@ -55,5 +55,7 @@ public class Pacchetto extends Contenuto {
         setPrezzo(getPrezzo() - prodotto.getPrezzo());
     }
 
+
+
 }
 

@@ -61,5 +61,7 @@ public abstract class Contenuto {
     public void setPrezzo(double prezzo) {
         this.prezzo = prezzo;
     }
+
+    public Venditore getVenditore(){return venditore; }
 }
 

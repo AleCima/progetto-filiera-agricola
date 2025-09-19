@@ -14,17 +14,17 @@ public class Pagamento {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
-    private int numCarta;
+    private String numCarta;
     private short CVV;
     private Date scadenza;
 
-    public Pagamento(int numCarta, short CVV, Date scadenza) {
+    public Pagamento(String numCarta, short CVV, Date scadenza) {
         this.numCarta = numCarta;
         this.CVV = CVV;
         this.scadenza = scadenza;
     }
 
-    public int getNumCarta() {
+    public String getNumCarta() {
         return numCarta;
     }
 
