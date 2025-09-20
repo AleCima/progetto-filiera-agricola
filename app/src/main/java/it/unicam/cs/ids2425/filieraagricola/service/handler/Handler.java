@@ -2,37 +2,29 @@ package it.unicam.cs.ids2425.filieraagricola.service.handler;
 
 public abstract class Handler {
 
-    private Handler next;
+    private Handler next; // prossimo handler della catena
 
-    public Handler linkWith(Handler next) {
+    /**
+     * Collega questo handler al prossimo.
+     */
+    public Handler setNext(Handler next) {
         this.next = next;
-        return next;
-    }
-
-    // Collega gli handler in una catena di responsabilità (numero variabile di handler)
-    public static Handler link(Handler first, Handler... chain) {
-        Handler head = first;
-        for (Handler nextHandler : chain) {
-            head.linkWith(nextHandler);
-            head = nextHandler;
-        }
-        return first;
+        return next; // così puoi concatenare i setNext()
     }
 
     /**
-     * Metodo da implementare nelle sottoclassi per gestire la richiesta.
-     * Se l'handler non riesce a gestirla del tutto, deve chiamare checkNext.
+     * Metodo che ogni handler concreto deve implementare
+     * per eseguire il proprio controllo.
      */
     public abstract boolean check(Object request);
 
     /**
-     * Passa la richiesta al prossimo handler, se presente.
+     * Chiama il prossimo handler nella catena (se esiste).
      */
-    public boolean checkNext(Object request) {
+    protected boolean checkNext(Object request) {
         if (next == null) {
-            return true; // fine catena
+            return true; // fine catena, nessun problema
         }
         return next.check(request);
     }
-
 }
