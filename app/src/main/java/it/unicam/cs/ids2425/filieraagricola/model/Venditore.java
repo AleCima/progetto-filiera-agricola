@@ -25,6 +25,9 @@ public class Venditore implements Account {
     @JoinColumn(name = "posizione_id", referencedColumnName = "id")
     private PuntoMappa posizione;
 
+    public Venditore() {
+    }
+
     public Venditore(String email, String password, String PIVA, String ragioneFiscale, String descrizione, PuntoMappa posizione, List<Ruolo> ruoli) {
         this.ruoli = ruoli;
         this.email = email;
