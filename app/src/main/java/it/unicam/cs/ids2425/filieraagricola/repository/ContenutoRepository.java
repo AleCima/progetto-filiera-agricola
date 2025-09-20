@@ -7,7 +7,4 @@ import org.springframework.data.repository.query.Param;
 
 public interface ContenutoRepository extends JpaRepository<Contenuto, Integer> {
 
-    //Restituisce la disponibilità corrente del contenuto con l'id specificato.
-    @Query("SELECT c.quantita FROM Contenuto c WHERE c.id = :id")
-    int getDisponibilita(@Param("id") int id);
 }

@@ -29,7 +29,6 @@ public class ContenutoController {
                              Venditore produttore,
                              List<String> certificazioni,
                              Date dataProduzione) {
-        contenutoService.addContenuto(new Prodotto(id, dataCaricamento, descrizione, nome, metodoDiColtivazione, prezzo, produttore, certificazioni, dataProduzione));
     }
 
     //addTrasformazione
@@ -38,12 +37,10 @@ public class ContenutoController {
                              String descrizione,
                              Venditore trasformatore,
                              double prezzo) {
-        contenutoService.addContenuto(new Trasformazione(id, dataCaricamento, descrizione, trasformatore, prezzo));
-    }
+     }
 
     //addPacchetto
     public void addContenuto(int id, Date dataCaricamento, String descrizione, String nome, double prezzo, Venditore distributore) {
-        contenutoService.addContenuto(new Pacchetto(id, dataCaricamento, descrizione, nome, prezzo, distributore));
     }
 
     public void updateContenuto(int id) {
@@ -55,7 +52,6 @@ public class ContenutoController {
     }
 
     public void addTrasformazioneTo(int idProdotto, int idTrasformazione) {
-        contenutoService.addTrasformazioneTo(idProdotto, idTrasformazione);
     }
 
     public void removeTrasformazioneFrom(int idProdotto, int idTrasformazione) {

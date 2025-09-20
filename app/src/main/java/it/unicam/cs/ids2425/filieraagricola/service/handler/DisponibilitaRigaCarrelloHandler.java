@@ -26,7 +26,7 @@ public class DisponibilitaRigaCarrelloHandler extends Handler {
         }
 
         int quantitaRichiesta = riga.getQuantita();
-        int disponibilita = contenutoRepository.getDisponibilita(contenuto.getId());
+        int disponibilita = contenuto.getQuantita();
 
         if (quantitaRichiesta > disponibilita) {
             throw new CampoNonValidoException(

@@ -15,6 +15,7 @@ public class ProdottoBuilder implements ContenutoBuilder {
     private String descrizione;
     private double prezzo;
     private Venditore produttore;
+    private int quantita;
 
     private String nome;
     private String metodoDiColtivazione;
@@ -50,6 +51,16 @@ public class ProdottoBuilder implements ContenutoBuilder {
     @Override
     public ProdottoBuilder setVenditore(Venditore venditore) {
         produttore = venditore;
+        return this;
+    }
+
+    public int getQuantita() {
+        return quantita;
+    }
+
+    @Override
+    public ProdottoBuilder setQuantita(int quantita) {
+        this.quantita = quantita;
         return this;
     }
 

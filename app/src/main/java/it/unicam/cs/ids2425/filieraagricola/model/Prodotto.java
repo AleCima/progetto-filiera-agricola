@@ -29,8 +29,9 @@ public class Prodotto extends Contenuto {
                     double prezzo,
                     Venditore produttore,
                     List<String> certificazioni,
-                    Date dataProduzione) {
-        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo, produttore);
+                    Date dataProduzione,
+                    int quantita) {
+        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo, produttore, quantita);
         this.nome = nome;
         this.metodoDiColtivazione = metodoDiColtivazione;
         this.certificazioni = certificazioni;
@@ -39,7 +40,7 @@ public class Prodotto extends Contenuto {
     }
 
     public Prodotto(ProdottoBuilder builder) {
-        super(builder.getId(), Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore());
+        super(builder.getId(), Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore(), builder.getQuantita());
         this.nome = builder.getNome();
         this.metodoDiColtivazione = builder.getMetodoDiColtivazione();
         this.certificazioni = builder.getCertificazioni();

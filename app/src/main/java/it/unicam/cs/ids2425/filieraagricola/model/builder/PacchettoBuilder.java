@@ -1,7 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricola.model.builder;
 
 import it.unicam.cs.ids2425.filieraagricola.model.Pacchetto;
-import it.unicam.cs.ids2425.filieraagricola.model.Prodotto;
 import it.unicam.cs.ids2425.filieraagricola.model.Venditore;
 
 import java.util.Date;
@@ -14,6 +13,7 @@ public class PacchettoBuilder implements ContenutoBuilder{
     private String nome;
     private double prezzo;
     private Venditore distributore;
+    private int quantita;
 
     //Metodi comuni
     @Override
@@ -43,6 +43,12 @@ public class PacchettoBuilder implements ContenutoBuilder{
     @Override
     public PacchettoBuilder setVenditore(Venditore venditore) {
         distributore = venditore;
+        return this;
+    }
+
+    @Override
+    public PacchettoBuilder setQuantita(int quantita) {
+        this.quantita = quantita;
         return this;
     }
 
@@ -78,5 +84,9 @@ public class PacchettoBuilder implements ContenutoBuilder{
 
     public Venditore getVenditore() {
         return distributore;
+    }
+
+    public int getQuantita() {
+        return quantita;
     }
 }

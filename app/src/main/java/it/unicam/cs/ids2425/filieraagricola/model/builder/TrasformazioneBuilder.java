@@ -12,6 +12,7 @@ public class TrasformazioneBuilder implements ContenutoBuilder{
     private String descrizione;
     private double prezzo;
     private Venditore trasformatore;
+    private int quantita;
 
     //Metodi comuni
     @Override
@@ -47,6 +48,16 @@ public class TrasformazioneBuilder implements ContenutoBuilder{
     @Override
     public Trasformazione build() {
         return new Trasformazione(this);
+    }
+
+    @Override
+    public TrasformazioneBuilder setQuantita(int quantita) {
+        this.quantita = quantita;
+        return this;
+    }
+
+    public int getQuantita() {
+        return quantita;
     }
 
     public int getId() {

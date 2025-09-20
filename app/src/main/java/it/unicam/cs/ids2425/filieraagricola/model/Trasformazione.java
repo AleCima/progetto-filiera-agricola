@@ -12,12 +12,13 @@ public class Trasformazione extends Contenuto {
                           Date dataCaricamento,
                           String descrizione,
                           Venditore trasformatore,
-                          double prezzo) {
-        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo, trasformatore);
+                          double prezzo,
+                          int quantita) {
+        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo, trasformatore,quantita);
     }
 
     public Trasformazione(TrasformazioneBuilder builder){
-        super(builder.getId(), Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore());
+        super(builder.getId(), Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore(), builder.getQuantita());
     }
 
 }

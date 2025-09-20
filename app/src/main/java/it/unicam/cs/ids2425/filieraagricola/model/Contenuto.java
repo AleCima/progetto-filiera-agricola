@@ -17,17 +17,19 @@ public abstract class Contenuto {
     private Date dataCaricamento;
     private String descrizione;
     private double prezzo;
+    private int quantita;
 
     @ManyToOne
     @JoinColumn(name = "venditore_email", referencedColumnName = "email")
     private Venditore venditore;
 
-    public Contenuto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, double prezzo, Venditore venditore) {
+    public Contenuto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, double prezzo, Venditore venditore, int quantita) {
         this.id = id;
         this.statoConferma = statoConferma;
         this.dataCaricamento = dataCaricamento;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
+        this.quantita = quantita;
     }
 
     public void setStatoConferma(Conferma statoConferma) {
@@ -60,6 +62,22 @@ public abstract class Contenuto {
 
     public void setPrezzo(double prezzo) {
         this.prezzo = prezzo;
+    }
+
+    public int getQuantita() {
+        return quantita;
+    }
+
+    public void setDataCaricamento(Date dataCaricamento) {
+        this.dataCaricamento = dataCaricamento;
+    }
+
+    public void setQuantita(int quantita) {
+        this.quantita = quantita;
+    }
+
+    public void setVenditore(Venditore venditore) {
+        this.venditore = venditore;
     }
 
     public Venditore getVenditore(){return venditore; }

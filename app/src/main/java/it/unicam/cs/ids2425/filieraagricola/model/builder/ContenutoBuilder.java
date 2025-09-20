@@ -17,5 +17,7 @@ public interface ContenutoBuilder {
 
     ContenutoBuilder setVenditore(Venditore venditore);
 
+    ContenutoBuilder setQuantita(int quantita);
+
     Contenuto build();       // restituisce il tipo base, il builder concreto può ritornare anche sottotipo
 }
