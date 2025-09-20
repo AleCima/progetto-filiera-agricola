@@ -27,4 +27,11 @@ public abstract class Handler {
         }
         return next.check(request);
     }
+
+    //               ESEMPIO
+//    Handler chain = new NonNullOrEmptyHandler()
+//            .setNext(new EmailFormatHandler())
+//            .setNext(new RuoloHandler(Ruolo.CURATORE))
+//            .setNext(new IndirizzoHandler());
+
 }
