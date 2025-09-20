@@ -25,8 +25,8 @@ public class AccountService {
         utenteRepository.save(u);
     }
 
-    public void rimuoviUtente(Utente u) {
-        //TODO
+    public void rimuoviUtente(String email) {
+        utenteRepository.delete(getUtenteByEmail(email));
     }
 
     public void modificaUtente(String email, Utente utenteModificato) {
@@ -36,15 +36,17 @@ public class AccountService {
     }
 
     public void aggiungiVenditore(Venditore v) {
-        //TODO
+        venditoreRepository.save(v);
     }
 
-    public void rimuoviVenditore(Venditore v) {
-        //TODO
+    public void rimuoviVenditore(String email) {
+        venditoreRepository.delete(getVenditoreByEmail(email));
     }
 
-    public void modificaVenditore() {
-        //TODO
+    public void modificaVenditore(String email, Venditore v) {
+        if (venditoreRepository.findById(email).isPresent()){
+            venditoreRepository.save(v);
+        }
     }
 
     public void assegnaRuolo(String email, Ruolo r) {
@@ -59,9 +61,8 @@ public class AccountService {
         return utenteRepository.findById(email).orElse(null);
     }
 
-    public Venditore getVenditoreByPIVA(String PIVA) {
-        //TODO
-        return null;
+    public Venditore getVenditoreByEmail(String email) {
+        return venditoreRepository.findById(email).orElse(null);
     }
 
     public List<Utente> getUtenti() {

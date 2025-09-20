@@ -28,7 +28,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/account/Registrazione",
+					"raw": "http://localhost:8080/account/registrazione",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -36,7 +36,7 @@
 					"port": "8080",
 					"path": [
 						"account",
-						"Registrazione"
+						"registrazione"
 					]
 				}
 			},
@@ -48,7 +48,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/account/ricercaUtente?email=mario.rossi@example.com",
+					"raw": "http://localhost:8080/account/ricerca-utente?email=mario.rossi@example.com",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -56,7 +56,7 @@
 					"port": "8080",
 					"path": [
 						"account",
-						"ricercaUtente"
+						"ricerca-utente"
 					],
 					"query": [
 						{
@@ -89,7 +89,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/account/ModificaUtente?precEmail=mario.rossi@example.com",
+					"raw": "http://localhost:8080/account/modifica-utente?precEmail=mario.rossi@example.com",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -97,11 +97,209 @@
 					"port": "8080",
 					"path": [
 						"account",
-						"ModificaUtente"
+						"modifica-utente"
 					],
 					"query": [
 						{
 							"key": "precEmail",
+							"value": "mario.rossi@example.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Elimina Utente",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/account/elimina-account?email=mario.rossi@example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						"elimina-account"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "mario.rossi@example.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Aggiungi venditore",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"mario.rossi@example.com\",\r\n  \"password\": \"password123\",\r\n  \"PIVA\": \"IT12345678901\",\r\n  \"ragioneFiscale\": \"Mario Rossi SRL\",\r\n  \"descrizione\": \"Venditore di prodotti agricoli\",\r\n  \"posizione\": {\r\n    \"latitudine\": 45.123,\r\n    \"longitudine\": 12.123\r\n  },\r\n  \"ruoli\": [\"PRODUTTORE\",\"DISTRIBUTORE\",\"TRASFORMATORE\"]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/account/registrazione-venditore",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						"registrazione-venditore"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modifica Venditore",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"mario.rossi@example.com\",\r\n  \"password\": \"password123\",\r\n  \"PIVA\": \"IT1237778901\",\r\n  \"ragioneFiscale\": \"Mario Bianchi SRL\",\r\n  \"descrizione\": \"Venditore di prodotti agricoli\",\r\n  \"posizione\": {\r\n    \"latitudine\": 45.123,\r\n    \"longitudine\": 12.123\r\n  },\r\n  \"ruoli\": [\"PRODUTTORE\",\"TRASFORMATORE\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/account/modifica-venditore?precEmail=mario.rossi@example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						"modifica-venditore"
+					],
+					"query": [
+						{
+							"key": "precEmail",
+							"value": "mario.rossi@example.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Elimina Venditore",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/account/elimina-venditore?email=mario.rossi@example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						"elimina-venditore"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "mario.rossi@example.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ricerca Venditore con Email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/account/ricerca-venditore?email=mario.rossi@example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"account",
+						"ricerca-venditore"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "mario.rossi@example.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ottieni Carrelo da Utente",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/carrello/carrello-utente?email=mario.rossi@example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"carrello",
+						"carrello-utente"
+					],
+					"query": [
+						{
+							"key": "email",
 							"value": "mario.rossi@example.com"
 						}
 					]

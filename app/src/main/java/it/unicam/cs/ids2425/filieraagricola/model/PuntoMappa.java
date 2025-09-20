@@ -14,6 +14,7 @@ public class PuntoMappa {
     private double latitudine;
     private double longitudine;
 
+    public PuntoMappa(){}
     public PuntoMappa(double latitudine, double longitudine) {
         this.latitudine = latitudine;
         this.longitudine = longitudine;

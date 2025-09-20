@@ -31,8 +31,8 @@ public class EsperienzaController {
         //TODO aggiungi qualcosa di unico per proposte
     }
 
-    public void creaVisita(String email, Date dataEsperienza, int numMaxPartecipanti, PuntoMappa posizione, String PIVA) {
-        espService.addEsperienza(new Visita(accService.getUtenteByEmail(email), dataEsperienza, numMaxPartecipanti, posizione, accService.getVenditoreByPIVA(PIVA)));
+    public void creaVisita() {
+        //TODO
     }
 
     public void modificaVisita() {

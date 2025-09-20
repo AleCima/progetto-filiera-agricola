@@ -60,6 +60,9 @@ public class Utente implements Account {
     public Carrello getCarrello() {
         return carrello;
     }
+    public void setCarrello(Carrello carrello){
+        this.carrello = carrello;
+    }
 
 
     @Override
