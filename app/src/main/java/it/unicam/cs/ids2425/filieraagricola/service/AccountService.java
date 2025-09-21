@@ -62,6 +62,7 @@ public class AccountService {
     }
 
     public Venditore getVenditoreByEmail(String email) {
+
         return venditoreRepository.findById(email).orElse(null);
     }
 

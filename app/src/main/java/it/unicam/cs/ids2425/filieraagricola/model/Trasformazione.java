@@ -8,17 +8,16 @@ import java.util.Date;
 @Entity
 public class Trasformazione extends Contenuto {
 
-    public Trasformazione(int id,
-                          Date dataCaricamento,
+    public Trasformazione(Date dataCaricamento,
                           String descrizione,
                           Venditore trasformatore,
                           double prezzo,
                           int quantita) {
-        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo, trasformatore,quantita);
+        super(Conferma.ATTESA, dataCaricamento, descrizione, prezzo, trasformatore,quantita);
     }
 
     public Trasformazione(TrasformazioneBuilder builder){
-        super(builder.getId(), Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore(), builder.getQuantita());
+        super(Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore(), builder.getQuantita());
     }
 
 }

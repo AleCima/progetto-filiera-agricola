@@ -21,8 +21,10 @@ public class Prodotto extends Contenuto {
     private List<Trasformazione> listaTrasformazioni;
     private Date dataProduzione;
 
-    public Prodotto(int id,
-                    Date dataCaricamento,
+    public Prodotto(){
+        super();
+    }
+    public Prodotto(Date dataCaricamento,
                     String descrizione,
                     String nome,
                     String metodoDiColtivazione,
@@ -31,7 +33,7 @@ public class Prodotto extends Contenuto {
                     List<String> certificazioni,
                     Date dataProduzione,
                     int quantita) {
-        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo, produttore, quantita);
+        super(Conferma.ATTESA, dataCaricamento, descrizione, prezzo, produttore, quantita);
         this.nome = nome;
         this.metodoDiColtivazione = metodoDiColtivazione;
         this.certificazioni = certificazioni;
@@ -40,7 +42,7 @@ public class Prodotto extends Contenuto {
     }
 
     public Prodotto(ProdottoBuilder builder) {
-        super(builder.getId(), Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore(), builder.getQuantita());
+        super(Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore(), builder.getQuantita());
         this.nome = builder.getNome();
         this.metodoDiColtivazione = builder.getMetodoDiColtivazione();
         this.certificazioni = builder.getCertificazioni();
