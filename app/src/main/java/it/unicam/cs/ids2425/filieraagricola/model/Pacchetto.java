@@ -20,14 +20,14 @@ public class Pacchetto extends Contenuto {
     @JoinColumn(name = "contenuto_id")
     private List<Contenuto> listaProdotti;
 
-    public Pacchetto(int id, Date dataCaricamento, String descrizione, String nome, double prezzo, Venditore distributore, int quantita) {
-        super(id, Conferma.ATTESA, dataCaricamento, descrizione, prezzo, distributore, quantita);
+    public Pacchetto(Date dataCaricamento, String descrizione, String nome, double prezzo, Venditore distributore, int quantita) {
+        super(Conferma.ATTESA, dataCaricamento, descrizione, prezzo, distributore, quantita);
         this.nome = nome;
         this.listaProdotti = new ArrayList<>();
     }
 
     public Pacchetto(PacchettoBuilder builder) {
-        super(builder.getId(), Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore(), builder.getQuantita());
+        super(Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore(), builder.getQuantita());
         this.nome = builder.getNome();
     }
 

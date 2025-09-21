@@ -21,6 +21,7 @@ public class RigaCarrello {
         this.quantita = quantita;
         this.prezzo = contenuto.getPrezzo() * quantita;
     }
+    public RigaCarrello(){}
 
     public Contenuto getContenuto() {
         return contenuto;

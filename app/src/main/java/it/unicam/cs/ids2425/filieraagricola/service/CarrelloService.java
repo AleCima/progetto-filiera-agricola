@@ -21,18 +21,31 @@ public class CarrelloService {
     }
 
     public void aggiungiContenuto(String email, RigaCarrello rc){
-        accountService.getUtenteByEmail(email).getCarrello().aggiungiContenuto(rc);
+        //Deve fa save se no non funzia post
+        Utente u = utenteRepository.findById(email).orElse(null);
+        u.getCarrello().aggiungiContenuto(rc);
+        utenteRepository.save(u);
     }
 
-    public void rimuoviContenuto(String email, Contenuto c, int quant){
-        for (RigaCarrello rc : accountService.getUtenteByEmail(email).getCarrello().getContenuti()) {
-            if (rc.getContenuto().equals(c)){
-                rc.setQuantita(rc.getQuantita() - quant);
-            }
-        }
+    public void rimuoviContenuto(RigaCarrello rc, int quant){
+        rc.setQuantita(rc.getQuantita() - quant);
+    }
+
+    public void aggiungiQuantita(RigaCarrello rc, int quant){
+
+        rc.setQuantita(rc.getQuantita() + quant);
     }
 
     public void svuota(String email){
         accountService.getUtenteByEmail(email).setCarrello(new Carrello());
+    }
+
+    public boolean contains(Carrello carrello, Contenuto c){
+        for(RigaCarrello rc : carrello.getContenuti()){
+            if (rc.getContenuto().equals(c)){
+                return true;
+            }
+        }
+        return false;
     }
 }

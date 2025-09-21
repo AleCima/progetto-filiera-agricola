@@ -25,8 +25,7 @@ public class ContenutoService {
     }
 
     public Contenuto getContenutoById(int id) {
-        //TODO
-        return null;
+        return contenutoRepository.findById(id).orElse(null);
     }
 
     public List<Contenuto> getContenutoByVenditore(Venditore venditore) {
@@ -35,7 +34,7 @@ public class ContenutoService {
     }
 
     public void addContenuto(Contenuto contenuto) {
-        //TODO
+        contenutoRepository.save(contenuto);
     }
 
     public void updateContenuto(int id) {

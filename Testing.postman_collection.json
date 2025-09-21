@@ -306,6 +306,72 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Aggiungi Prodotto Richiede un venditore",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"dataCaricamento\": \"2025-09-21\",\r\n  \"descrizione\": \"Mele biologiche fresche\",\r\n  \"nome\": \"Mela Golden\",\r\n  \"metodoDiColtivazione\": \"Biologico\",\r\n  \"prezzo\": 2.50,\r\n  \"produttoreEmail\": \"mario.rossi@example.com\",\r\n  \"certificazioni\": [\"BIO\", \"DOP\"],\r\n  \"dataProduzione\": \"2025-09-01\",\r\n  \"quantita\": 100\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/contenuto/aggiungi-prodotto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"contenuto",
+						"aggiungi-prodotto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Aggiungi contenuto al carrello",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" : 1,\r\n    \"quant\": 5\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/carrello/aggiungi-contenuto?email=mario.rossi@example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"carrello",
+						"aggiungi-contenuto"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "mario.rossi@example.com"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

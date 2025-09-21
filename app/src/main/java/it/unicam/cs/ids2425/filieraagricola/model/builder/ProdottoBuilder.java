@@ -24,6 +24,7 @@ public class ProdottoBuilder implements ContenutoBuilder {
     private Date dataProduzione;
 
     //Metodi comuni
+    //TODO da levare
     @Override
     public ProdottoBuilder setId(int id) {
         this.id = id;
@@ -50,7 +51,7 @@ public class ProdottoBuilder implements ContenutoBuilder {
 
     @Override
     public ProdottoBuilder setVenditore(Venditore venditore) {
-        produttore = venditore;
+        this.produttore = venditore;
         return this;
     }
 

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Contenuto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,14 +20,15 @@ public abstract class Contenuto {
     private int quantita;
 
     @ManyToOne
-    @JoinColumn(name = "venditore_email", referencedColumnName = "email")
+    @JoinColumn(name = "venditore_email")
     private Venditore venditore;
 
-    public Contenuto(int id, Conferma statoConferma, Date dataCaricamento, String descrizione, double prezzo, Venditore venditore, int quantita) {
-        this.id = id;
+    public Contenuto(){}
+    public Contenuto(Conferma statoConferma, Date dataCaricamento, String descrizione, double prezzo, Venditore venditore, int quantita) {
         this.statoConferma = statoConferma;
         this.dataCaricamento = dataCaricamento;
         this.descrizione = descrizione;
+        this.venditore = venditore;
         this.prezzo = prezzo;
         this.quantita = quantita;
     }
