@@ -38,7 +38,7 @@ public class CarrelloController {
         //TODO controlli su contenuto
         RigaCarrello rc = new RigaCarrello(contenutoService.getContenutoById(rcDTO.getId()), rcDTO.getQuantita());
         carrelloService.aggiungiContenuto(email, rc);
-        System.out.println(rcDTO.getQuantita());
+
         return new ResponseEntity<>("Contenuto aggiunto correttamente", HttpStatus.OK);
     }
 
@@ -49,19 +49,9 @@ public class CarrelloController {
         if (!carrelloService.contains(carrelloUt, contenutoDaRimuovere)){
             return new ResponseEntity<>("Contenuto non presente nel carrello", HttpStatus.BAD_REQUEST);
         }
-        //TODO Controlla se va fatto in un altro modo creando un metodo che restituisce la riga carrello
-        // che contiene il contenuto da rimuovere. DA TESTARE
+        //TODO controlli aut
+        carrelloService.rimuoviContenuto(email, contenutoDaRimuovere, rcDTO.getQuantita());
 
-        for(RigaCarrello rc : carrelloUt.getContenuti()){
-            if (rc.getContenuto().getId() == rcDTO.getId()){
-                //Controllo se si intende rimuovere il contenuto dal carrello
-                if(rc.getQuantita() - rcDTO.getQuantita() < 1){
-                    carrelloService.rimuoviContenuto(rc , rcDTO.getQuantita());
-                }else {
-                    rc.setQuantita( rc.getQuantita() - rcDTO.getQuantita());
-                }
-            }
-        }
         return new ResponseEntity<>("Quantità del contenuto rimossa con successo", HttpStatus.OK);
     }
 
@@ -69,9 +59,11 @@ public class CarrelloController {
     public ResponseEntity<Object> aggiungiQuantita(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
         Carrello carrelloUt = carrelloService.getCarrelloFromUtente(email);
         Contenuto contenutoDaModficare = contenutoService.getContenutoById(rcDTO.getId());
+        //TODO controlli aut
         if (!carrelloService.contains(carrelloUt, contenutoDaModficare)){
             return new ResponseEntity<>("Contenuto non presente nel carrello", HttpStatus.BAD_REQUEST);
         }
+
         carrelloService.aggiungiQuantita(email, contenutoDaModficare, rcDTO.getQuantita());
 
         return new ResponseEntity<>("Quantita aggiunta al carrello correttamente", HttpStatus.OK);
@@ -79,6 +71,7 @@ public class CarrelloController {
 
     @DeleteMapping("/svuota-carrello")
     public ResponseEntity<Object> svuotaCarrello(@RequestParam String email){
+        //TODO autenticazione
         carrelloService.svuota(email);
         return new ResponseEntity<>("Carrello svuotato con successo", HttpStatus.OK);
     }

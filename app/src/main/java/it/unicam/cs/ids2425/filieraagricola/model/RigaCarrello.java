@@ -36,7 +36,6 @@ public class RigaCarrello {
     }
 
     public void setQuantita(int quantita) {
-
         this.quantita = quantita;
         this.prezzo = contenuto.getPrezzo() * quantita;
     }

@@ -29,8 +29,10 @@ public class CarrelloService {
         utenteRepository.save(u);
     }
 
-    public void rimuoviContenuto(RigaCarrello rc, int quant){
-        rc.setQuantita(rc.getQuantita() - quant);
+    public void rimuoviContenuto(String email, Contenuto c, int quant){
+        Utente u = utenteRepository.findById(email).orElse(null);
+        u.getCarrello().rimuoviQuantita(c, quant);
+        utenteRepository.save(u);
     }
 
     public void aggiungiQuantita(String email, Contenuto c, int quant){
@@ -40,7 +42,9 @@ public class CarrelloService {
     }
 
     public void svuota(String email){
-        accountService.getUtenteByEmail(email).setCarrello(new Carrello());
+        Utente u = utenteRepository.findById(email).orElse(null);
+        u.getCarrello().svuota();
+        utenteRepository.save(u);
     }
 
     public boolean contains(Carrello carrello, Contenuto c){

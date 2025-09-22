@@ -3,6 +3,7 @@ package it.unicam.cs.ids2425.filieraagricola.model;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,7 @@ public class Carrello {
     private double prezzoTotale;
 
     // Un carrello può avere più righe
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "carrello_id")
     private List<RigaCarrello> contenuti;
 
@@ -49,6 +50,22 @@ public class Carrello {
                 prezzoTotale =- rigaCarrello.getPrezzo();
                 rigaCarrello.setQuantita(rigaCarrello.getQuantita() + quant);
                 prezzoTotale =+ rigaCarrello.getPrezzo();
+            }
+        }
+    }
+
+    public void rimuoviQuantita(Contenuto c, int quant){
+        //TODO da migliorare
+        for (RigaCarrello rc : contenuti) {
+            if (rc.getContenuto().equals(c)) {
+                if (rc.getQuantita() - quant < 1) {
+                    prezzoTotale = prezzoTotale - rc.getPrezzo();
+                    contenuti.remove(rc);
+                    return;
+                } else {
+                    rc.setQuantita(rc.getQuantita() - quant);
+                    prezzoTotale = prezzoTotale - (rc.getContenuto().getPrezzo() * quant);
+                }
             }
         }
     }
