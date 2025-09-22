@@ -62,7 +62,7 @@ public class AccountController {
     public ResponseEntity<Object> getUtente(@RequestParam String email) {
         return  new ResponseEntity<>(accService.getUtenteByEmail(email), HttpStatus.OK);
     }
-    @GetMapping("/ricerca-venditore")
+
     public Venditore getVenditore(String email) {
         return accService.getVenditoreByEmail(email);
     }

@@ -43,6 +43,16 @@ public class Carrello {
         prezzoTotale += contenuto.getPrezzo();
     }
 
+    public void aggiungiQuantita(Contenuto c, int quant){
+        for (RigaCarrello rigaCarrello : contenuti) {
+            if(rigaCarrello.getContenuto().equals(c)) {
+                prezzoTotale =- rigaCarrello.getPrezzo();
+                rigaCarrello.setQuantita(rigaCarrello.getQuantita() + quant);
+                prezzoTotale =+ rigaCarrello.getPrezzo();
+            }
+        }
+    }
+
     public void rimuoviContenuto(RigaCarrello contenuto) {
         contenuti.remove(contenuto);
         prezzoTotale -= contenuto.getPrezzo();

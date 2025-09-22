@@ -32,19 +32,20 @@ public class CarrelloController {
         }
         return  new ResponseEntity<>(carrelloService.getCarrelloFromUtente(email), HttpStatus.OK);
     }
-    //Vedi se mettere tutto nel body
+
     @PostMapping("/aggiungi-contenuto")
     public ResponseEntity<Object> aggiungiContenutoAlCarrello(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
         //TODO controlli su contenuto
         RigaCarrello rc = new RigaCarrello(contenutoService.getContenutoById(rcDTO.getId()), rcDTO.getQuantita());
         carrelloService.aggiungiContenuto(email, rc);
+        System.out.println(rcDTO.getQuantita());
         return new ResponseEntity<>("Contenuto aggiunto correttamente", HttpStatus.OK);
     }
 
-    @PutMapping("/rimuovi-contenuto")
-    public ResponseEntity<Object> rimuoviContenuto(@RequestParam String email, @RequestParam int id, @RequestBody int quant){
+    @PostMapping("/rimuovi-contenuto")
+    public ResponseEntity<Object> rimuoviContenuto(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
         Carrello carrelloUt = carrelloService.getCarrelloFromUtente(email);
-        Contenuto contenutoDaRimuovere = contenutoService.getContenutoById(id);
+        Contenuto contenutoDaRimuovere = contenutoService.getContenutoById(rcDTO.getId());
         if (!carrelloService.contains(carrelloUt, contenutoDaRimuovere)){
             return new ResponseEntity<>("Contenuto non presente nel carrello", HttpStatus.BAD_REQUEST);
         }
@@ -52,31 +53,27 @@ public class CarrelloController {
         // che contiene il contenuto da rimuovere. DA TESTARE
 
         for(RigaCarrello rc : carrelloUt.getContenuti()){
-            if (rc.getContenuto().getId() == id){
+            if (rc.getContenuto().getId() == rcDTO.getId()){
                 //Controllo se si intende rimuovere il contenuto dal carrello
-                if(rc.getQuantita() - quant < 1){
-                    carrelloService.rimuoviContenuto(rc ,quant);
+                if(rc.getQuantita() - rcDTO.getQuantita() < 1){
+                    carrelloService.rimuoviContenuto(rc , rcDTO.getQuantita());
                 }else {
-                    rc.setQuantita( rc.getQuantita() - quant);
+                    rc.setQuantita( rc.getQuantita() - rcDTO.getQuantita());
                 }
             }
         }
         return new ResponseEntity<>("Quantità del contenuto rimossa con successo", HttpStatus.OK);
     }
 
-    @PutMapping("/aggiungi-quantita")
-    public ResponseEntity<Object> aggiungiQuantita(@RequestParam String email, @RequestParam int id, @RequestBody int quant){
+    @PostMapping("/aggiungi-quantita")
+    public ResponseEntity<Object> aggiungiQuantita(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
         Carrello carrelloUt = carrelloService.getCarrelloFromUtente(email);
-        Contenuto contenutoDaRimuovere = contenutoService.getContenutoById(id);
-        if (!carrelloService.contains(carrelloUt, contenutoDaRimuovere)){
+        Contenuto contenutoDaModficare = contenutoService.getContenutoById(rcDTO.getId());
+        if (!carrelloService.contains(carrelloUt, contenutoDaModficare)){
             return new ResponseEntity<>("Contenuto non presente nel carrello", HttpStatus.BAD_REQUEST);
         }
+        carrelloService.aggiungiQuantita(email, contenutoDaModficare, rcDTO.getQuantita());
 
-        for(RigaCarrello rc : carrelloUt.getContenuti()){
-            if (rc.getContenuto().getId() == id){
-                carrelloService.aggiungiQuantita(rc,quant);
-            }
-        }
         return new ResponseEntity<>("Quantita aggiunta al carrello correttamente", HttpStatus.OK);
     }
 

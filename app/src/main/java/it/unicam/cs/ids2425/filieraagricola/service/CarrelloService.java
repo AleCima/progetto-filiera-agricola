@@ -5,6 +5,8 @@ import it.unicam.cs.ids2425.filieraagricola.repository.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CarrelloService {
     UtenteRepository utenteRepository;
@@ -17,7 +19,7 @@ public class CarrelloService {
     }
 
     public Carrello getCarrelloFromUtente(String email){
-        return accountService.getUtenteByEmail(email).getCarrello();
+        return utenteRepository.findById(email).orElse(null).getCarrello();
     }
 
     public void aggiungiContenuto(String email, RigaCarrello rc){
@@ -31,9 +33,10 @@ public class CarrelloService {
         rc.setQuantita(rc.getQuantita() - quant);
     }
 
-    public void aggiungiQuantita(RigaCarrello rc, int quant){
-
-        rc.setQuantita(rc.getQuantita() + quant);
+    public void aggiungiQuantita(String email, Contenuto c, int quant){
+        Utente u = utenteRepository.findById(email).orElse(null);
+        u.getCarrello().aggiungiQuantita(c, quant);
+        utenteRepository.save(u);
     }
 
     public void svuota(String email){
