@@ -7,10 +7,14 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED) // importante per le sottoclassi Evento e Visita
 public abstract class Esperienza {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
+    private int id;
+
+    private String titolo;
+    private String descrizione;
 
     @ManyToOne
     @JoinColumn(name = "organizzatore_id")
@@ -32,7 +36,10 @@ public abstract class Esperienza {
     @JoinColumn(name = "posizione_id", referencedColumnName = "id")
     private PuntoMappa posizione;
 
-    public Esperienza(Utente organizzatore, Date dataEsperienza, int numMaxPartecipanti, PuntoMappa posizione) {
+    // Costruttore completo
+    public Esperienza(String titolo, String descrizione, Utente organizzatore, Date dataEsperienza, int numMaxPartecipanti, PuntoMappa posizione) {
+        this.titolo = titolo;
+        this.descrizione = descrizione;
         this.organizzatore = organizzatore;
         this.dataEsperienza = dataEsperienza;
         this.partecipanti = new ArrayList<>();
@@ -40,12 +47,37 @@ public abstract class Esperienza {
         this.posizione = posizione;
     }
 
-    public Esperienza(){
+    // Costruttore minimo (utile per JPA)
+    public Esperienza() {
+    }
 
+    // Getters & Setters
+    public int getId() {
+        return id;
+    }
+
+    public String getTitolo() {
+        return titolo;
+    }
+
+    public void setTitolo(String titolo) {
+        this.titolo = titolo;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
     }
 
     public Utente getOrganizzatore() {
         return organizzatore;
+    }
+
+    public void setOrganizzatore(Utente organizzatore) {
+        this.organizzatore = organizzatore;
     }
 
     public Date getDataEsperienza() {
@@ -64,6 +96,10 @@ public abstract class Esperienza {
         partecipanti.add(u);
     }
 
+    public void rimuoviPartecipante(Utente u) {
+        partecipanti.remove(u);
+    }
+
     public int getNumMaxPartecipanti() {
         return numMaxPartecipanti;
     }
@@ -78,10 +114,5 @@ public abstract class Esperienza {
 
     public void setPosizione(PuntoMappa posizione) {
         this.posizione = posizione;
-    }
-
-
-    public void setOrganizzatore(Utente utente) {
-        organizzatore = utente;
     }
 }

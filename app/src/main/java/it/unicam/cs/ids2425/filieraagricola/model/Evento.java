@@ -7,8 +7,8 @@ import java.util.Date;
 @Entity
 public class Evento extends Esperienza {
 
-    public Evento(Utente organizzatore, Date dataEsperienza, int numMaxPartecipanti, PuntoMappa posizione) {
-        super(organizzatore, dataEsperienza, numMaxPartecipanti, posizione);
+    public Evento(String titolo, String descrizione, Utente organizzatore, Date dataEsperienza, int numMaxPartecipanti, PuntoMappa posizione) {
+        super(titolo, "Evento", organizzatore, dataEsperienza, numMaxPartecipanti, posizione);
     }
 
     public Evento() {

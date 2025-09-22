@@ -25,9 +25,6 @@ public class Utente implements Account {
     @JoinColumn(name = "carrello_id", referencedColumnName = "id")
     private Carrello carrello;
 
-    @ManyToMany(mappedBy = "partecipanti")
-    private List<Esperienza> esperienze = new ArrayList<>();
-
     public Utente(){}
 
     public Utente(String email, String password, String nome, String cognome) {
@@ -38,8 +35,6 @@ public class Utente implements Account {
         this.carrello = new Carrello();
         ruoli.add(Ruolo.ACQUIRENTE);
     }
-
-
 
     public String getNome() {
         return nome;
@@ -105,4 +100,5 @@ public class Utente implements Account {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

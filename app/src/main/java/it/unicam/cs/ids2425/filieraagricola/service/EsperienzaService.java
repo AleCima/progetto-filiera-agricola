@@ -5,6 +5,8 @@ import it.unicam.cs.ids2425.filieraagricola.model.Evento;
 import it.unicam.cs.ids2425.filieraagricola.model.Utente;
 import it.unicam.cs.ids2425.filieraagricola.model.Visita;
 import it.unicam.cs.ids2425.filieraagricola.repository.EsperienzaRepository;
+import it.unicam.cs.ids2425.filieraagricola.repository.EventoRepository;
+import it.unicam.cs.ids2425.filieraagricola.repository.VisitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +16,18 @@ import java.util.List;
 public class EsperienzaService {
 
     private final EsperienzaRepository esperienzaRepository;
+    private final AccountService accountService;
+    private final VisitaRepository visitaRepository;
+    private final EventoRepository eventoRepository;
+
 
     @Autowired
-    public EsperienzaService(EsperienzaRepository esperienzaRepository) {
+    public EsperienzaService(EsperienzaRepository esperienzaRepository, AccountService accountService, VisitaRepository visitaRepository, EventoRepository eventoRepository) {
         this.esperienzaRepository = esperienzaRepository;
+        this.accountService = accountService;
+        this.visitaRepository = visitaRepository;
+        this.eventoRepository = eventoRepository;
     }
-
 
     public List<Esperienza> getEsperienze() {
         //TODO
@@ -36,20 +44,19 @@ public class EsperienzaService {
         return null;
     }
 
-    public void addPartecipante(Esperienza esperienza, Utente utente) {
-        //TODO aggiungo partecipante all' esperienza passata come parametro
+    public void addPartecipante(int idEsperienza, String emailUtente) {
+        Esperienza esperienza = esperienzaRepository.findById(idEsperienza).orElse(null);
+        Utente utente = accountService.getUtenteByEmail(emailUtente);
+        esperienza.aggiungiPartecipante(utente);
+        esperienzaRepository.save(esperienza);
     }
 
-    public void removePartecipante(Esperienza esperienza, Utente utente) {
-        //TODO rimuovo partecipante all' esperienza passata come parametro
-    }
-
-    public void updateEsperienza(Esperienza esperienza) {
-        //TODO modifico l'esperienza passata nella repo
-    }
-
-    public void removeEsperienza(Esperienza esperienza) {
-        //TODO rimuovo l'esperienza passata nella repo
+    //FINIRE
+    public void removePartecipante(int idEsperienza, String emailUtente) {
+        Esperienza esperienza = esperienzaRepository.findById(idEsperienza).orElse(null);
+        Utente utente = accountService.getUtenteByEmail(emailUtente);
+        esperienza.rimuoviPartecipante(utente);
+        esperienzaRepository.save(esperienza);
     }
 
     public void addVisita(Visita visita) {
