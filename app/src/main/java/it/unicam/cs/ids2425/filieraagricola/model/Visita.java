@@ -12,14 +12,20 @@ public class Visita extends Esperienza {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "azienda_email", referencedColumnName = "email")
-    private final Venditore azienda;
+    private Venditore azienda;
 
     public Visita(Utente organizzatore, Date dataEsperienza, int numMaxPartecipanti, PuntoMappa posizione, Venditore azienda) {
         super(organizzatore, dataEsperienza, numMaxPartecipanti, posizione);
         this.azienda = azienda;
     }
 
+    public Visita(){}
+
     public Venditore getAzienda() {
         return azienda;
+    }
+
+    public void setAzienda(Venditore venditore) {
+        azienda = venditore;
     }
 }

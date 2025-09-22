@@ -22,13 +22,23 @@ public class PropostaService {
         return null;
     }
 
-    public Proposta getProposta() {
-        //TODO proposta singola
-        return null;
+    public Proposta getProposta(int id) {
+        return propostaRepository.findById(id).orElse(null);
     }
 
     public void aggiungiProposta(Proposta p) {
-        //TODO
+        //TODO da vedere i controlli
+        propostaRepository.save(p);
+    }
+
+    public void modificaProposta(Proposta p){
+        //TODO da vedere i controlli
+        propostaRepository.save(p);
+    }
+
+    public void rimuoviProposta(Proposta p){
+        //TODO da vedere i controlli
+        propostaRepository.delete(p);
     }
 
     public List<Proposta> getProposteVenditore(Venditore v) {
