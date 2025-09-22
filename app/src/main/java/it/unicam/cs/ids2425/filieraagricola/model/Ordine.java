@@ -10,7 +10,7 @@ public class Ordine {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private final Date dataOrdine;
+    private Date dataOrdine;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "carrello_id", referencedColumnName = "id")
@@ -20,7 +20,7 @@ public class Ordine {
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
-    private final Double totale;
+    private Double totale ;
     private boolean evaso;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -31,8 +31,8 @@ public class Ordine {
     @JoinColumn(name = "indirizzo_id", referencedColumnName = "id")
     private Indirizzo indirizzoDiFatturazione;
 
-    public Ordine(int id, Date dataOrdine, Carrello carrello, Pagamento cartaDiCredito, Indirizzo indirizzoDiFatturazione) {
-        this.id = id;
+    public Ordine( Date dataOrdine, Carrello carrello, Pagamento cartaDiCredito, Indirizzo indirizzoDiFatturazione) {
+
         this.dataOrdine = dataOrdine;
         this.carrello = carrello;
         this.totale = carrello.getPrezzoTotale();
@@ -40,6 +40,11 @@ public class Ordine {
         this.cartaDiCredito = cartaDiCredito;
         this.indirizzoDiFatturazione = indirizzoDiFatturazione;
     }
+
+    public Ordine() {
+
+    }
+
 
     public Indirizzo getIndirizzoDiFatturazione() {
         return indirizzoDiFatturazione;
@@ -79,5 +84,13 @@ public class Ordine {
 
     public int getId() {
         return id;
+    }
+
+    public void setDataOrdine(Date dataOrdine){
+        this.dataOrdine = dataOrdine;
+    }
+
+    public void setCarrello(Carrello carrello) {
+        this.carrello = carrello;
     }
 }

@@ -18,14 +18,18 @@ public class AutorizzazioneService {
     }
 
     public List<Contenuto> getContenutiInAttesa() {
-        return null;
+        return contenutoRepository.findContenutiInAttesa();
     }
 
-    public void Autorizza(Contenuto id) {
-        id.setStatoConferma(Conferma.APPROVATO);
+    public void Autorizza(Contenuto c) {
+
+        c.setStatoConferma(Conferma.APPROVATO);
+        contenutoRepository.save(c);
+
     }
 
-    public void Rifiuta(Contenuto id) {
-        id.setStatoConferma(Conferma.RIFIUTATO);
+    public void Rifiuta(Contenuto c) {
+        c.setStatoConferma(Conferma.RIFIUTATO);
+        contenutoRepository.save(c);
     }
 }
