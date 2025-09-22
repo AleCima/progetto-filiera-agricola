@@ -24,6 +24,10 @@ public class Indirizzo {
         this.CAP = CAP;
     }
 
+    public Indirizzo() {
+
+    }
+
     public String getVia() {
         return Via;
     }

@@ -24,6 +24,10 @@ public class Pagamento {
         this.scadenza = scadenza;
     }
 
+    public Pagamento() {
+
+    }
+
     public String getNumCarta() {
         return numCarta;
     }

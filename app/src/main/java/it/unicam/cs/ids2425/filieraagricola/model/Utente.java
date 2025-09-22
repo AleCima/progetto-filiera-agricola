@@ -21,7 +21,7 @@ public class Utente implements Account {
     private String nome;
     private String cognome;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "carrello_id", referencedColumnName = "id")
     private Carrello carrello;
 
