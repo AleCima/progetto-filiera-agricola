@@ -5,6 +5,8 @@ import it.unicam.cs.ids2425.filieraagricola.model.PuntoMappa;
 import java.util.Date;
 
 public class VisitaDTO {
+    private String titolo;
+    private String descrizione;
     private String organizzatore;   // email dell'organizzatore
     private Date dataEsperienza;
     private int numMaxPartecipanti;
@@ -14,12 +16,30 @@ public class VisitaDTO {
     public VisitaDTO() {
     }
 
-    public VisitaDTO(String organizzatore, Date dataEsperienza, int numMaxPartecipanti, PuntoMappa posizione, String azienda) {
+    public VisitaDTO(String titolo, String descrizione, String organizzatore, Date dataEsperienza, int numMaxPartecipanti, PuntoMappa posizione, String azienda) {
+        this.titolo = titolo;
+        this.descrizione = descrizione;
         this.organizzatore = organizzatore;
         this.dataEsperienza = dataEsperienza;
         this.numMaxPartecipanti = numMaxPartecipanti;
         this.posizione = posizione;
         this.azienda = azienda;
+    }
+
+    public String getTitolo() {
+        return titolo;
+    }
+
+    public void setTitolo(String titolo) {
+        this.titolo = titolo;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
     }
 
     public String getOrganizzatore() {

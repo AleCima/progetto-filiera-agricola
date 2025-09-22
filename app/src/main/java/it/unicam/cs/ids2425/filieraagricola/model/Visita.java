@@ -14,18 +14,20 @@ public class Visita extends Esperienza {
     @JoinColumn(name = "azienda_email", referencedColumnName = "email")
     private Venditore azienda;
 
-    public Visita(Utente organizzatore, Date dataEsperienza, int numMaxPartecipanti, PuntoMappa posizione, Venditore azienda) {
-        super(organizzatore, dataEsperienza, numMaxPartecipanti, posizione);
+    public Visita(String titolo, String descrizione, Utente organizzatore, Date dataEsperienza, int numMaxPartecipanti, PuntoMappa posizione, Venditore azienda) {
+        super(titolo, "Visita", organizzatore, dataEsperienza, numMaxPartecipanti, posizione);
         this.azienda = azienda;
     }
 
-    public Visita(){}
+    public Visita() {
+        super();
+    }
 
     public Venditore getAzienda() {
         return azienda;
     }
 
-    public void setAzienda(Venditore venditore) {
-        azienda = venditore;
+    public void setAzienda(Venditore azienda) {
+        this.azienda = azienda;
     }
 }

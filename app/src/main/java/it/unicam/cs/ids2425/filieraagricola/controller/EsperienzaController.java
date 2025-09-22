@@ -1,6 +1,5 @@
 package it.unicam.cs.ids2425.filieraagricola.controller;
 
-
 import it.unicam.cs.ids2425.filieraagricola.controller.DTO.EventoDTO;
 import it.unicam.cs.ids2425.filieraagricola.controller.DTO.PropostaDTO;
 import it.unicam.cs.ids2425.filieraagricola.controller.DTO.VisitaDTO;
@@ -11,8 +10,6 @@ import it.unicam.cs.ids2425.filieraagricola.service.PropostaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 
 @RestController
 @RequestMapping("/esperienza")
@@ -55,17 +52,27 @@ public class EsperienzaController {
         return new ResponseEntity<>("Proposta annullata ed eliminata con successo", HttpStatus.OK);
     }
 
-    //creaVisita
     @PostMapping("/crea-visita")
     public ResponseEntity<Object> creaVisita(@RequestBody VisitaDTO visitaDTO) {
-        Visita visita = new Visita(accService.getUtenteByEmail(visitaDTO.getOrganizzatore()),visitaDTO.getDataEsperienza(),visitaDTO.getNumMaxPartecipanti(),visitaDTO.getPosizione(),accService.getVenditoreByEmail(visitaDTO.getAzienda()));
+        Visita visita = new Visita(
+                visitaDTO.getTitolo(),
+                visitaDTO.getDescrizione(),
+                accService.getUtenteByEmail(visitaDTO.getOrganizzatore()),
+                visitaDTO.getDataEsperienza(),
+                visitaDTO.getNumMaxPartecipanti(),
+                visitaDTO.getPosizione(),
+                accService.getVenditoreByEmail(visitaDTO.getAzienda())
+        );
         espService.addVisita(visita);
         return new ResponseEntity<>("Visita creata con successo", HttpStatus.OK);
     }
 
+
     @PutMapping("/modifica-visita")
     public ResponseEntity<Object> modificaVisita(@RequestBody VisitaDTO visitaDTO, @RequestParam int id) {
         Visita visita = espService.getVisita(id);
+        visita.setTitolo(visitaDTO.getTitolo());
+        visita.setDescrizione(visitaDTO.getDescrizione());
         visita.setOrganizzatore(accService.getUtenteByEmail(visitaDTO.getOrganizzatore()));
         visita.setDataEsperienza(visitaDTO.getDataEsperienza());
         visita.setNumMaxPartecipanti(visitaDTO.getNumMaxPartecipanti());
@@ -75,6 +82,7 @@ public class EsperienzaController {
         return new ResponseEntity<>("Visita modificata con successo", HttpStatus.OK);
     }
 
+
     @DeleteMapping("/elimina-visita")
     public ResponseEntity<Object> eliminaVisita(@RequestParam int id) {
         Visita visita = espService.getVisita(id);
@@ -82,24 +90,34 @@ public class EsperienzaController {
         return new ResponseEntity<>("Visita eliminata con successo", HttpStatus.OK);
     }
 
-    //creaEvento
     @PostMapping("/crea-evento")
     public ResponseEntity<Object> creaEvento(@RequestBody EventoDTO eventoDTO) {
-        Evento evento = new Evento(accService.getUtenteByEmail(eventoDTO.getOrganizzatore()),eventoDTO.getDataEsperienza(),eventoDTO.getNumMaxPartecipanti(),eventoDTO.getPosizione());
+        Evento evento = new Evento(
+                eventoDTO.getTitolo(),
+                eventoDTO.getDescrizione(),
+                accService.getUtenteByEmail(eventoDTO.getOrganizzatore()),
+                eventoDTO.getDataEsperienza(),
+                eventoDTO.getNumMaxPartecipanti(),
+                eventoDTO.getPosizione()
+        );
         espService.addEvento(evento);
         return new ResponseEntity<>("Evento creato con successo", HttpStatus.OK);
     }
 
+
     @PutMapping("/modifica-evento")
     public ResponseEntity<Object> modificaEvento(@RequestBody EventoDTO eventoDTO, @RequestParam int id) {
         Evento evento = espService.getEvento(id);
+        evento.setTitolo(eventoDTO.getTitolo());
+        evento.setDescrizione(eventoDTO.getDescrizione());
         evento.setOrganizzatore(accService.getUtenteByEmail(eventoDTO.getOrganizzatore()));
         evento.setDataEsperienza(eventoDTO.getDataEsperienza());
         evento.setNumMaxPartecipanti(eventoDTO.getNumMaxPartecipanti());
         evento.setPosizione(eventoDTO.getPosizione());
-        espService.addEsperienza(evento);
+        espService.addEvento(evento);
         return new ResponseEntity<>("Evento modificato con successo", HttpStatus.OK);
     }
+
 
     @DeleteMapping("/elimina-evento")
     public ResponseEntity<Object> eliminaEvento(@RequestParam int id) {
@@ -108,11 +126,17 @@ public class EsperienzaController {
         return new ResponseEntity<>("Evento eliminato con successo", HttpStatus.OK);
     }
 
-    public void aggiungiPartecipante(String email) {
-        //TODO aggiungi qualcosa di unico nelle esperienze
+    //aggiungiPartecipante
+    @PutMapping("/aggiungi-partecipante")
+    public ResponseEntity<Object> aggiungiPartecipante(@RequestParam int esperienzaId, @RequestParam String emailUtente) {
+        espService.addPartecipante(esperienzaId,emailUtente);
+        return new ResponseEntity<>("Partecipante aggiunto con successo", HttpStatus.OK);
     }
 
-    public void rimuoviPartecipante(String email) {
-        //TODO aggiungi qualcosa di unico nelle esperienze
+    //rimuoviPartecipante
+    @PutMapping("/rimuovi-partecipante")
+    public ResponseEntity<Object> rimuoviPartecipante(@RequestParam int esperienzaId, @RequestParam String emailUtente) {
+        espService.removePartecipante(esperienzaId,emailUtente);
+        return new ResponseEntity<>("Partecipante rimosso con successo", HttpStatus.OK);
     }
 }
