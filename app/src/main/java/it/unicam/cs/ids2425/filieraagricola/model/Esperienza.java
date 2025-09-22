@@ -40,6 +40,10 @@ public abstract class Esperienza {
         this.posizione = posizione;
     }
 
+    public Esperienza(){
+
+    }
+
     public Utente getOrganizzatore() {
         return organizzatore;
     }
@@ -77,4 +81,7 @@ public abstract class Esperienza {
     }
 
 
+    public void setOrganizzatore(Utente utente) {
+        organizzatore = utente;
+    }
 }

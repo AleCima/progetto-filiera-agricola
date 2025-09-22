@@ -56,5 +56,32 @@ public class Proposta {
     public void setAccettata(boolean accettata) {
         this.accettata = accettata;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public Proposta() {
+    }
+
+    public void setTitolo(String titolo) {
+        this.titolo = titolo;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+
+    public void setOrganizzatore(Utente organizzatore) {
+        this.organizzatore = organizzatore;
+    }
+
+    public void setDestinatario(Venditore destinatario) {
+        this.destinatario = destinatario;
+    }
+
+    public boolean isAccettata() {
+        return accettata;
+    }
 }
 
