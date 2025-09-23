@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AccountService {
     private UtenteRepository utenteRepository;
     private VenditoreRepository venditoreRepository;
-    private ConcurrentHashMap<String, String> loginTokenStore = new ConcurrentHashMap<>();
 
     @Autowired
     public AccountService(UtenteRepository utenteRepository, VenditoreRepository venditoreRepository) {
@@ -86,11 +85,4 @@ public class AccountService {
         //TODO
     }
 
-    public void storeToken(String token, String email) {
-        loginTokenStore.put(token, email);
-    }
-
-    public String getEmailByToken(String token) {
-        return loginTokenStore.get(token);
-    }
 }

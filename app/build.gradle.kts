@@ -21,13 +21,20 @@ java {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    // Use JUnit test framework.
-    testImplementation(libs.junit)
-    // This dependency is used by the application.
-    implementation(libs.guava)
+
+    // Spring Security
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
+    // JPA e DB
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    runtimeOnly("com.h2database:h2") // DB in memoria, comodo per test
+    runtimeOnly("com.h2database:h2")
+
+    // Librerie di test
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation(libs.junit)
+
+    // Altre dipendenze
+    implementation(libs.guava)
 }
 
 tasks.test {

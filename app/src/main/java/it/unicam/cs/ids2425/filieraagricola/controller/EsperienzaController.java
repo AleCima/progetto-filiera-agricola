@@ -8,11 +8,10 @@ import it.unicam.cs.ids2425.filieraagricola.service.AccountService;
 import it.unicam.cs.ids2425.filieraagricola.service.EsperienzaService;
 import it.unicam.cs.ids2425.filieraagricola.service.PropostaService;
 import it.unicam.cs.ids2425.filieraagricola.service.handler.Handler;
-import it.unicam.cs.ids2425.filieraagricola.service.handler.LoginHandler;
-import it.unicam.cs.ids2425.filieraagricola.service.handler.RuoloHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -95,22 +94,13 @@ public class EsperienzaController {
     }
 
     @PostMapping("/crea-evento")
-    public ResponseEntity<Object> creaEvento(
-            @RequestHeader("Authorization") String token,
-            @RequestBody EventoDTO eventoDTO,
-            HttpServletRequest request) {
+    public ResponseEntity<Object> creaEvento(@RequestBody EventoDTO eventoDTO,
+                                             Authentication authentication) {
+        String email = authentication.getName(); // email dell’utente loggato
+        // L’utente loggato deve avere il ruolo Animatore, Spring Security lo garantisce
 
-        // Creo la catena di handler: prima controllo il login, poi il ruolo
-        Handler chain = new LoginHandler(accService)  // verifica che il token sia valido
-                .setNext(new RuoloHandler(accService, Ruolo.ANIMATORE)); // verifica che l'utente abbia il ruolo ANIMATORE
+        Utente organizzatore = accService.getUtenteByEmail(email);
 
-        // Eseguo la catena di controllo
-        if (!chain.check(request)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Accesso negato o ruolo non sufficiente");
-        }
-
-        // Logica esistente per creare l'evento
         Evento evento = new Evento(
                 eventoDTO.getTitolo(),
                 eventoDTO.getDescrizione(),

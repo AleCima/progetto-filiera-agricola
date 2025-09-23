@@ -1,6 +1,5 @@
 package it.unicam.cs.ids2425.filieraagricola.controller;
 
-import it.unicam.cs.ids2425.filieraagricola.controller.DTO.AutenticazioneAccountDTO;
 import it.unicam.cs.ids2425.filieraagricola.controller.DTO.UtenteDTO;
 import it.unicam.cs.ids2425.filieraagricola.controller.DTO.VenditoreDTO;
 import it.unicam.cs.ids2425.filieraagricola.model.*;
@@ -9,9 +8,8 @@ import it.unicam.cs.ids2425.filieraagricola.service.ContenutoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.UUID;
+
 
 
 @RestController
@@ -30,23 +28,6 @@ public class AccountController {
         Utente u = new Utente(uDTO.getEmail(), uDTO.getPassword(), uDTO.getNome(), uDTO.getCognome());
         accService.aggiungiUtente(u);
         return new ResponseEntity<>("Utente creato con successo", HttpStatus.CREATED);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody AutenticazioneAccountDTO loginDTO) {
-        Utente utente = accService.getUtenteByEmail(loginDTO.getEmail());
-
-        if (utente == null || !utente.getPassword().equals(loginDTO.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email o password errata");
-        }
-
-        // Genera un token
-        String token = UUID.randomUUID().toString();
-
-        // Salva il token generato nel servizio AccountService associandolo all'email dell'utente
-        accService.storeToken(token, utente.getEmail());
-
-        return ResponseEntity.ok(token);
     }
 
     @PutMapping("/modifica-utente")
