@@ -2,6 +2,7 @@ package it.unicam.cs.ids2425.filieraagricola.service.handler;
 
 import it.unicam.cs.ids2425.filieraagricola.exception.CampoNonValidoException;
 import it.unicam.cs.ids2425.filieraagricola.model.Pacchetto;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class PacchettoContenutiHandler extends Handler {
 
@@ -13,7 +14,7 @@ public class PacchettoContenutiHandler extends Handler {
     }
 
     @Override
-    public boolean check(Object request) {
+    public boolean check(HttpServletRequest request) {
         if (!(request instanceof Pacchetto pacchetto)) {
             // Se non è un pacchetto, passa al prossimo handler
             return checkNext(request);

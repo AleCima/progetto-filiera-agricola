@@ -3,11 +3,12 @@ package it.unicam.cs.ids2425.filieraagricola.service.handler;
 import it.unicam.cs.ids2425.filieraagricola.exception.CampoNonValidoException;
 import it.unicam.cs.ids2425.filieraagricola.model.Indirizzo;
 import it.unicam.cs.ids2425.filieraagricola.model.Ordine;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class IndirizzoFormatHandler extends Handler {
 
     @Override
-    public boolean check(Object request) {
+    public boolean check(HttpServletRequest request) {
         if (!(request instanceof Ordine ordine)) {
             // Se non è un Ordine, passa al prossimo handler
             return checkNext(request);

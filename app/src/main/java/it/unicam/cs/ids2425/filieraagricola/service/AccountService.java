@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class AccountService {
     private UtenteRepository utenteRepository;
     private VenditoreRepository venditoreRepository;
+    private ConcurrentHashMap<String, String> loginTokenStore = new ConcurrentHashMap<>();
 
     @Autowired
     public AccountService(UtenteRepository utenteRepository, VenditoreRepository venditoreRepository) {
@@ -50,11 +52,19 @@ public class AccountService {
     }
 
     public void assegnaRuolo(String email, Ruolo r) {
-        //TODO
+        Utente utente = getUtenteByEmail(email);
+        if (utente != null) {
+            utente.addRuolo(r);
+            utenteRepository.save(utente);
+        }
     }
 
-    public void assegnaRuoli(String email, List<Ruolo> r) {
-        //TODO
+    public void assegnaRuoli(String email, List<Ruolo> ruoli) {
+        Utente utente = getUtenteByEmail(email);
+        if (utente != null) {
+            utente.setRuoli(ruoli);
+            utenteRepository.save(utente);
+        }
     }
 
     public Utente getUtenteByEmail(String email) {
@@ -74,5 +84,13 @@ public class AccountService {
     public List<Venditore> getVenditori() {
         return null;
         //TODO
+    }
+
+    public void storeToken(String token, String email) {
+        loginTokenStore.put(token, email);
+    }
+
+    public String getEmailByToken(String token) {
+        return loginTokenStore.get(token);
     }
 }

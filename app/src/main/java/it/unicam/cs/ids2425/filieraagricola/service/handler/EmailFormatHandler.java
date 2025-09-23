@@ -3,6 +3,7 @@ package it.unicam.cs.ids2425.filieraagricola.service.handler;
 import it.unicam.cs.ids2425.filieraagricola.exception.CampoNonValidoException;
 import it.unicam.cs.ids2425.filieraagricola.model.Utente;
 import it.unicam.cs.ids2425.filieraagricola.model.Venditore;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.regex.Pattern;
 
@@ -13,7 +14,7 @@ public class EmailFormatHandler extends Handler {
             Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
 
     @Override
-    public boolean check(Object request) {
+    public boolean check(HttpServletRequest request) {
         String email;
         // Estrae l'email da Utente o Venditore
         if (request instanceof Utente u) {

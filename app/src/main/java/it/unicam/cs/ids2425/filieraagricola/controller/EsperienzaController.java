@@ -7,6 +7,10 @@ import it.unicam.cs.ids2425.filieraagricola.model.*;
 import it.unicam.cs.ids2425.filieraagricola.service.AccountService;
 import it.unicam.cs.ids2425.filieraagricola.service.EsperienzaService;
 import it.unicam.cs.ids2425.filieraagricola.service.PropostaService;
+import it.unicam.cs.ids2425.filieraagricola.service.handler.Handler;
+import it.unicam.cs.ids2425.filieraagricola.service.handler.LoginHandler;
+import it.unicam.cs.ids2425.filieraagricola.service.handler.RuoloHandler;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -91,7 +95,22 @@ public class EsperienzaController {
     }
 
     @PostMapping("/crea-evento")
-    public ResponseEntity<Object> creaEvento(@RequestBody EventoDTO eventoDTO) {
+    public ResponseEntity<Object> creaEvento(
+            @RequestHeader("Authorization") String token,
+            @RequestBody EventoDTO eventoDTO,
+            HttpServletRequest request) {
+
+        // Creo la catena di handler: prima controllo il login, poi il ruolo
+        Handler chain = new LoginHandler(accService)  // verifica che il token sia valido
+                .setNext(new RuoloHandler(accService, Ruolo.ANIMATORE)); // verifica che l'utente abbia il ruolo ANIMATORE
+
+        // Eseguo la catena di controllo
+        if (!chain.check(request)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Accesso negato o ruolo non sufficiente");
+        }
+
+        // Logica esistente per creare l'evento
         Evento evento = new Evento(
                 eventoDTO.getTitolo(),
                 eventoDTO.getDescrizione(),
@@ -101,8 +120,10 @@ public class EsperienzaController {
                 eventoDTO.getPosizione()
         );
         espService.addEvento(evento);
+
         return new ResponseEntity<>("Evento creato con successo", HttpStatus.OK);
     }
+
 
 
     @PutMapping("/modifica-evento")
