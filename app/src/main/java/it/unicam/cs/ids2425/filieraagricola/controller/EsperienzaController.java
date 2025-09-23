@@ -94,13 +94,7 @@ public class EsperienzaController {
     }
 
     @PostMapping("/crea-evento")
-    public ResponseEntity<Object> creaEvento(@RequestBody EventoDTO eventoDTO,
-                                             Authentication authentication) {
-        String email = authentication.getName(); // email dell’utente loggato
-        // L’utente loggato deve avere il ruolo Animatore, Spring Security lo garantisce
-
-        Utente organizzatore = accService.getUtenteByEmail(email);
-
+    public ResponseEntity<Object> creaEvento(@RequestBody EventoDTO eventoDTO) {
         Evento evento = new Evento(
                 eventoDTO.getTitolo(),
                 eventoDTO.getDescrizione(),
@@ -113,8 +107,6 @@ public class EsperienzaController {
 
         return new ResponseEntity<>("Evento creato con successo", HttpStatus.OK);
     }
-
-
 
     @PutMapping("/modifica-evento")
     public ResponseEntity<Object> modificaEvento(@RequestBody EventoDTO eventoDTO, @RequestParam int id) {
