@@ -16,6 +16,9 @@ public class Trasformazione extends Contenuto {
         super(Conferma.ATTESA, dataCaricamento, descrizione, prezzo, trasformatore,quantita);
     }
 
+    public Trasformazione(){
+        super();
+    }
     public Trasformazione(TrasformazioneBuilder builder){
         super(Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore(), builder.getQuantita());
     }

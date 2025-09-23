@@ -2,10 +2,7 @@ package it.unicam.cs.ids2425.filieraagricola.model;
 
 import it.unicam.cs.ids2425.filieraagricola.model.builder.PacchettoBuilder;
 import it.unicam.cs.ids2425.filieraagricola.model.builder.ProdottoBuilder;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,19 +13,28 @@ public class Pacchetto extends Contenuto {
 
     String nome;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "contenuto_id")
+    @ManyToMany
+    @JoinTable(
+            name = "pacchetto_contenuto",
+            joinColumns = @JoinColumn(name = "pacchetto_id"),
+            inverseJoinColumns = @JoinColumn(name = "contenuto_id")
+    )
     private List<Contenuto> listaProdotti;
 
-    public Pacchetto(Date dataCaricamento, String descrizione, String nome, double prezzo, Venditore distributore, int quantita) {
+    public Pacchetto() {
+        super();
+    }
+
+    public Pacchetto(Date dataCaricamento, String descrizione, String nome, double prezzo, Venditore distributore, int quantita, List<Contenuto> listaProdotti) {
         super(Conferma.ATTESA, dataCaricamento, descrizione, prezzo, distributore, quantita);
         this.nome = nome;
-        this.listaProdotti = new ArrayList<>();
+        this.listaProdotti = listaProdotti;
     }
 
     public Pacchetto(PacchettoBuilder builder) {
         super(Conferma.ATTESA, builder.getDataCaricamento(), builder.getDescrizione(), builder.getPrezzo(), builder.getVenditore(), builder.getQuantita());
         this.nome = builder.getNome();
+        this.listaProdotti = builder.getListaContenuti();
     }
 
 

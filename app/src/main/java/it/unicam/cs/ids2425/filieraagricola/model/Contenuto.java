@@ -3,6 +3,7 @@ package it.unicam.cs.ids2425.filieraagricola.model;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -22,6 +23,7 @@ public abstract class Contenuto {
     @ManyToOne
     @JoinColumn(name = "venditore_email")
     private Venditore venditore;
+
 
     public Contenuto(){}
     public Contenuto(Conferma statoConferma, Date dataCaricamento, String descrizione, double prezzo, Venditore venditore, int quantita) {
@@ -82,5 +84,9 @@ public abstract class Contenuto {
     }
 
     public Venditore getVenditore(){return venditore; }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
 
