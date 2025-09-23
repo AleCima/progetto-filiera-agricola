@@ -1,10 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
 import it.unicam.cs.ids2425.filieraagricola.model.builder.ProdottoBuilder;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,8 +13,14 @@ public class Prodotto extends Contenuto {
     private String metodoDiColtivazione;
     private List<String> certificazioni;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "trasformazione_id")
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "trasformazione_id")
+    @ManyToMany
+    @JoinTable(
+            name = "trasformazione_prodotto",
+            joinColumns = @JoinColumn(name = "prodotto_id"),
+            inverseJoinColumns = @JoinColumn(name = "trasformazione_id")
+    )
     private List<Trasformazione> listaTrasformazioni;
     private Date dataProduzione;
 

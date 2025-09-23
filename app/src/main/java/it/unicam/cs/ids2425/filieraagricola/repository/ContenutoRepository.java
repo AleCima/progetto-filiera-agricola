@@ -10,4 +10,7 @@ import java.util.List;
 public interface ContenutoRepository extends JpaRepository<Contenuto, Integer> {
     @Query("SELECT c FROM Contenuto c WHERE c.statoConferma = 'ATTESA'")
     List<Contenuto> findContenutiInAttesa();
+
+    @Query("SELECT c FROM Contenuto c WHERE c.venditore.id = :venditoreId")
+    List<Contenuto> findAllByVenditore(@Param("venditoreId") String emailVenditore);
 }

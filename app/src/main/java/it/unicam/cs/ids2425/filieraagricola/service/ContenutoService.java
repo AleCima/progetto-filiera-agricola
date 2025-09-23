@@ -1,7 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricola.service;
 
-import it.unicam.cs.ids2425.filieraagricola.model.Contenuto;
-import it.unicam.cs.ids2425.filieraagricola.model.Venditore;
+import it.unicam.cs.ids2425.filieraagricola.model.*;
 import it.unicam.cs.ids2425.filieraagricola.repository.ContenutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,36 +19,47 @@ public class ContenutoService {
     }
 
     public List<Contenuto> getContenuti() {
-        //TODO
-        return null;
+        return contenutoRepository.findAll();
     }
 
     public Contenuto getContenutoById(int id) {
+
         return contenutoRepository.findById(id).orElse(null);
     }
 
-    public List<Contenuto> getContenutoByVenditore(Venditore venditore) {
-        //TODO
-        return null;
+    public List<Contenuto> getContenutoByVenditore(String emailVenditore) {
+        return contenutoRepository.findAllByVenditore(emailVenditore);
     }
 
     public void addContenuto(Contenuto contenuto) {
         contenutoRepository.save(contenuto);
     }
 
-    public void updateContenuto(int id) {
-        //TODO
+    public void updateContenuto(Contenuto contenuto) {
+        contenutoRepository.save(contenuto);
     }
 
-    public void removeContenuto(int id) {
-        //TODO
+    public void removeContenuto(Contenuto contenuto) {
+        contenutoRepository.delete(contenuto);
     }
 
-    public void addTrasformazioneTo(int idProdotto, int idTrasformazione) {
-        //TODO
+    public void addTrasformazioneTo(Prodotto prodotto, Trasformazione trasformazione) {
+        prodotto.addTrasformazione(trasformazione);
+        contenutoRepository.save(prodotto);
     }
 
-    public void removeTrasformazioneFrom(int idProdotto, int idTrasformazione) {
-        //TODO
+    public void removeTrasformazioneFrom(Prodotto prodotto, Trasformazione trasformazione) {
+        prodotto.removeTrasformazione(trasformazione);
+        contenutoRepository.save(prodotto);
+    }
+
+    public void addContenutoToPacchetto(Contenuto contenuto, Pacchetto pacchetto) {
+        pacchetto.addProdotto(contenuto);
+        contenutoRepository.save(pacchetto);
+    }
+
+    public void removeProdottoFromPacchetto(Prodotto prodotto, Pacchetto pacchetto) {
+        pacchetto.removeProdotto(prodotto);
+        contenutoRepository.save(pacchetto);
     }
 }
