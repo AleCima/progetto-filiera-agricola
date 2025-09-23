@@ -21,16 +21,18 @@ public class InitSistema {
 
     @PostConstruct
     public void init() {
-        // Creo il gestore
-        gestore = new Utente("mario.bianchi@gestore.it","123123","Mario","Bianchi");
-        gestore.addRuolo(Ruolo.GESTORE);
+        // Creo il gestore e assegno ruoli
+        gestore = new Utente("mario.bianchi@gestore.it", "123123", "Mario", "Bianchi");
+        gestore.addRuolo(Ruolo.GESTORE);         // assegno ruolo GESTORE
+        gestore.removeRuolo(Ruolo.ACQUIRENTE);
         accountService.aggiungiUtente(gestore);
+        System.out.println(">>> DEBUG Init: Gestore creato con ruoli: " + gestore.getRuoli());
 
-        // Creo il venditore
-        List<Ruolo> ruoli = new ArrayList<>();
-        ruoli.add(Ruolo.TRASFORMATORE);
-        ruoli.add(Ruolo.PRODUTTORE);
-        ruoli.add(Ruolo.DISTRIBUTORE);
+        // Creo il venditore e assegno ruoli
+        List<Ruolo> ruoliVenditore = new ArrayList<>();
+        ruoliVenditore.add(Ruolo.TRASFORMATORE);
+        ruoliVenditore.add(Ruolo.PRODUTTORE);
+        ruoliVenditore.add(Ruolo.DISTRIBUTORE);
 
         venditore = new Venditore(
                 "mario.verdi@venditore.it",
@@ -38,10 +40,13 @@ public class InitSistema {
                 "PIvaProva",
                 "RagFiscProva",
                 "Descrizione",
-                new PuntoMappa(1.0,2.0),
-                ruoli
+                new PuntoMappa(1.0, 2.0),
+                ruoliVenditore
         );
         accountService.aggiungiVenditore(venditore);
+        System.out.println(">>> DEBUG Init: Venditore creato con ruoli: " + venditore.getRuoli());
+
+        System.out.println("Sistema inizializzato con successo!");
     }
 
     public Utente getGestore() {
