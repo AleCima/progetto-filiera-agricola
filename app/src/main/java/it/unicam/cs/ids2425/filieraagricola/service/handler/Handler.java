@@ -1,5 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricola.service.handler;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 public abstract class Handler {
 
     private Handler next; // prossimo handler della catena
@@ -16,12 +18,12 @@ public abstract class Handler {
      * Metodo che ogni handler concreto deve implementare
      * per eseguire il proprio controllo.
      */
-    public abstract boolean check(Object request);
+    public abstract boolean check(HttpServletRequest request);
 
     /**
      * Chiama il prossimo handler nella catena (se esiste).
      */
-    protected boolean checkNext(Object request) {
+    protected boolean checkNext(HttpServletRequest request) {
         if (next == null) {
             return true; // fine catena, nessun problema
         }

@@ -5,17 +5,18 @@ import it.unicam.cs.ids2425.filieraagricola.controller.DTO.VenditoreDTO;
 import it.unicam.cs.ids2425.filieraagricola.model.*;
 import it.unicam.cs.ids2425.filieraagricola.service.AccountService;
 import it.unicam.cs.ids2425.filieraagricola.service.ContenutoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+
 
 @RestController
 @RequestMapping("/account")
 public class AccountController {
     AccountService accService;
     ContenutoService conService;
-
 
     public AccountController(AccountService accService, ContenutoService conService) {
         this.accService = accService;
@@ -28,6 +29,7 @@ public class AccountController {
         accService.aggiungiUtente(u);
         return new ResponseEntity<>("Utente creato con successo", HttpStatus.CREATED);
     }
+
     @PutMapping("/modifica-utente")
     public ResponseEntity<Object> modificaUtente(@RequestParam String precEmail, @RequestBody UtenteDTO uDTO) {
         //TODO controllo autenticazione
@@ -61,6 +63,30 @@ public class AccountController {
     @GetMapping("/ricerca-utente")
     public ResponseEntity<Object> getUtente(@RequestParam String email) {
         return  new ResponseEntity<>(accService.getUtenteByEmail(email), HttpStatus.OK);
+    }
+
+    // Assegna un singolo ruolo a un utente
+    @PostMapping("/assegna-ruolo")
+    public ResponseEntity<String> assegnaRuolo(@RequestParam String email, @RequestParam Ruolo ruolo) {
+        Utente utente = accService.getUtenteByEmail(email);
+        if (utente == null) {
+            return new ResponseEntity<>("Utente non trovato", HttpStatus.NOT_FOUND);
+        }
+
+        accService.assegnaRuolo(email, ruolo);
+        return new ResponseEntity<>("Ruolo assegnato con successo", HttpStatus.OK);
+    }
+
+    // Assegna più ruoli a un utente (sovrascrivendo eventuali ruoli esistenti)
+    @PostMapping("/assegna-ruoli")
+    public ResponseEntity<String> assegnaRuoli(@RequestParam String email, @RequestBody List<Ruolo> ruoli) {
+        Utente utente = accService.getUtenteByEmail(email);
+        if (utente == null) {
+            return new ResponseEntity<>("Utente non trovato", HttpStatus.NOT_FOUND);
+        }
+
+        accService.assegnaRuoli(email, ruoli);
+        return new ResponseEntity<>("Ruoli assegnati con successo", HttpStatus.OK);
     }
 
     public Venditore getVenditore(String email) {

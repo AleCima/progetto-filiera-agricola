@@ -2,13 +2,14 @@ package it.unicam.cs.ids2425.filieraagricola.service.handler;
 
 import it.unicam.cs.ids2425.filieraagricola.exception.CampoNonValidoException;
 import it.unicam.cs.ids2425.filieraagricola.model.Pagamento;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Date;
 
 public class PagamentoValidHandler extends Handler {
 
     @Override
-    public boolean check(Object request) {
+    public boolean check(HttpServletRequest request) {
         if (!(request instanceof Pagamento pagamento)) {
             // Se non è un Pagamento, passa al prossimo handler
             return checkNext(request);

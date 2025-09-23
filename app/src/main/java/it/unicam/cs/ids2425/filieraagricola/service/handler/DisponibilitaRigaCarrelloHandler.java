@@ -4,6 +4,7 @@ import it.unicam.cs.ids2425.filieraagricola.exception.CampoNonValidoException;
 import it.unicam.cs.ids2425.filieraagricola.model.RigaCarrello;
 import it.unicam.cs.ids2425.filieraagricola.model.Contenuto;
 import it.unicam.cs.ids2425.filieraagricola.repository.ContenutoRepository;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class DisponibilitaRigaCarrelloHandler extends Handler {
 
@@ -14,7 +15,7 @@ public class DisponibilitaRigaCarrelloHandler extends Handler {
     }
 
     @Override
-    public boolean check(Object request) {
+    public boolean check(HttpServletRequest request) {
         if (!(request instanceof RigaCarrello riga)) {
             // Non è una riga carrello, passa al prossimo handler
             return checkNext(request);

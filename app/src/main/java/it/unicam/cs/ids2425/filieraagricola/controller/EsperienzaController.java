@@ -7,8 +7,11 @@ import it.unicam.cs.ids2425.filieraagricola.model.*;
 import it.unicam.cs.ids2425.filieraagricola.service.AccountService;
 import it.unicam.cs.ids2425.filieraagricola.service.EsperienzaService;
 import it.unicam.cs.ids2425.filieraagricola.service.PropostaService;
+import it.unicam.cs.ids2425.filieraagricola.service.handler.Handler;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -91,7 +94,13 @@ public class EsperienzaController {
     }
 
     @PostMapping("/crea-evento")
-    public ResponseEntity<Object> creaEvento(@RequestBody EventoDTO eventoDTO) {
+    public ResponseEntity<Object> creaEvento(@RequestBody EventoDTO eventoDTO,
+                                             Authentication authentication) {
+        String email = authentication.getName(); // email dell’utente loggato
+        // L’utente loggato deve avere il ruolo Animatore, Spring Security lo garantisce
+
+        Utente organizzatore = accService.getUtenteByEmail(email);
+
         Evento evento = new Evento(
                 eventoDTO.getTitolo(),
                 eventoDTO.getDescrizione(),
@@ -101,8 +110,10 @@ public class EsperienzaController {
                 eventoDTO.getPosizione()
         );
         espService.addEvento(evento);
+
         return new ResponseEntity<>("Evento creato con successo", HttpStatus.OK);
     }
+
 
 
     @PutMapping("/modifica-evento")

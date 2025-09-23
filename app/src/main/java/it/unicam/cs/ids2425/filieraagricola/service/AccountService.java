@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class AccountService {
@@ -50,11 +51,19 @@ public class AccountService {
     }
 
     public void assegnaRuolo(String email, Ruolo r) {
-        //TODO
+        Utente utente = getUtenteByEmail(email);
+        if (utente != null) {
+            utente.addRuolo(r);
+            utenteRepository.save(utente);
+        }
     }
 
-    public void assegnaRuoli(String email, List<Ruolo> r) {
-        //TODO
+    public void assegnaRuoli(String email, List<Ruolo> ruoli) {
+        Utente utente = getUtenteByEmail(email);
+        if (utente != null) {
+            utente.setRuoli(ruoli);
+            utenteRepository.save(utente);
+        }
     }
 
     public Utente getUtenteByEmail(String email) {
@@ -75,4 +84,5 @@ public class AccountService {
         return null;
         //TODO
     }
+
 }

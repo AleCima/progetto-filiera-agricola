@@ -2,13 +2,14 @@ package it.unicam.cs.ids2425.filieraagricola.service.handler;
 
 import it.unicam.cs.ids2425.filieraagricola.exception.CampoNonValidoException;
 import it.unicam.cs.ids2425.filieraagricola.model.*;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 
 public class NonNullOrEmptyHandler extends Handler {
 
     @Override
-    public boolean check(Object request) {
+    public boolean check(HttpServletRequest request) {
         if (request == null) {
             throw new CampoNonValidoException("Oggetto nullo non consentito");
         }
