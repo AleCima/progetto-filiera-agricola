@@ -18,12 +18,12 @@ public abstract class Handler {
      * Metodo che ogni handler concreto deve implementare
      * per eseguire il proprio controllo.
      */
-    public abstract boolean check(HttpServletRequest request);
+    public abstract boolean check(Object request);
 
     /**
      * Chiama il prossimo handler nella catena (se esiste).
      */
-    protected boolean checkNext(HttpServletRequest request) {
+    protected boolean checkNext(Object request) {
         if (next == null) {
             return true; // fine catena, nessun problema
         }

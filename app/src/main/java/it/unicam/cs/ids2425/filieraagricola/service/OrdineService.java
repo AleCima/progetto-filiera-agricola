@@ -1,32 +1,36 @@
 package it.unicam.cs.ids2425.filieraagricola.service;
 
 import it.unicam.cs.ids2425.filieraagricola.model.Ordine;
+import it.unicam.cs.ids2425.filieraagricola.model.RigaCarrello;
 import it.unicam.cs.ids2425.filieraagricola.model.Utente;
 import it.unicam.cs.ids2425.filieraagricola.model.Venditore;
+import it.unicam.cs.ids2425.filieraagricola.repository.ContenutoRepository;
 import it.unicam.cs.ids2425.filieraagricola.repository.OrdineRepository;
+import it.unicam.cs.ids2425.filieraagricola.repository.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OrdineService {
 
     //Necessaria repository "Ordine"
     private final OrdineRepository ordineRepository;
+    private final ContenutoRepository contenutoRepository;
+    private final CarrelloService carrelloService;
 
     @Autowired
-    public OrdineService(OrdineRepository ordineRepository) {
+    public OrdineService(OrdineRepository ordineRepository, ContenutoRepository contenutoRepository, CarrelloService carrelloService) {
         this.ordineRepository = ordineRepository;
+        this.contenutoRepository = contenutoRepository;
+        this.carrelloService = carrelloService;
     }
 
     public void addOrdine(Ordine ordine) {
-        if (ordine != null) {
-            ordineRepository.save(ordine); // Salva l'ordine nel database
-        } else {
-            throw new IllegalArgumentException("Ordine non valido");
-        }
+
+        ordineRepository.save(ordine); // Salva l'ordine nel database
+        carrelloService.svuota(ordine.getUtente().getEmail());
     }
 
     public void updateOrdine(Ordine ordine) {
@@ -67,8 +71,25 @@ public class OrdineService {
         return ordineRepository.findByUtente(utente);
     }
 
-    public List<Ordine> getOrdineByVenditore(Venditore venditore) {
-        return null;
+    public Set<Ordine> getOrdineByVenditore(Venditore venditore) {
+        List<Ordine> ordini = ordineRepository.findAll();
+        Set<Ordine> ordiniVenditore = new HashSet<>();
+        for (Ordine o : ordini){
+            for (RigaCarrello rigaCarrello : o.getCarrello().getContenuti()){
+                if (Objects.equals(rigaCarrello.getContenuto().getVenditore().getEmail(), venditore.getEmail())){
+                    ordiniVenditore.add(o);
+                }
+            }
+        }
+        return ordiniVenditore;
     }
 
+    public void evadi(Ordine ordine) {
+        List<RigaCarrello> carrello = ordine.getCarrello().getContenuti();
+        for (RigaCarrello rigaCarrello : carrello){
+            rigaCarrello.getContenuto().setQuantita(rigaCarrello.getContenuto().getQuantita() - rigaCarrello.getQuantita());
+            contenutoRepository.save(rigaCarrello.getContenuto());
+        }
+        ordine.setEvaso(true);
+    }
 }

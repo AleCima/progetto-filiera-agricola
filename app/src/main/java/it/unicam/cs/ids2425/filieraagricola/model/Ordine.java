@@ -31,7 +31,7 @@ public class Ordine {
     @JoinColumn(name = "indirizzo_id", referencedColumnName = "id")
     private Indirizzo indirizzoDiFatturazione;
 
-    public Ordine( Date dataOrdine, Carrello carrello, Pagamento cartaDiCredito, Indirizzo indirizzoDiFatturazione) {
+    public Ordine( Date dataOrdine, Carrello carrello, Pagamento cartaDiCredito, Indirizzo indirizzoDiFatturazione, Utente utente) {
 
         this.dataOrdine = dataOrdine;
         this.carrello = carrello;
@@ -39,6 +39,7 @@ public class Ordine {
         this.evaso = false;
         this.cartaDiCredito = cartaDiCredito;
         this.indirizzoDiFatturazione = indirizzoDiFatturazione;
+        this.utente = utente;
     }
 
     public Ordine() {
@@ -92,5 +93,9 @@ public class Ordine {
 
     public void setCarrello(Carrello carrello) {
         this.carrello = carrello;
+    }
+
+    public Utente getUtente() {
+        return utente;
     }
 }

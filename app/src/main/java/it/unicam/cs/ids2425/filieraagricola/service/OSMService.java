@@ -24,16 +24,13 @@ public class OSMService {
     private VisitaRepository visitaRepository;
     private EventoRepository eventoRepository;
 
-
+    @Autowired
     public OSMService(VenditoreRepository venditoreRepository, EsperienzaRepository esperienzaRepository, VisitaRepository visitaRepository, EventoRepository eventoRepository) {
         this.venditoreRepository = venditoreRepository;
         this.esperienzaRepository = esperienzaRepository;
         this.visitaRepository = visitaRepository;
         this.eventoRepository = eventoRepository;
     }
-
-    @Autowired
-
 
     public List<VenditorePosizioneDTO> visualizzaPosizioneVenditori() {
         return venditoreRepository.findAllPosizioni(); // restituisce tutti i venditori con la loro posizione
@@ -51,9 +48,11 @@ public class OSMService {
         return esperienzaRepository.findById(id).orElse(null).getPosizione();
     }
 
-    public List<Esperienza> visualizzaPosizione(Esperienza e) {
-        //TODO
-        return null;
+    public PuntoMappa visualizzaPosizioneE(int id) {
+        return esperienzaRepository.findById(id).orElse(null).getPosizione();
+    }
+    public PuntoMappa visualizzaPosizioneV(String email) {
+        return venditoreRepository.findById(email).orElse(null).getPosizione();
     }
 
 }

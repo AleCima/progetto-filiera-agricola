@@ -14,7 +14,7 @@ public class EmailFormatHandler extends Handler {
             Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
 
     @Override
-    public boolean check(HttpServletRequest request) {
+    public boolean check(Object request) {
         String email;
         // Estrae l'email da Utente o Venditore
         if (request instanceof Utente u) {

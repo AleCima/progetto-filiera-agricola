@@ -6,15 +6,15 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class PacchettoContenutiHandler extends Handler {
 
-    private final int minContenuti;
+    private final int minContenuti = 2;
 
     // Consente impostare il numero minimo di contenuti
-    public PacchettoContenutiHandler(int minContenuti) {
-        this.minContenuti = minContenuti;
+    public PacchettoContenutiHandler() {
+
     }
 
     @Override
-    public boolean check(HttpServletRequest request) {
+    public boolean check(Object request) {
         if (!(request instanceof Pacchetto pacchetto)) {
             // Se non è un pacchetto, passa al prossimo handler
             return checkNext(request);

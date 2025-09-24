@@ -14,6 +14,7 @@ import java.util.List;
 public class AutorizzazioneController {
     private AutorizzazioneService autorizzazioneService;
     private ContenutoService contenutoService;
+
     public AutorizzazioneController(AutorizzazioneService autorizzazioneService, ContenutoService contenutoService) {
         this.autorizzazioneService = autorizzazioneService;
         this.contenutoService = contenutoService;
@@ -22,15 +23,11 @@ public class AutorizzazioneController {
     @GetMapping("/contenuti-in-attesa")
     public ResponseEntity<Object> getContenutiInAttesa() {
 
-            List<Contenuto> contenutiInAttesa = autorizzazioneService.getContenutiInAttesa();
-            if (contenutiInAttesa.isEmpty()) {
-                return new ResponseEntity<>("Nessun contenuto in attesa", HttpStatus.NO_CONTENT); // Se non ci sono contenuti
-            }
-            return new ResponseEntity<>(contenutiInAttesa, HttpStatus.OK); // Restituisce i contenuti in attesa
-
-            // Gestione dell'errore
-           // return new ResponseEntity<>("Errore durante il recupero dei contenuti in attesa", HttpStatus.INTERNAL_SERVER_ERROR); // In caso di errore
-
+        List<Contenuto> contenutiInAttesa = autorizzazioneService.getContenutiInAttesa();
+        if (contenutiInAttesa.isEmpty()) {
+            return new ResponseEntity<>("Nessun contenuto in attesa", HttpStatus.NO_CONTENT); // Se non ci sono contenuti
+        }
+        return new ResponseEntity<>(contenutiInAttesa, HttpStatus.OK); // Restituisce i contenuti in attesa
     }
 
 
@@ -42,9 +39,7 @@ public class AutorizzazioneController {
 
     @PutMapping("/rifiuta-contenuto")
     public ResponseEntity<String> rifiutaContenuto(@RequestParam int id ) {
-
         autorizzazioneService.Rifiuta(contenutoService.getContenutoById(id)); // Chiamata al servizio per autorizzare il contenuto
         return new ResponseEntity<>("Contenuto rifiutato con successo", HttpStatus.OK); // Restituisce una risposta positiva
-
     }
 }

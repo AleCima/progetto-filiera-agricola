@@ -7,6 +7,9 @@ import it.unicam.cs.ids2425.filieraagricola.model.RigaCarrello;
 import it.unicam.cs.ids2425.filieraagricola.service.AccountService;
 import it.unicam.cs.ids2425.filieraagricola.service.CarrelloService;
 import it.unicam.cs.ids2425.filieraagricola.service.ContenutoService;
+import it.unicam.cs.ids2425.filieraagricola.service.handler.DisponibilitaRigaCarrelloHandler;
+import it.unicam.cs.ids2425.filieraagricola.service.handler.Handler;
+import it.unicam.cs.ids2425.filieraagricola.service.handler.NonNullOrEmptyHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +21,13 @@ public class CarrelloController {
     CarrelloService carrelloService;
     AccountService accountService;
     ContenutoService contenutoService;
+    Handler cartDataHandler;
 
     public CarrelloController(CarrelloService carrelloService, AccountService accountService, ContenutoService contenutoService) {
         this.carrelloService = carrelloService;
         this.accountService = accountService;
         this.contenutoService = contenutoService;
+        cartDataHandler = new NonNullOrEmptyHandler().setNext(new DisponibilitaRigaCarrelloHandler());
     }
 
     @GetMapping("/carrello-utente")
@@ -37,8 +42,12 @@ public class CarrelloController {
     public ResponseEntity<Object> aggiungiContenutoAlCarrello(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
         //TODO controlli su contenuto
         RigaCarrello rc = new RigaCarrello(contenutoService.getContenutoById(rcDTO.getId()), rcDTO.getQuantita());
+        try{
+            cartDataHandler.check(rc);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         carrelloService.aggiungiContenuto(email, rc);
-
         return new ResponseEntity<>("Contenuto aggiunto correttamente", HttpStatus.OK);
     }
 
@@ -63,7 +72,6 @@ public class CarrelloController {
         if (!carrelloService.contains(carrelloUt, contenutoDaModficare)){
             return new ResponseEntity<>("Contenuto non presente nel carrello", HttpStatus.BAD_REQUEST);
         }
-
         carrelloService.aggiungiQuantita(email, contenutoDaModficare, rcDTO.getQuantita());
 
         return new ResponseEntity<>("Quantita aggiunta al carrello correttamente", HttpStatus.OK);

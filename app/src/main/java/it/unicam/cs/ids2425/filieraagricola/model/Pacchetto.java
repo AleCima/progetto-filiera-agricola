@@ -52,13 +52,10 @@ public class Pacchetto extends Contenuto {
 
     public void addProdotto(Contenuto prodotto) {
         listaProdotti.add(prodotto);
-        //Aggiorna prezzo pacchetto
-        setPrezzo(getPrezzo() + prodotto.getPrezzo());
     }
 
     public void removeProdotto(Contenuto prodotto) {
         listaProdotti.remove(prodotto);
-        setPrezzo(getPrezzo() - prodotto.getPrezzo());
     }
 
 

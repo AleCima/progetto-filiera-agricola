@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class IndirizzoFormatHandler extends Handler {
 
     @Override
-    public boolean check(HttpServletRequest request) {
+    public boolean check(Object request) {
         if (!(request instanceof Ordine ordine)) {
             // Se non è un Ordine, passa al prossimo handler
             return checkNext(request);

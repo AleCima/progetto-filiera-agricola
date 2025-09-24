@@ -8,6 +8,7 @@ import it.unicam.cs.ids2425.filieraagricola.service.AccountService;
 import it.unicam.cs.ids2425.filieraagricola.service.EsperienzaService;
 import it.unicam.cs.ids2425.filieraagricola.service.PropostaService;
 import it.unicam.cs.ids2425.filieraagricola.service.handler.Handler;
+import it.unicam.cs.ids2425.filieraagricola.service.handler.NonNullOrEmptyHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +21,24 @@ public class EsperienzaController {
     EsperienzaService espService;
     AccountService accService;
     PropostaService propService;
+    Handler esperienzaDataHandler;
 
     public EsperienzaController(EsperienzaService espService, AccountService accService, PropostaService propService) {
         this.espService = espService;
         this.accService = accService;
         this.propService = propService;
+        esperienzaDataHandler = new NonNullOrEmptyHandler();
     }
 
     //inviaProposta
     @PostMapping("/invia-proposta")
     public ResponseEntity<Object> inviaProposta(@RequestBody PropostaDTO propostaDTO) {
         Proposta proposta = new Proposta(propostaDTO.getTitolo(),propostaDTO.getDescrizione(),accService.getUtenteByEmail(propostaDTO.getOrganizzatore()),accService.getVenditoreByEmail(propostaDTO.getDestinatario()));
+        try {
+            esperienzaDataHandler.check(proposta);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         propService.aggiungiProposta(proposta);
         return new ResponseEntity<>("Proposta inviata ed aggiunta con successo", HttpStatus.OK);
     }
@@ -43,6 +51,11 @@ public class EsperienzaController {
         proposta.setDestinatario(accService.getVenditoreByEmail(propostaDTO.getDestinatario()));
         proposta.setOrganizzatore(accService.getUtenteByEmail(propostaDTO.getOrganizzatore()));
         proposta.setDescrizione(propostaDTO.getDescrizione());
+        try {
+            esperienzaDataHandler.check(proposta);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         propService.modificaProposta(proposta);
         return new ResponseEntity<>("Proposta modificata con successo", HttpStatus.OK);
     }
@@ -66,6 +79,11 @@ public class EsperienzaController {
                 visitaDTO.getPosizione(),
                 accService.getVenditoreByEmail(visitaDTO.getAzienda())
         );
+        try {
+            esperienzaDataHandler.check(visita);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         espService.addVisita(visita);
         return new ResponseEntity<>("Visita creata con successo", HttpStatus.OK);
     }
@@ -81,6 +99,11 @@ public class EsperienzaController {
         visita.setNumMaxPartecipanti(visitaDTO.getNumMaxPartecipanti());
         visita.setPosizione(visitaDTO.getPosizione());
         visita.setAzienda(accService.getVenditoreByEmail(visitaDTO.getAzienda()));
+        try {
+            esperienzaDataHandler.check(visita);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         espService.modificaVisita(visita);
         return new ResponseEntity<>("Visita modificata con successo", HttpStatus.OK);
     }
@@ -103,6 +126,11 @@ public class EsperienzaController {
                 eventoDTO.getNumMaxPartecipanti(),
                 eventoDTO.getPosizione()
         );
+        try {
+            esperienzaDataHandler.check(evento);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         espService.addEvento(evento);
 
         return new ResponseEntity<>("Evento creato con successo", HttpStatus.OK);
@@ -117,6 +145,11 @@ public class EsperienzaController {
         evento.setDataEsperienza(eventoDTO.getDataEsperienza());
         evento.setNumMaxPartecipanti(eventoDTO.getNumMaxPartecipanti());
         evento.setPosizione(eventoDTO.getPosizione());
+        try {
+            esperienzaDataHandler.check(evento);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         espService.addEvento(evento);
         return new ResponseEntity<>("Evento modificato con successo", HttpStatus.OK);
     }
@@ -132,6 +165,10 @@ public class EsperienzaController {
     //aggiungiPartecipante
     @PutMapping("/aggiungi-partecipante")
     public ResponseEntity<Object> aggiungiPartecipante(@RequestParam int esperienzaId, @RequestParam String emailUtente) {
+        Esperienza esperienza = espService.getEsperienzaById(esperienzaId);
+        if(esperienza.getPartecipanti().size() == esperienza.getNumMaxPartecipanti()){
+            return new ResponseEntity<>("Esperienza al completo", HttpStatus.BAD_REQUEST);
+        }
         espService.addPartecipante(esperienzaId,emailUtente);
         return new ResponseEntity<>("Partecipante aggiunto con successo", HttpStatus.OK);
     }

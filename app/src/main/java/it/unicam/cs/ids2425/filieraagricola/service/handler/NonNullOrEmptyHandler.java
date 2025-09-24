@@ -9,7 +9,7 @@ import java.util.List;
 public class NonNullOrEmptyHandler extends Handler {
 
     @Override
-    public boolean check(HttpServletRequest request) {
+    public boolean check(Object request) {
         if (request == null) {
             throw new CampoNonValidoException("Oggetto nullo non consentito");
         }

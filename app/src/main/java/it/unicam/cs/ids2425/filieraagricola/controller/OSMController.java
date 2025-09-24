@@ -1,5 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricola.controller;
 
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import it.unicam.cs.ids2425.filieraagricola.controller.DTO.EsperienzaPosizioneDTO;
 import it.unicam.cs.ids2425.filieraagricola.controller.DTO.VenditorePosizioneDTO;
 import it.unicam.cs.ids2425.filieraagricola.model.Esperienza;
@@ -27,10 +28,6 @@ public class OSMController {
         this.accountService = accountService;
     }
 
-    public void getMappa(){
-        //TODO
-    }
-
     @GetMapping("/venditori")
     public ResponseEntity<List<VenditorePosizioneDTO>> getPosizioneVenditori() {
         List<VenditorePosizioneDTO> venditori = osmService.visualizzaPosizioneVenditori();
@@ -46,5 +43,10 @@ public class OSMController {
     public ResponseEntity<Object> getPosizioneEsperienza(@RequestParam int id){
         PuntoMappa posizione = osmService.visualizzaPosizione(id);
         return ResponseEntity.ok(posizione);
+    }
+
+    @GetMapping("/venditore-posizione")
+    public ResponseEntity<Object> getPosizioneVenditore(@RequestParam String email){
+        return ResponseEntity.ok(osmService.visualizzaPosizioneV(email));
     }
 }

@@ -10,6 +10,9 @@ import it.unicam.cs.ids2425.filieraagricola.model.builder.ProdottoBuilder;
 import it.unicam.cs.ids2425.filieraagricola.model.builder.TrasformazioneBuilder;
 import it.unicam.cs.ids2425.filieraagricola.service.AccountService;
 import it.unicam.cs.ids2425.filieraagricola.service.ContenutoService;
+import it.unicam.cs.ids2425.filieraagricola.service.handler.Handler;
+import it.unicam.cs.ids2425.filieraagricola.service.handler.NonNullOrEmptyHandler;
+import it.unicam.cs.ids2425.filieraagricola.service.handler.PacchettoContenutiHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +25,11 @@ import java.util.List;
 public class ContenutoController {
     ContenutoService contenutoService;
     AccountService accountService; //Probabilmente servira' per controllare chi pubblica cosa(?)
-
+    Handler contenutoDataHandler;
     public ContenutoController(ContenutoService contenutoService, AccountService accountService) {
         this.contenutoService = contenutoService;
         this.accountService = accountService;
+        contenutoDataHandler = new NonNullOrEmptyHandler();
     }
 
     //addProdotto
@@ -44,6 +48,12 @@ public class ContenutoController {
                 .setListaTrasformazioni(pDTO.getListaTrasformazioni())
                 .setMetodoDiColtivazione(pDTO.getMetodoDiColtivazione())
                 .build();
+
+        try{
+            contenutoDataHandler.check(nuovoContenuto);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         contenutoService.addContenuto(nuovoContenuto);
         return new ResponseEntity<>("Prodotto aggiunto con successo", HttpStatus.OK);
     }
@@ -57,6 +67,11 @@ public class ContenutoController {
                 .setPrezzo(tDTO.getPrezzo())
                 .setVenditore(accountService.getVenditoreByEmail(tDTO.getEmailTrasformatore()))
                 .setQuantita(tDTO.getQuant()).build();
+        try{
+            contenutoDataHandler.check(nuovoContenuto);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         contenutoService.addContenuto(nuovoContenuto);
 
         return new ResponseEntity<>("Contenuto aggiunto al sistema", HttpStatus.OK);
@@ -64,6 +79,7 @@ public class ContenutoController {
 
     @PostMapping("/aggiungi-pacchetto")
     public ResponseEntity<Object> addContenuto(@RequestBody PacchettoDTO pDTO) {
+
         List<Contenuto> contenuti = new ArrayList<>();
         for (int id : pDTO.getListaProdotti()){
             contenuti.add(contenutoService.getContenutoById(id));
@@ -77,8 +93,14 @@ public class ContenutoController {
                 .setVenditore(accountService.getVenditoreByEmail(pDTO.getEmailDistributore()))
                 .setListaContenuti(contenuti)
                 .setPrezzo(pDTO.getPrezzo()).build();
-        contenutoService.addContenuto(nuovoContenuto);
 
+        try{
+            contenutoDataHandler.setNext(new PacchettoContenutiHandler());
+            contenutoDataHandler.check(nuovoContenuto);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        contenutoService.addContenuto(nuovoContenuto);
         return new ResponseEntity<>("Contenuto aggiunto al sistema", HttpStatus.OK);
     }
 
@@ -97,6 +119,11 @@ public class ContenutoController {
                 .setMetodoDiColtivazione(pDTO.getMetodoDiColtivazione())
                 .build();
         nuovoContenuto.setId(id);
+        try{
+            contenutoDataHandler.check(nuovoContenuto);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         contenutoService.updateContenuto(nuovoContenuto);
         return new ResponseEntity<>("Contenuto modificato", HttpStatus.OK);
     }
@@ -111,6 +138,11 @@ public class ContenutoController {
                 .setVenditore(accountService.getVenditoreByEmail(tDTO.getEmailTrasformatore()))
                 .setQuantita(tDTO.getQuant()).build();
         nuovoContenuto.setId(id);
+        try{
+            contenutoDataHandler.check(nuovoContenuto);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         contenutoService.updateContenuto(nuovoContenuto);
         return new ResponseEntity<>("Contenuto modificato", HttpStatus.OK);
     }
@@ -134,6 +166,9 @@ public class ContenutoController {
     public ResponseEntity<Object> removeTrasformazioneFrom(@RequestParam int idProdotto, @RequestParam int idTrasformazione) {
         Prodotto prodotto = (Prodotto) contenutoService.getContenutoById(idProdotto);
         Trasformazione trasformazione = (Trasformazione) contenutoService.getContenutoById(idTrasformazione);
+        if (!prodotto.getListaTrasformazioni().contains(trasformazione)){
+            return new ResponseEntity<>("Trasformazione non presente nella lista di trasformazioni del prodotto", HttpStatus.NOT_FOUND);
+        }
         contenutoService.removeTrasformazioneFrom(prodotto, trasformazione);
         return new ResponseEntity<>("Trasformazione rimossa con successo", HttpStatus.OK);
     }
@@ -150,6 +185,9 @@ public class ContenutoController {
     public ResponseEntity<Object> removeFromPacchetto(@RequestParam int idProdotto, @RequestParam int idPacchetto) {
         Prodotto prodotto = (Prodotto) contenutoService.getContenutoById(idProdotto);
         Pacchetto pacchetto = (Pacchetto) contenutoService.getContenutoById(idPacchetto);
+        if (!pacchetto.getListaProdotti().contains(prodotto)){
+            return new ResponseEntity<>("Prodotto non presente nel pacchetto", HttpStatus.NOT_FOUND);
+        }
         contenutoService.removeProdottoFromPacchetto(prodotto, pacchetto);
         return new ResponseEntity<>("Contenuto rimosso dal pacchetto", HttpStatus.OK);
     }
