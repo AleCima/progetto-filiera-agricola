@@ -23,10 +23,9 @@ public class InitSistema {
     public void init() {
         // Creo il gestore e assegno ruoli
         gestore = new Utente("mario.bianchi@gestore.it", "123123", "Mario", "Bianchi");
-        gestore.addRuolo(Ruolo.GESTORE);         // assegno ruolo GESTORE
+        gestore.addRuolo(Ruolo.GESTORE);
         gestore.removeRuolo(Ruolo.ACQUIRENTE);
         accountService.aggiungiUtente(gestore);
-        System.out.println(">>> DEBUG Init: Gestore creato con ruoli: " + gestore.getRuoli());
 
         // Creo il venditore e assegno ruoli
         List<Ruolo> ruoliVenditore = new ArrayList<>();
@@ -44,9 +43,6 @@ public class InitSistema {
                 ruoliVenditore
         );
         accountService.aggiungiVenditore(venditore);
-        System.out.println(">>> DEBUG Init: Venditore creato con ruoli: " + venditore.getRuoli());
-
-        System.out.println("Sistema inizializzato con successo!");
     }
 
     public Utente getGestore() {

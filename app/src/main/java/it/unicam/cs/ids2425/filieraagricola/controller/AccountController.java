@@ -11,6 +11,7 @@ import it.unicam.cs.ids2425.filieraagricola.service.handler.NonNullOrEmptyHandle
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -42,21 +43,21 @@ public class AccountController {
         return new ResponseEntity<>("Utente creato con successo", HttpStatus.CREATED);
     }
 
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PutMapping("/modifica-utente")
-    public ResponseEntity<Object> modificaUtente(@RequestParam String precEmail, @RequestBody UtenteDTO uDTO) {
-        //TODO controllo autenticazione
+    public ResponseEntity<Object> modificaUtente(@RequestParam String email, @RequestBody UtenteDTO uDTO) {
         Utente u = new Utente(uDTO.getEmail(), uDTO.getPassword(), uDTO.getNome(), uDTO.getCognome());
         try {
             accountDataHandler.check(u);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        accService.modificaUtente(precEmail, u);
+        accService.modificaUtente(email, u);
         return new ResponseEntity<>("Utente modificato con successo", HttpStatus.CREATED);
     }
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @DeleteMapping("/elimina-account")
     public ResponseEntity<String> rimuoviUtente(@RequestParam String email) {
-        //TODO controllo autenticazione
         accService.rimuoviUtente(email);
         return new ResponseEntity<>("Utente rimosso con successo", HttpStatus.OK);
     }
@@ -71,21 +72,21 @@ public class AccountController {
         accService.aggiungiVenditore(v);
         return new ResponseEntity<>("Venditore creato con successo", HttpStatus.CREATED);
     }
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PutMapping("/modifica-venditore")
-    public ResponseEntity<String> modificaVenditore(@RequestParam String precEmail, @RequestBody VenditoreDTO vDTO) {
-        //TODO Controllo autenticazione
+    public ResponseEntity<String> modificaVenditore(@RequestParam String email, @RequestBody VenditoreDTO vDTO) {
         Venditore v = new Venditore(vDTO.getEmail(), vDTO.getPassword(), vDTO.getPIVA(), vDTO.getRagioneFiscale(), vDTO.getDescrizione(), vDTO.getPosizione(), vDTO.getRuoli());
         try {
             accountDataHandler.check(v);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        accService.modificaVenditore(precEmail, v);
+        accService.modificaVenditore(email, v);
         return new ResponseEntity<>("Venditore modificato con successo", HttpStatus.OK);
     }
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @DeleteMapping("/elimina-venditore")
     public ResponseEntity<String> rimuoviVenditore(@RequestParam String email) {
-        //TODO Controllo autenticazione
         accService.rimuoviVenditore(email);
         return new ResponseEntity<>("Venditore modificato con successo", HttpStatus.OK);
     }
@@ -97,15 +98,6 @@ public class AccountController {
     @GetMapping("/ricerca-venditore")
     public ResponseEntity<Object> getVenditore(@RequestParam String email) {
         return new ResponseEntity<>(accService.getVenditoreByEmail(email), HttpStatus.OK);
-    }
-
-    @GetMapping("/test-auth")
-    public String testAuth(Authentication authentication) {
-        if (authentication == null) {
-            return "Non autenticato!";
-        }
-        return "Utente: " + authentication.getName() +
-                " - Ruoli: " + authentication.getAuthorities();
     }
 
     // Assegna un singolo ruolo a un utente
