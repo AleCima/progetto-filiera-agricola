@@ -8,13 +8,14 @@ import it.unicam.cs.ids2425.filieraagricola.service.OrdineService;
 import it.unicam.cs.ids2425.filieraagricola.service.handler.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/ordini")
+@RequestMapping("/ordine")
 public class OrdineController {
     OrdineService ordineService;
     AccountService accountService;
@@ -29,10 +30,9 @@ public class OrdineController {
                 .setNext(new DisponibilitaRigaCarrelloHandler());
     }
 
-
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PostMapping("/aggiungi")
     public ResponseEntity<String> addOrdine(@RequestParam String email ,@RequestBody OrdineDTO ordineDTO) {
-
 
         // Creazione dell'oggetto Ordine
         Ordine ordine = new Ordine(
@@ -53,11 +53,14 @@ public class OrdineController {
         return new ResponseEntity<>("Ordine aggiunto con successo", HttpStatus.CREATED); // Restituisce 201 (CREATED)
     }
 
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PutMapping("/aggiorna")
     public ResponseEntity<String> updateOrdine(@RequestParam int id, @RequestParam String email, @RequestBody OrdineDTO ordineDTO) {
         // Recuperiamo l'ordine esistente dal database usando l'ID
         Ordine ordine = ordineService.getOrdineById(id);
-
+        if (ordine.isEvaso()){
+            return new ResponseEntity<>("Ordine evaso, non modificabile", HttpStatus.BAD_REQUEST);
+        }
 
         // Aggiorniamo i dati dell'ordine con quelli del DTO
         ordine.setDataOrdine(ordineDTO.getDataOrdine());
@@ -74,17 +77,21 @@ public class OrdineController {
 
         return new ResponseEntity<>("Ordine aggiornato con successo", HttpStatus.OK); // Restituisce 200 (OK)
     }
+
+    @PreAuthorize("@ordineService.checkOrdineEmail(#id, authentication.name) or hasRole('GESTORE')")
     @DeleteMapping("/rimuovi")
     public ResponseEntity<String> removeOrdine(@RequestParam int id) {
             ordineService.removeOrdine(id);
             return new ResponseEntity<>("Ordine rimosso con successo", HttpStatus.OK); // Restituisce 200 (OK)
     }
 
+    @PreAuthorize("@ordineService.checkOrdineEmail(#id, authentication.name) or hasRole('GESTORE')")
     @GetMapping("/ottieni")
     public ResponseEntity<Object> getOrdineById(@RequestParam int id){
         return new ResponseEntity<>(ordineService.getOrdineById(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('GESTORE')")
     @PutMapping("/evadi")
     public ResponseEntity<Object> evadiOrdine(@RequestParam int id){
         Ordine ordine = ordineService.getOrdineById(id);
@@ -92,11 +99,14 @@ public class OrdineController {
         ordineService.evadi(ordine);
         return new ResponseEntity<>("Ordine evaso con successo", HttpStatus.OK);
     }
+
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @GetMapping("ottieni-ordini-utente")
     public ResponseEntity<Object> getOrdiniUtente(@RequestParam String email){
         return new ResponseEntity<>(ordineService.getOrdineByUtente(accountService.getUtenteByEmail(email)), HttpStatus.OK);
     }
 
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @GetMapping("ottieni-ordini-venditore")
     public ResponseEntity<Object> getOrdiniVenditore(@RequestParam String email){
         return new ResponseEntity<>(ordineService.getOrdineByVenditore(accountService.getVenditoreByEmail(email)), HttpStatus.OK);

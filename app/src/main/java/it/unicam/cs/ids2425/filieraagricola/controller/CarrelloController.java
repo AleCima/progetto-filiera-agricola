@@ -12,6 +12,7 @@ import it.unicam.cs.ids2425.filieraagricola.service.handler.Handler;
 import it.unicam.cs.ids2425.filieraagricola.service.handler.NonNullOrEmptyHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 //TODO aggiungi controlli autorizzazione
@@ -30,6 +31,7 @@ public class CarrelloController {
         cartDataHandler = new NonNullOrEmptyHandler().setNext(new DisponibilitaRigaCarrelloHandler());
     }
 
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @GetMapping("/carrello-utente")
     public ResponseEntity<Object> getCarrelloUtente(@RequestParam String email){
         if (accountService.getUtenteByEmail(email) == null){
@@ -38,6 +40,7 @@ public class CarrelloController {
         return  new ResponseEntity<>(carrelloService.getCarrelloFromUtente(email), HttpStatus.OK);
     }
 
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PostMapping("/aggiungi-contenuto")
     public ResponseEntity<Object> aggiungiContenutoAlCarrello(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
         //TODO controlli su contenuto
@@ -51,6 +54,7 @@ public class CarrelloController {
         return new ResponseEntity<>("Contenuto aggiunto correttamente", HttpStatus.OK);
     }
 
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PostMapping("/rimuovi-contenuto")
     public ResponseEntity<Object> rimuoviContenuto(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
         Carrello carrelloUt = carrelloService.getCarrelloFromUtente(email);
@@ -64,6 +68,7 @@ public class CarrelloController {
         return new ResponseEntity<>("Quantità del contenuto rimossa con successo", HttpStatus.OK);
     }
 
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PostMapping("/aggiungi-quantita")
     public ResponseEntity<Object> aggiungiQuantita(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
         Carrello carrelloUt = carrelloService.getCarrelloFromUtente(email);
@@ -77,6 +82,7 @@ public class CarrelloController {
         return new ResponseEntity<>("Quantita aggiunta al carrello correttamente", HttpStatus.OK);
     }
 
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @DeleteMapping("/svuota-carrello")
     public ResponseEntity<Object> svuotaCarrello(@RequestParam String email){
         //TODO autenticazione

@@ -56,7 +56,7 @@ public class AccountController {
         return new ResponseEntity<>("Utente modificato con successo", HttpStatus.CREATED);
     }
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
-    @DeleteMapping("/elimina-account")
+    @DeleteMapping("/elimina-utente")
     public ResponseEntity<String> rimuoviUtente(@RequestParam String email) {
         accService.rimuoviUtente(email);
         return new ResponseEntity<>("Utente rimosso con successo", HttpStatus.OK);

@@ -92,4 +92,11 @@ public class OrdineService {
         }
         ordine.setEvaso(true);
     }
+
+    public boolean checkOrdineEmail(int id, String email){
+        return ordineRepository.findById(id)
+                .map(o -> o.getUtente().getEmail().equals(email))
+                .orElse(false); // se l'ordine non esiste, ritorna false
+    }
+
 }
