@@ -12,16 +12,17 @@ public class Utente implements Account {
 
     private String password;
 
-    @ElementCollection(targetClass = Ruolo.class)
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Ruolo.class)
     @CollectionTable(name = "ruoliUtente", joinColumns = @JoinColumn(name = "email"))
     @Column(name = "ruolo")
     @Enumerated(EnumType.STRING)
     private List<Ruolo> ruoli = new ArrayList<>();
 
+
     private String nome;
     private String cognome;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "carrello_id", referencedColumnName = "id")
     private Carrello carrello;
 
