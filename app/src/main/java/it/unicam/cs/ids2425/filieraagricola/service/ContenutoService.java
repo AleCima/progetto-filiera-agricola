@@ -62,4 +62,11 @@ public class ContenutoService {
         pacchetto.removeProdotto(prodotto);
         contenutoRepository.save(pacchetto);
     }
+
+    public boolean contenutoVenditoreCheck(int id, String email){
+        return contenutoRepository.findById(id)
+                .map(c -> c.getVenditore().getEmail().equals(email))
+                .orElse(false); // se il contenuto non esiste, ritorna false
+    }
+
 }

@@ -15,6 +15,7 @@ import it.unicam.cs.ids2425.filieraagricola.service.handler.NonNullOrEmptyHandle
 import it.unicam.cs.ids2425.filieraagricola.service.handler.PacchettoContenutiHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -104,6 +105,7 @@ public class ContenutoController {
         return new ResponseEntity<>("Contenuto aggiunto al sistema", HttpStatus.OK);
     }
 
+    @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/modifica-prodotto")
     public ResponseEntity<Object> updateContenuto(@RequestParam int id, @RequestBody ProdottoDTO pDTO) {
         ProdottoBuilder prodottoBuilder = new ProdottoBuilder();
@@ -128,6 +130,7 @@ public class ContenutoController {
         return new ResponseEntity<>("Contenuto modificato", HttpStatus.OK);
     }
 
+    @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/modifica-trasformazione")
     public ResponseEntity<Object> updateContenuto(@RequestParam int id, @RequestBody TrasformazioneDTO tDTO){
         ContenutoBuilder trasformazioneBuilder = new TrasformazioneBuilder();
@@ -147,12 +150,14 @@ public class ContenutoController {
         return new ResponseEntity<>("Contenuto modificato", HttpStatus.OK);
     }
 
+    @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
     @DeleteMapping("rimuovi-contenuto")
     public ResponseEntity<Object> removeContenuto(@RequestParam int id) {
         contenutoService.removeContenuto(contenutoService.getContenutoById(id));
         return new ResponseEntity<>("Contenuto eliminato con successo", HttpStatus.OK);
     }
 
+    @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#idTrasformazione, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/aggiungi-trasformazione")
     public ResponseEntity<Object> addTrasformazioneTo(@RequestParam int idProdotto, @RequestParam int idTrasformazione) {
         //TODO controlli
@@ -162,6 +167,7 @@ public class ContenutoController {
         return new ResponseEntity<>("Trasformazione aggiunta con successo", HttpStatus.OK);
     }
 
+    @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/rimuovi-trasformazione")
     public ResponseEntity<Object> removeTrasformazioneFrom(@RequestParam int idProdotto, @RequestParam int idTrasformazione) {
         Prodotto prodotto = (Prodotto) contenutoService.getContenutoById(idProdotto);
@@ -173,6 +179,7 @@ public class ContenutoController {
         return new ResponseEntity<>("Trasformazione rimossa con successo", HttpStatus.OK);
     }
 
+    @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#idPacchetto, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/aggiungi-al-pacchetto")
     public ResponseEntity<Object> addToPacchetto(@RequestParam int idProdotto, @RequestParam int idPacchetto) {
         Prodotto prodotto = (Prodotto) contenutoService.getContenutoById(idProdotto);
@@ -181,6 +188,7 @@ public class ContenutoController {
         return new ResponseEntity<>("Contenuto aggiunto al pacchetto", HttpStatus.OK);
     }
 
+    @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#idPacchetto, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/rimuovi-da-pacchetto")
     public ResponseEntity<Object> removeFromPacchetto(@RequestParam int idProdotto, @RequestParam int idPacchetto) {
         Prodotto prodotto = (Prodotto) contenutoService.getContenutoById(idProdotto);
@@ -191,6 +199,7 @@ public class ContenutoController {
         contenutoService.removeProdottoFromPacchetto(prodotto, pacchetto);
         return new ResponseEntity<>("Contenuto rimosso dal pacchetto", HttpStatus.OK);
     }
+
 
     @GetMapping("ottieni-contenuti")
     public ResponseEntity<Object> getContenuti(){
