@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PropostaService {
@@ -18,36 +19,38 @@ public class PropostaService {
         this.propostaRepository = propostaRepository;
     }
 
-    public List<Proposta> getProposte() {
-        return null;
-    }
-
     public Proposta getProposta(int id) {
         return propostaRepository.findById(id).orElse(null);
     }
 
     public void aggiungiProposta(Proposta p) {
-        //TODO da vedere i controlli
         propostaRepository.save(p);
     }
 
     public void modificaProposta(Proposta p){
-        //TODO da vedere i controlli
         propostaRepository.save(p);
     }
 
     public void rimuoviProposta(Proposta p){
-        //TODO da vedere i controlli
         propostaRepository.delete(p);
     }
 
     public List<Proposta> getProposteVenditore(Venditore v) {
-        //TODO ricerca per venditore e crea lista
-        return null;
+        return propostaRepository.findByDestinatario(v);
     }
 
     public List<Proposta> getProposteOrganizzatore(Utente u) {
-        //TODO ricerca per venditore e crea lista
-        return null;
+        return propostaRepository.findByOrganizzatore(u);
+    }
+
+    public boolean isDestinatario(int idProposta, String emailUtente) {
+        Proposta proposta = propostaRepository.findById(idProposta).orElse(null);
+        if (proposta == null) {
+            return false; // proposta non trovata
+        }
+
+        // Verifica se l’utente loggato è il destinatario della proposta
+        return proposta.getDestinatario() != null &&
+                proposta.getDestinatario().getEmail().equals(emailUtente);
     }
 }

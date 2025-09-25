@@ -33,13 +33,21 @@ public class AutorizzazioneController {
 
     @PutMapping("/autorizza-contenuto")
     public ResponseEntity<String> autorizzaContenuto(@RequestParam int id ) {
-        autorizzazioneService.Autorizza(contenutoService.getContenutoById(id)); // Chiamata al servizio per autorizzare il contenuto
+        Contenuto contenuto = contenutoService.getContenutoById(id);
+        if(contenuto == null){
+            return new ResponseEntity<>("Contenuto con id richiesto non trovato", HttpStatus.NOT_FOUND);
+        }
+        autorizzazioneService.Autorizza(contenuto); // Chiamata al servizio per autorizzare il contenuto
         return new ResponseEntity<>("Contenuto autorizzato con successo", HttpStatus.OK); // Restituisce una risposta positiva
     }
 
     @PutMapping("/rifiuta-contenuto")
     public ResponseEntity<String> rifiutaContenuto(@RequestParam int id ) {
-        autorizzazioneService.Rifiuta(contenutoService.getContenutoById(id)); // Chiamata al servizio per autorizzare il contenuto
+        Contenuto contenuto = contenutoService.getContenutoById(id);
+        if(contenuto == null){
+            return new ResponseEntity<>("Contenuto con id richiesto non trovato", HttpStatus.NOT_FOUND);
+        }
+        autorizzazioneService.Rifiuta(contenuto); // Chiamata al servizio per autorizzare il contenuto
         return new ResponseEntity<>("Contenuto rifiutato con successo", HttpStatus.OK); // Restituisce una risposta positiva
     }
 }

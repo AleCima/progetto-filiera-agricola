@@ -1,8 +1,10 @@
 package it.unicam.cs.ids2425.filieraagricola.controller;
 
 import it.unicam.cs.ids2425.filieraagricola.controller.DTO.OrdineDTO;
-import it.unicam.cs.ids2425.filieraagricola.model.Contenuto;
+
 import it.unicam.cs.ids2425.filieraagricola.model.Ordine;
+import it.unicam.cs.ids2425.filieraagricola.model.Utente;
+import it.unicam.cs.ids2425.filieraagricola.model.Venditore;
 import it.unicam.cs.ids2425.filieraagricola.service.AccountService;
 import it.unicam.cs.ids2425.filieraagricola.service.OrdineService;
 import it.unicam.cs.ids2425.filieraagricola.service.handler.*;
@@ -11,20 +13,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-
 @RestController
 @RequestMapping("/ordine")
 public class OrdineController {
-    OrdineService ordineService;
-    AccountService accountService;
-    Handler ordineDataHandler;
+    private final OrdineService ordineService;
+    private final AccountService accountService;
+    private final Handler ordineDataHandler;
 
     public OrdineController(OrdineService ordineService, AccountService accountService) {
         this.ordineService = ordineService;
         this.accountService = accountService;
-        ordineDataHandler = new NonNullOrEmptyHandler()
+        this.ordineDataHandler = new NonNullOrEmptyHandler()
                 .setNext(new IndirizzoFormatHandler())
                 .setNext(new PagamentoValidHandler())
                 .setNext(new DisponibilitaRigaCarrelloHandler());
@@ -32,83 +31,97 @@ public class OrdineController {
 
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PostMapping("/aggiungi")
-    public ResponseEntity<String> addOrdine(@RequestParam String email ,@RequestBody OrdineDTO ordineDTO) {
+    public ResponseEntity<Object> addOrdine(@RequestParam String email ,@RequestBody OrdineDTO ordineDTO) {
+        Utente utente = accountService.getUtenteByEmail(email);
+        if (utente == null) return new ResponseEntity<>("Utente non trovato", HttpStatus.NOT_FOUND);
 
-        // Creazione dell'oggetto Ordine
         Ordine ordine = new Ordine(
                 ordineDTO.getDataOrdine(),
-                accountService.getUtenteByEmail(email).getCarrello(),
+                utente.getCarrello(),
                 ordineDTO.getCartaDiCredito(),
                 ordineDTO.getIndirizzoDiFatturazione(),
-                accountService.getUtenteByEmail(email)
+                utente
         );
-        try{
+        try {
             ordineDataHandler.check(ordine);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        // Chiamata al servizio per aggiungere l'ordine
         ordineService.addOrdine(ordine);
-
-        return new ResponseEntity<>("Ordine aggiunto con successo", HttpStatus.CREATED); // Restituisce 201 (CREATED)
+        return new ResponseEntity<>("Ordine aggiunto con successo", HttpStatus.CREATED);
     }
 
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PutMapping("/aggiorna")
-    public ResponseEntity<String> updateOrdine(@RequestParam int id, @RequestParam String email, @RequestBody OrdineDTO ordineDTO) {
-        // Recuperiamo l'ordine esistente dal database usando l'ID
+    public ResponseEntity<Object> updateOrdine(@RequestParam int id, @RequestParam String email, @RequestBody OrdineDTO ordineDTO) {
         Ordine ordine = ordineService.getOrdineById(id);
-        if (ordine.isEvaso()){
-            return new ResponseEntity<>("Ordine evaso, non modificabile", HttpStatus.BAD_REQUEST);
-        }
+        if (ordine == null) return new ResponseEntity<>("Ordine non trovato", HttpStatus.NOT_FOUND);
+        if (ordine.isEvaso()) return new ResponseEntity<>("Ordine evaso, non modificabile", HttpStatus.BAD_REQUEST);
 
-        // Aggiorniamo i dati dell'ordine con quelli del DTO
+        var utente = accountService.getUtenteByEmail(email);
+        if (utente == null) return new ResponseEntity<>("Utente non trovato", HttpStatus.NOT_FOUND);
+
         ordine.setDataOrdine(ordineDTO.getDataOrdine());
-        ordine.setCarrello(accountService.getUtenteByEmail(email).getCarrello()); // Impostiamo il carrello aggiornato
-        ordine.setCartaDiCredito(ordineDTO.getCartaDiCredito()); // Impostiamo il pagamento aggiornato
-        ordine.setIndirizzoDiFatturazione(ordineDTO.getIndirizzoDiFatturazione()); // Impostiamo l'indirizzo aggiornato
-        try{
+        ordine.setCarrello(utente.getCarrello());
+        ordine.setCartaDiCredito(ordineDTO.getCartaDiCredito());
+        ordine.setIndirizzoDiFatturazione(ordineDTO.getIndirizzoDiFatturazione());
+
+        try {
             ordineDataHandler.check(ordine);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        // Chiamata al servizio per aggiornare l'ordine
         ordineService.updateOrdine(ordine);
-
-        return new ResponseEntity<>("Ordine aggiornato con successo", HttpStatus.OK); // Restituisce 200 (OK)
+        return new ResponseEntity<>("Ordine aggiornato con successo", HttpStatus.OK);
     }
 
     @PreAuthorize("@ordineService.checkOrdineEmail(#id, authentication.name) or hasRole('GESTORE')")
     @DeleteMapping("/rimuovi")
-    public ResponseEntity<String> removeOrdine(@RequestParam int id) {
-            ordineService.removeOrdine(id);
-            return new ResponseEntity<>("Ordine rimosso con successo", HttpStatus.OK); // Restituisce 200 (OK)
+    public ResponseEntity<Object> removeOrdine(@RequestParam int id) {
+        ordineService.removeOrdine(id);
+        return new ResponseEntity<>("Ordine rimosso con successo", HttpStatus.OK);
     }
 
     @PreAuthorize("@ordineService.checkOrdineEmail(#id, authentication.name) or hasRole('GESTORE')")
     @GetMapping("/ottieni")
     public ResponseEntity<Object> getOrdineById(@RequestParam int id){
-        return new ResponseEntity<>(ordineService.getOrdineById(id), HttpStatus.OK);
+        Ordine ordine = ordineService.getOrdineById(id);
+        if (ordine == null) return new ResponseEntity<>("Ordine non trovato", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ordine, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('GESTORE')")
     @PutMapping("/evadi")
     public ResponseEntity<Object> evadiOrdine(@RequestParam int id){
         Ordine ordine = ordineService.getOrdineById(id);
-        ordineDataHandler.check(ordine);
-        ordineService.evadi(ordine);
+        if (ordine == null) return new ResponseEntity<>("Ordine non trovato", HttpStatus.NOT_FOUND);
+
+        try {
+            ordineDataHandler.check(ordine);
+            ordineService.evadi(ordine);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>("Ordine evaso con successo", HttpStatus.OK);
     }
 
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @GetMapping("ottieni-ordini-utente")
     public ResponseEntity<Object> getOrdiniUtente(@RequestParam String email){
-        return new ResponseEntity<>(ordineService.getOrdineByUtente(accountService.getUtenteByEmail(email)), HttpStatus.OK);
+        Utente utente = accountService.getUtenteByEmail(email);
+        if (utente == null) return new ResponseEntity<>("Utente non trovato", HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(ordineService.getOrdineByUtente(utente), HttpStatus.OK);
     }
 
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @GetMapping("ottieni-ordini-venditore")
     public ResponseEntity<Object> getOrdiniVenditore(@RequestParam String email){
-        return new ResponseEntity<>(ordineService.getOrdineByVenditore(accountService.getVenditoreByEmail(email)), HttpStatus.OK);
+        Venditore venditore = accountService.getVenditoreByEmail(email);
+        if (venditore == null) return new ResponseEntity<>("Venditore non trovato", HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(ordineService.getOrdineByVenditore(venditore), HttpStatus.OK);
     }
 }
+
+

@@ -1,6 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricola.repository;
 
 import it.unicam.cs.ids2425.filieraagricola.model.Esperienza;
+import it.unicam.cs.ids2425.filieraagricola.model.Utente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,5 +9,7 @@ import java.util.List;
 
 @Repository
 public interface EsperienzaRepository extends JpaRepository<Esperienza, Integer> {
+    // Tutte le esperienze organizzate da un organizzatore
+    List<Esperienza> findByOrganizzatore(Utente organizzatore);
 
 }

@@ -71,18 +71,11 @@ public class AccountService {
     }
 
     public Venditore getVenditoreByEmail(String email) {
-
         return venditoreRepository.findById(email).orElse(null);
     }
 
-    public List<Utente> getUtenti() {
-        //TODO
-        return null;
-    }
-
     public List<Venditore> getVenditori() {
-        return null;
-        //TODO
+        return venditoreRepository.findAll();
     }
 
 }

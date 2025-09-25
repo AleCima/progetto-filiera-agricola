@@ -5,54 +5,49 @@ import it.unicam.cs.ids2425.filieraagricola.controller.DTO.VenditorePosizioneDTO
 import it.unicam.cs.ids2425.filieraagricola.model.Esperienza;
 import it.unicam.cs.ids2425.filieraagricola.model.PuntoMappa;
 import it.unicam.cs.ids2425.filieraagricola.model.Venditore;
-import it.unicam.cs.ids2425.filieraagricola.repository.EsperienzaRepository;
-import it.unicam.cs.ids2425.filieraagricola.repository.EventoRepository;
-import it.unicam.cs.ids2425.filieraagricola.repository.VenditoreRepository;
-import it.unicam.cs.ids2425.filieraagricola.repository.VisitaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OSMService {
-    private VenditoreRepository venditoreRepository;
-    private EsperienzaRepository esperienzaRepository;
-    private VisitaRepository visitaRepository;
-    private EventoRepository eventoRepository;
 
-    @Autowired
-    public OSMService(VenditoreRepository venditoreRepository, EsperienzaRepository esperienzaRepository, VisitaRepository visitaRepository, EventoRepository eventoRepository) {
-        this.venditoreRepository = venditoreRepository;
-        this.esperienzaRepository = esperienzaRepository;
-        this.visitaRepository = visitaRepository;
-        this.eventoRepository = eventoRepository;
+    private final AccountService accountService;
+    private final EsperienzaService esperienzaService;
+
+    public OSMService(AccountService accountService, EsperienzaService esperienzaService) {
+        this.accountService = accountService;
+        this.esperienzaService = esperienzaService;
     }
+
+    // ---- Venditori ----
 
     public List<VenditorePosizioneDTO> visualizzaPosizioneVenditori() {
-        return venditoreRepository.findAllPosizioni(); // restituisce tutti i venditori con la loro posizione
+        List<Venditore> venditori = accountService.getVenditori();
+        return venditori.stream()
+                // Trasforma ogni oggetto Venditore in un DTO contenente solo i campi necessari
+                .map(v -> new VenditorePosizioneDTO(v.getEmail(), v.getRagioneFiscale(), v.getPosizione()))
+                // Colleziona tutti i DTO trasformati in una lista
+                .collect(Collectors.toList());
     }
 
-    public List<Object> visualizzaPosizioneEsperienze() {
-        List<Object> result = new ArrayList<>();
-        result.addAll(visitaRepository.findAllPosizioni());  // ritorna List<VisitaDTO>
-        result.addAll(eventoRepository.findAllPosizioni());  // ritorna List<EventoDTO>
-        return result;
+    public PuntoMappa visualizzaPosizioneVenditore(String email) {
+        return accountService.getVenditoreByEmail(email).getPosizione();
     }
 
+    // ---- Esperienze ----
 
-    public PuntoMappa visualizzaPosizione(int id) {
-        return esperienzaRepository.findById(id).orElse(null).getPosizione();
+    public List<EsperienzaPosizioneDTO> visualizzaPosizioneEsperienze() {
+        List<Esperienza> esperienze = esperienzaService.getEsperienze();
+        return esperienze.stream()
+                // Trasforma ogni oggetto Esperienza in un DTO con titolo, descrizione e posizione
+                .map(e -> new EsperienzaPosizioneDTO(e.getTitolo(), e.getDescrizione(), e.getPosizione()))
+                // Colleziona tutti i DTO in una lista
+                .collect(Collectors.toList());
     }
 
-    public PuntoMappa visualizzaPosizioneE(int id) {
-        return esperienzaRepository.findById(id).orElse(null).getPosizione();
+    public PuntoMappa visualizzaPosizione(int idEsperienza) {
+        return esperienzaService.getEsperienzaById(idEsperienza).getPosizione();
     }
-    public PuntoMappa visualizzaPosizioneV(String email) {
-        return venditoreRepository.findById(email).orElse(null).getPosizione();
-    }
-
 }

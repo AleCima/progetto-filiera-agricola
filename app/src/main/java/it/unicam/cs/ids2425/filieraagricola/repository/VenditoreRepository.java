@@ -1,6 +1,5 @@
 package it.unicam.cs.ids2425.filieraagricola.repository;
 
-import it.unicam.cs.ids2425.filieraagricola.controller.DTO.VenditoreDTO;
 import it.unicam.cs.ids2425.filieraagricola.controller.DTO.VenditorePosizioneDTO;
 import it.unicam.cs.ids2425.filieraagricola.model.Venditore;
 import org.springframework.data.jpa.repository.JpaRepository;

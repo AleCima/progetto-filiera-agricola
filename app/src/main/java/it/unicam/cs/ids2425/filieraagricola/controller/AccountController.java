@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/account")
@@ -39,6 +40,9 @@ public class AccountController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+        if(accService.getUtenteByEmail(uDTO.getEmail())!=null){
+            return new ResponseEntity<>("Un account con questa email e' gia stato creato", HttpStatus.BAD_REQUEST);
+        }
         accService.aggiungiUtente(u);
         return new ResponseEntity<>("Utente creato con successo", HttpStatus.CREATED);
     }
@@ -46,6 +50,9 @@ public class AccountController {
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PutMapping("/modifica-utente")
     public ResponseEntity<Object> modificaUtente(@RequestParam String email, @RequestBody UtenteDTO uDTO) {
+        if (!uDTO.getEmail().equals(email)){
+            return new ResponseEntity<>("Non e' possibile cambiare la mail", HttpStatus.BAD_REQUEST);
+        }
         Utente u = new Utente(uDTO.getEmail(), uDTO.getPassword(), uDTO.getNome(), uDTO.getCognome());
         try {
             accountDataHandler.check(u);
@@ -93,11 +100,33 @@ public class AccountController {
 
     @GetMapping("/ricerca-utente")
     public ResponseEntity<Object> getUtente(@RequestParam String email){
-        return  new ResponseEntity<>(accService.getUtenteByEmail(email), HttpStatus.OK);
+        Utente utente = accService.getUtenteByEmail(email);
+        if(utente == null){
+            return new ResponseEntity<>("Utente non trovato", HttpStatus.NOT_FOUND);
+        }
+        utente.setPassword("CRIPTATA");
+        return new ResponseEntity<>(utente, HttpStatus.OK);
     }
     @GetMapping("/ricerca-venditore")
     public ResponseEntity<Object> getVenditore(@RequestParam String email) {
+        Venditore venditore = accService.getVenditoreByEmail(email);
+        if(venditore == null){
+            return new ResponseEntity<>("Venditore non trovato", HttpStatus.NOT_FOUND);
+        }
+        venditore.setPassword("CRIPTATA");
         return new ResponseEntity<>(accService.getVenditoreByEmail(email), HttpStatus.OK);
+    }
+
+    @GetMapping("/ricerca-venditori")
+    public ResponseEntity<Object> getVenditori() {
+        List<Venditore> venditori = accService.getVenditori();
+        if (venditori == null || venditori.isEmpty()) {
+            return new ResponseEntity<>("Nessun venditore trovato", HttpStatus.NOT_FOUND);
+        }
+
+        venditori.forEach(v -> v.setPassword("CRIPTATA"));
+
+        return new ResponseEntity<>(venditori, HttpStatus.OK);
     }
 
     // Assegna un singolo ruolo a un utente

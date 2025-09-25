@@ -24,145 +24,188 @@ import java.util.List;
 @RestController
 @RequestMapping("/contenuto")
 public class ContenutoController {
-    ContenutoService contenutoService;
-    AccountService accountService; //Probabilmente servira' per controllare chi pubblica cosa(?)
-    Handler contenutoDataHandler;
+    private final ContenutoService contenutoService;
+    private final AccountService accountService;
+    private Handler contenutoDataHandler;
+
     public ContenutoController(ContenutoService contenutoService, AccountService accountService) {
         this.contenutoService = contenutoService;
         this.accountService = accountService;
         contenutoDataHandler = new NonNullOrEmptyHandler();
     }
 
-    //addProdotto
+    // Aggiungi Prodotto
     @PostMapping("/aggiungi-prodotto")
     public ResponseEntity<Object> addContenuto(@RequestBody ProdottoDTO pDTO) {
-        //TODO controlla autorizzazioni solo produttore puo aggiungere
+        Venditore venditore = accountService.getVenditoreByEmail(pDTO.getEmailProduttore());
+        if (venditore == null) return new ResponseEntity<>("Venditore non trovato", HttpStatus.NOT_FOUND);
+
         ProdottoBuilder prodottoBuilder = new ProdottoBuilder();
-        Contenuto nuovoContenuto = prodottoBuilder.setCertificazioni(pDTO.getCertificazioni())
+        Contenuto nuovoContenuto = prodottoBuilder
+                .setCertificazioni(pDTO.getCertificazioni())
                 .setDataCaricamento(pDTO.getDataCaricamento())
                 .setDataProduzione(pDTO.getDataProduzione())
                 .setDescrizione(pDTO.getDescrizione())
                 .setNome(pDTO.getNome())
                 .setPrezzo(pDTO.getPrezzo())
-                .setVenditore(accountService.getVenditoreByEmail(pDTO.getEmailProduttore()))
+                .setVenditore(venditore)
                 .setQuantita(pDTO.getQuantita())
                 .setListaTrasformazioni(pDTO.getListaTrasformazioni())
                 .setMetodoDiColtivazione(pDTO.getMetodoDiColtivazione())
                 .build();
 
-        try{
+        try {
             contenutoDataHandler.check(nuovoContenuto);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
         contenutoService.addContenuto(nuovoContenuto);
         return new ResponseEntity<>("Prodotto aggiunto con successo", HttpStatus.OK);
     }
 
+    // Aggiungi Trasformazione
     @PostMapping("/aggiungi-trasformazione")
     public ResponseEntity<Object> addContenuto(@RequestBody TrasformazioneDTO tDTO) {
+        Venditore venditore = accountService.getVenditoreByEmail(tDTO.getEmailTrasformatore());
+        if (venditore == null) return new ResponseEntity<>("Trasformatore non trovato", HttpStatus.NOT_FOUND);
+
         ContenutoBuilder trasformazioneBuilder = new TrasformazioneBuilder();
-        System.out.println(tDTO.getEmailTrasformatore());
-        Contenuto nuovoContenuto = trasformazioneBuilder.setDataCaricamento(tDTO.getDataCaricamento())
+        Contenuto nuovoContenuto = trasformazioneBuilder
+                .setDataCaricamento(tDTO.getDataCaricamento())
                 .setDescrizione(tDTO.getDescrizione())
                 .setPrezzo(tDTO.getPrezzo())
-                .setVenditore(accountService.getVenditoreByEmail(tDTO.getEmailTrasformatore()))
-                .setQuantita(tDTO.getQuant()).build();
-        try{
+                .setVenditore(venditore)
+                .setQuantita(tDTO.getQuant())
+                .build();
+
+        try {
             contenutoDataHandler.check(nuovoContenuto);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        contenutoService.addContenuto(nuovoContenuto);
 
-        return new ResponseEntity<>("Contenuto aggiunto al sistema", HttpStatus.OK);
+        contenutoService.addContenuto(nuovoContenuto);
+        return new ResponseEntity<>("Trasformazione aggiunta con successo", HttpStatus.OK);
     }
 
+    // Aggiungi Pacchetto
     @PostMapping("/aggiungi-pacchetto")
     public ResponseEntity<Object> addContenuto(@RequestBody PacchettoDTO pDTO) {
+        Venditore venditore = accountService.getVenditoreByEmail(pDTO.getEmailDistributore());
+        if (venditore == null) return new ResponseEntity<>("Distributore non trovato", HttpStatus.NOT_FOUND);
 
         List<Contenuto> contenuti = new ArrayList<>();
-        for (int id : pDTO.getListaProdotti()){
-            contenuti.add(contenutoService.getContenutoById(id));
-            System.out.println(contenuti.getLast());
+        for (int id : pDTO.getListaProdotti()) {
+            Contenuto c = contenutoService.getContenutoById(id);
+            if (c == null) return new ResponseEntity<>("Prodotto con ID " + id + " non trovato", HttpStatus.NOT_FOUND);
+            contenuti.add(c);
         }
+
         PacchettoBuilder pacchettoBuilder = new PacchettoBuilder();
-        Contenuto nuovoContenuto = pacchettoBuilder.setDataCaricamento(pDTO.getDataCaricamento())
+        Contenuto nuovoContenuto = pacchettoBuilder
+                .setDataCaricamento(pDTO.getDataCaricamento())
                 .setDescrizione(pDTO.getDescrizione())
                 .setNome(pDTO.getNome())
                 .setQuantita(pDTO.getQuantita())
-                .setVenditore(accountService.getVenditoreByEmail(pDTO.getEmailDistributore()))
+                .setVenditore(venditore)
                 .setListaContenuti(contenuti)
-                .setPrezzo(pDTO.getPrezzo()).build();
+                .setPrezzo(pDTO.getPrezzo())
+                .build();
 
-        try{
+        try {
             contenutoDataHandler.setNext(new PacchettoContenutiHandler());
             contenutoDataHandler.check(nuovoContenuto);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
         contenutoService.addContenuto(nuovoContenuto);
-        return new ResponseEntity<>("Contenuto aggiunto al sistema", HttpStatus.OK);
+        return new ResponseEntity<>("Pacchetto aggiunto con successo", HttpStatus.OK);
     }
 
+    // Modifica Prodotto
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/modifica-prodotto")
     public ResponseEntity<Object> updateContenuto(@RequestParam int id, @RequestBody ProdottoDTO pDTO) {
+        Venditore venditore = accountService.getVenditoreByEmail(pDTO.getEmailProduttore());
+        if (venditore == null) return new ResponseEntity<>("Venditore non trovato", HttpStatus.NOT_FOUND);
+
         ProdottoBuilder prodottoBuilder = new ProdottoBuilder();
-        Contenuto nuovoContenuto = prodottoBuilder.setCertificazioni(pDTO.getCertificazioni())
+        Contenuto nuovoContenuto = prodottoBuilder
+                .setCertificazioni(pDTO.getCertificazioni())
                 .setDataCaricamento(pDTO.getDataCaricamento())
                 .setDataProduzione(pDTO.getDataProduzione())
                 .setDescrizione(pDTO.getDescrizione())
                 .setNome(pDTO.getNome())
                 .setPrezzo(pDTO.getPrezzo())
-                .setVenditore(accountService.getVenditoreByEmail(pDTO.getEmailProduttore()))
+                .setVenditore(venditore)
                 .setQuantita(pDTO.getQuantita())
                 .setListaTrasformazioni(pDTO.getListaTrasformazioni())
                 .setMetodoDiColtivazione(pDTO.getMetodoDiColtivazione())
                 .build();
+
         nuovoContenuto.setId(id);
-        try{
+
+        try {
             contenutoDataHandler.check(nuovoContenuto);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
         contenutoService.updateContenuto(nuovoContenuto);
-        return new ResponseEntity<>("Contenuto modificato", HttpStatus.OK);
+        return new ResponseEntity<>("Prodotto modificato con successo", HttpStatus.OK);
     }
 
+    // Modifica Trasformazione
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/modifica-trasformazione")
-    public ResponseEntity<Object> updateContenuto(@RequestParam int id, @RequestBody TrasformazioneDTO tDTO){
+    public ResponseEntity<Object> updateContenuto(@RequestParam int id, @RequestBody TrasformazioneDTO tDTO) {
+        Venditore venditore = accountService.getVenditoreByEmail(tDTO.getEmailTrasformatore());
+        if (venditore == null) return new ResponseEntity<>("Trasformatore non trovato", HttpStatus.NOT_FOUND);
+
         ContenutoBuilder trasformazioneBuilder = new TrasformazioneBuilder();
-        System.out.println(tDTO.getEmailTrasformatore());
-        Contenuto nuovoContenuto = trasformazioneBuilder.setDataCaricamento(tDTO.getDataCaricamento())
+        Contenuto nuovoContenuto = trasformazioneBuilder
+                .setDataCaricamento(tDTO.getDataCaricamento())
                 .setDescrizione(tDTO.getDescrizione())
                 .setPrezzo(tDTO.getPrezzo())
-                .setVenditore(accountService.getVenditoreByEmail(tDTO.getEmailTrasformatore()))
-                .setQuantita(tDTO.getQuant()).build();
+                .setVenditore(venditore)
+                .setQuantita(tDTO.getQuant())
+                .build();
+
         nuovoContenuto.setId(id);
-        try{
+
+        try {
             contenutoDataHandler.check(nuovoContenuto);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
         contenutoService.updateContenuto(nuovoContenuto);
-        return new ResponseEntity<>("Contenuto modificato", HttpStatus.OK);
+        return new ResponseEntity<>("Trasformazione modificata con successo", HttpStatus.OK);
     }
 
+    // Rimuovi contenuto
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
     @DeleteMapping("rimuovi-contenuto")
     public ResponseEntity<Object> removeContenuto(@RequestParam int id) {
-        contenutoService.removeContenuto(contenutoService.getContenutoById(id));
+        Contenuto c = contenutoService.getContenutoById(id);
+        if (c == null) return new ResponseEntity<>("Contenuto non trovato", HttpStatus.NOT_FOUND);
+
+        contenutoService.removeContenuto(c);
         return new ResponseEntity<>("Contenuto eliminato con successo", HttpStatus.OK);
     }
 
+    // Altri metodi add/remove trasformazioni e pacchetti
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#idTrasformazione, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/aggiungi-trasformazione")
     public ResponseEntity<Object> addTrasformazioneTo(@RequestParam int idProdotto, @RequestParam int idTrasformazione) {
-        //TODO controlli
         Prodotto prodotto = (Prodotto) contenutoService.getContenutoById(idProdotto);
         Trasformazione trasformazione = (Trasformazione) contenutoService.getContenutoById(idTrasformazione);
+
+        if (prodotto == null) return new ResponseEntity<>("Prodotto non trovato", HttpStatus.NOT_FOUND);
+        if (trasformazione == null) return new ResponseEntity<>("Trasformazione non trovata", HttpStatus.NOT_FOUND);
+
         contenutoService.addTrasformazioneTo(prodotto, trasformazione);
         return new ResponseEntity<>("Trasformazione aggiunta con successo", HttpStatus.OK);
     }
@@ -172,9 +215,13 @@ public class ContenutoController {
     public ResponseEntity<Object> removeTrasformazioneFrom(@RequestParam int idProdotto, @RequestParam int idTrasformazione) {
         Prodotto prodotto = (Prodotto) contenutoService.getContenutoById(idProdotto);
         Trasformazione trasformazione = (Trasformazione) contenutoService.getContenutoById(idTrasformazione);
-        if (!prodotto.getListaTrasformazioni().contains(trasformazione)){
-            return new ResponseEntity<>("Trasformazione non presente nella lista di trasformazioni del prodotto", HttpStatus.NOT_FOUND);
-        }
+
+        if (prodotto == null) return new ResponseEntity<>("Prodotto non trovato", HttpStatus.NOT_FOUND);
+        if (trasformazione == null) return new ResponseEntity<>("Trasformazione non trovata", HttpStatus.NOT_FOUND);
+
+        if (!prodotto.getListaTrasformazioni().contains(trasformazione))
+            return new ResponseEntity<>("Trasformazione non presente nel prodotto", HttpStatus.NOT_FOUND);
+
         contenutoService.removeTrasformazioneFrom(prodotto, trasformazione);
         return new ResponseEntity<>("Trasformazione rimossa con successo", HttpStatus.OK);
     }
@@ -182,8 +229,12 @@ public class ContenutoController {
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#idPacchetto, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/aggiungi-al-pacchetto")
     public ResponseEntity<Object> addToPacchetto(@RequestParam int idProdotto, @RequestParam int idPacchetto) {
-        Prodotto prodotto = (Prodotto) contenutoService.getContenutoById(idProdotto);
+        Contenuto prodotto = contenutoService.getContenutoById(idProdotto);
         Pacchetto pacchetto = (Pacchetto) contenutoService.getContenutoById(idPacchetto);
+
+        if (prodotto == null) return new ResponseEntity<>("Prodotto non trovato", HttpStatus.NOT_FOUND);
+        if (pacchetto == null) return new ResponseEntity<>("Pacchetto non trovato", HttpStatus.NOT_FOUND);
+
         contenutoService.addContenutoToPacchetto(prodotto, pacchetto);
         return new ResponseEntity<>("Contenuto aggiunto al pacchetto", HttpStatus.OK);
     }
@@ -191,50 +242,55 @@ public class ContenutoController {
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#idPacchetto, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/rimuovi-da-pacchetto")
     public ResponseEntity<Object> removeFromPacchetto(@RequestParam int idProdotto, @RequestParam int idPacchetto) {
-        Prodotto prodotto = (Prodotto) contenutoService.getContenutoById(idProdotto);
+        Contenuto prodotto = contenutoService.getContenutoById(idProdotto);
         Pacchetto pacchetto = (Pacchetto) contenutoService.getContenutoById(idPacchetto);
-        if (!pacchetto.getListaProdotti().contains(prodotto)){
+
+        if (prodotto == null) return new ResponseEntity<>("Prodotto non trovato", HttpStatus.NOT_FOUND);
+        if (pacchetto == null) return new ResponseEntity<>("Pacchetto non trovato", HttpStatus.NOT_FOUND);
+
+        if (!pacchetto.getListaProdotti().contains(prodotto))
             return new ResponseEntity<>("Prodotto non presente nel pacchetto", HttpStatus.NOT_FOUND);
-        }
+
         contenutoService.removeProdottoFromPacchetto(prodotto, pacchetto);
         return new ResponseEntity<>("Contenuto rimosso dal pacchetto", HttpStatus.OK);
     }
 
-
+    // GET Contenuti filtrati per stato APPROVATO
     @GetMapping("ottieni-contenuti")
-    public ResponseEntity<Object> getContenuti(){
-        //TODO Controlli
+    public ResponseEntity<Object> getContenuti() {
         List<Contenuto> contenuti = contenutoService.getContenuti();
         contenuti.removeIf(contenuto -> contenuto.getStatoConferma() != Conferma.APPROVATO);
         return new ResponseEntity<>(contenuti, HttpStatus.OK);
     }
 
     @GetMapping("ottieni-contenuti-venditore")
-    public ResponseEntity<Object> getContenutiFromVenditore(@RequestParam String emailVenditore){
-        //TODO Controlli e test
+    public ResponseEntity<Object> getContenutiFromVenditore(@RequestParam String emailVenditore) {
+        Venditore venditore = accountService.getVenditoreByEmail(emailVenditore);
+        if (venditore == null) return new ResponseEntity<>("Venditore non trovato", HttpStatus.NOT_FOUND);
+
         List<Contenuto> contenuti = contenutoService.getContenutoByVenditore(emailVenditore);
         contenuti.removeIf(contenuto -> contenuto.getStatoConferma() != Conferma.APPROVATO);
         return new ResponseEntity<>(contenuti, HttpStatus.OK);
     }
 
     @GetMapping("ottieni-prodotti")
-    public ResponseEntity<Object> getProdotti(){
+    public ResponseEntity<Object> getProdotti() {
         List<Contenuto> contenuti = contenutoService.getContenuti();
-        contenuti.removeIf(contenuto -> (contenuto.getStatoConferma() != Conferma.APPROVATO) && !(contenuto instanceof Prodotto));
+        contenuti.removeIf(contenuto -> contenuto.getStatoConferma() != Conferma.APPROVATO || !(contenuto instanceof Prodotto));
         return new ResponseEntity<>(contenuti, HttpStatus.OK);
     }
 
     @GetMapping("ottieni-trasformazioni")
-    public ResponseEntity<Object> getTrasformazioni(){
+    public ResponseEntity<Object> getTrasformazioni() {
         List<Contenuto> contenuti = contenutoService.getContenuti();
-        contenuti.removeIf(contenuto -> (contenuto.getStatoConferma() != Conferma.APPROVATO) && !(contenuto instanceof Trasformazione));
+        contenuti.removeIf(contenuto -> contenuto.getStatoConferma() != Conferma.APPROVATO || !(contenuto instanceof Trasformazione));
         return new ResponseEntity<>(contenuti, HttpStatus.OK);
     }
 
     @GetMapping("ottieni-pacchetti")
-    public ResponseEntity<Object> getPacchetti(){
+    public ResponseEntity<Object> getPacchetti() {
         List<Contenuto> contenuti = contenutoService.getContenuti();
-        contenuti.removeIf(contenuto -> (contenuto.getStatoConferma() != Conferma.APPROVATO) && !(contenuto instanceof Pacchetto));
+        contenuti.removeIf(contenuto -> contenuto.getStatoConferma() != Conferma.APPROVATO || !(contenuto instanceof Pacchetto));
         return new ResponseEntity<>(contenuti, HttpStatus.OK);
     }
 }

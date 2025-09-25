@@ -58,8 +58,8 @@ public class ContenutoService {
         contenutoRepository.save(pacchetto);
     }
 
-    public void removeProdottoFromPacchetto(Prodotto prodotto, Pacchetto pacchetto) {
-        pacchetto.removeProdotto(prodotto);
+    public void removeProdottoFromPacchetto(Contenuto contenuto, Pacchetto pacchetto) {
+        pacchetto.removeProdotto(contenuto);
         contenutoRepository.save(pacchetto);
     }
 
