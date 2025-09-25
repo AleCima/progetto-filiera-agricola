@@ -22,6 +22,8 @@ public class Proposta {
 
     private boolean accettata;
 
+    public Proposta() {
+    }
     // Costruttore
     public Proposta(String titolo, String descrizione, Utente organizzatore,
                     Venditore destinatario) {
@@ -49,19 +51,12 @@ public class Proposta {
         return destinatario;
     }
 
-    public boolean getAccettata() {
-        return accettata;
-    }
-
     public void setAccettata(boolean accettata) {
         this.accettata = accettata;
     }
 
     public int getId() {
         return id;
-    }
-
-    public Proposta() {
     }
 
     public void setTitolo(String titolo) {

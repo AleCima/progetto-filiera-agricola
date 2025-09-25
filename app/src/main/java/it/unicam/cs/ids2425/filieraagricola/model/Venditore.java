@@ -82,12 +82,12 @@ public class Venditore implements Account {
 
     @Override
     public void addRuolo(Ruolo ruolo) {
-        //TODO
+        ruoli.add(ruolo);
     }
 
     @Override
     public void setRuoli(List<Ruolo> ruoli) {
-        //TODO
+        this.ruoli = ruoli;
     }
 
     @Override
@@ -97,6 +97,6 @@ public class Venditore implements Account {
 
     @Override
     public void removeRuolo(Ruolo ruolo) {
-        //TODO
+        ruoli.remove(ruolo);
     }
 }
