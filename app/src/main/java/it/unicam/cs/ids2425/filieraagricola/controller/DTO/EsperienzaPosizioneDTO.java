@@ -1,16 +1,16 @@
 package it.unicam.cs.ids2425.filieraagricola.controller.DTO;
 
+import it.unicam.cs.ids2425.filieraagricola.model.PuntoMappa;
+
 public class EsperienzaPosizioneDTO {
     private String titolo;
     private String descrizione;
-    private double latitudine;
-    private double longitudine;
+    private PuntoMappa posizione;
 
-    public EsperienzaPosizioneDTO(String titolo, String descrizione, double latitudine, double longitudine) {
+    public EsperienzaPosizioneDTO(String titolo, String descrizione, PuntoMappa posizione) {
         this.titolo = titolo;
         this.descrizione = descrizione;
-        this.latitudine = latitudine;
-        this.longitudine = longitudine;
+        this.posizione = posizione;
     }
 
     public String getTitolo() {
@@ -21,11 +21,11 @@ public class EsperienzaPosizioneDTO {
         return descrizione;
     }
 
-    public double getLatitudine() {
-        return latitudine;
+    public PuntoMappa getPosizione() {
+        return posizione;
     }
 
-    public double getLongitudine() {
-        return longitudine;
+    public void setPosizione(PuntoMappa posizione) {
+        this.posizione = posizione;
     }
 }

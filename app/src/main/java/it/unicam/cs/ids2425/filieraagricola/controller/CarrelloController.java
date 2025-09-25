@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-//TODO aggiungi controlli autorizzazione
 @RestController
 @RequestMapping("/carrello")
 public class CarrelloController {
@@ -43,8 +42,11 @@ public class CarrelloController {
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PostMapping("/aggiungi-contenuto")
     public ResponseEntity<Object> aggiungiContenutoAlCarrello(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
-        //TODO controlli su contenuto
-        RigaCarrello rc = new RigaCarrello(contenutoService.getContenutoById(rcDTO.getId()), rcDTO.getQuantita());
+        Contenuto contenuto = contenutoService.getContenutoById(rcDTO.getId());
+        if (contenuto == null){
+            return new ResponseEntity<>("Contenuto non presente nel sistema", HttpStatus.NOT_FOUND);
+        }
+        RigaCarrello rc = new RigaCarrello(contenuto, rcDTO.getQuantita());
         try{
             cartDataHandler.check(rc);
         } catch (Exception e) {
@@ -59,10 +61,14 @@ public class CarrelloController {
     public ResponseEntity<Object> rimuoviContenuto(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
         Carrello carrelloUt = carrelloService.getCarrelloFromUtente(email);
         Contenuto contenutoDaRimuovere = contenutoService.getContenutoById(rcDTO.getId());
+        if (contenutoDaRimuovere == null){
+            return new ResponseEntity<>("Contenuto non presente nel sistema", HttpStatus.NOT_FOUND);
+        }
+
         if (!carrelloService.contains(carrelloUt, contenutoDaRimuovere)){
             return new ResponseEntity<>("Contenuto non presente nel carrello", HttpStatus.BAD_REQUEST);
         }
-        //TODO controlli aut
+
         carrelloService.rimuoviContenuto(email, contenutoDaRimuovere, rcDTO.getQuantita());
 
         return new ResponseEntity<>("Quantità del contenuto rimossa con successo", HttpStatus.OK);
@@ -73,7 +79,9 @@ public class CarrelloController {
     public ResponseEntity<Object> aggiungiQuantita(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
         Carrello carrelloUt = carrelloService.getCarrelloFromUtente(email);
         Contenuto contenutoDaModficare = contenutoService.getContenutoById(rcDTO.getId());
-        //TODO controlli aut
+        if (contenutoDaModficare == null){
+            return new ResponseEntity<>("Contenuto non presente nel sistema", HttpStatus.NOT_FOUND);
+        }
         if (!carrelloService.contains(carrelloUt, contenutoDaModficare)){
             return new ResponseEntity<>("Contenuto non presente nel carrello", HttpStatus.BAD_REQUEST);
         }
@@ -85,7 +93,6 @@ public class CarrelloController {
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @DeleteMapping("/svuota-carrello")
     public ResponseEntity<Object> svuotaCarrello(@RequestParam String email){
-        //TODO autenticazione
         carrelloService.svuota(email);
         return new ResponseEntity<>("Carrello svuotato con successo", HttpStatus.OK);
     }
