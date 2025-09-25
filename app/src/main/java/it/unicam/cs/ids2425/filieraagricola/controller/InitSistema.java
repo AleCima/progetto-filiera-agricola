@@ -13,6 +13,12 @@ public class InitSistema {
 
     private final AccountService accountService;
     private Utente gestore;
+    private Utente produttore;
+    private Utente trasformatore;
+    private Utente distributore;
+    private Utente animatore;
+    private Utente curatore;
+    private Utente acquirente;
     private Venditore venditore;
 
     public InitSistema(AccountService accountService) {
@@ -22,10 +28,45 @@ public class InitSistema {
     @PostConstruct
     public void init() {
         // Creo il gestore e assegno ruoli
-        gestore = new Utente("mario.bianchi@gestore.it", "123123", "Mario", "Bianchi");
+        // GESTORE
+        gestore = new Utente("gestore@gmail.com", "gestore", "Gestore", "Gestore");
         gestore.addRuolo(Ruolo.GESTORE);
         gestore.removeRuolo(Ruolo.ACQUIRENTE);
         accountService.aggiungiUtente(gestore);
+
+// PRODUTTORE
+        produttore = new Utente("produttore@gmail.com", "produttore", "Produttore", "Produttore");
+        produttore.addRuolo(Ruolo.PRODUTTORE);
+        produttore.removeRuolo(Ruolo.ACQUIRENTE);
+        accountService.aggiungiUtente(produttore);
+
+// TRASFORMATORE
+        trasformatore = new Utente("trasformatore@gmail.com", "trasformatore", "Trasformatore", "Trasformatore");
+        trasformatore.addRuolo(Ruolo.TRASFORMATORE);
+        trasformatore.removeRuolo(Ruolo.ACQUIRENTE);
+        accountService.aggiungiUtente(trasformatore);
+
+// DISTRIBUTORE
+        distributore = new Utente("distributore@gmail.com", "distributore", "Distributore", "Distributore");
+        distributore.addRuolo(Ruolo.DISTRIBUTORE);
+        distributore.removeRuolo(Ruolo.ACQUIRENTE);
+        accountService.aggiungiUtente(distributore);
+
+// ANIMATORE
+        animatore = new Utente("animatore@gmail.com", "animatore", "Animatore", "Animatore");
+        animatore.addRuolo(Ruolo.ANIMATORE);
+        animatore.removeRuolo(Ruolo.ACQUIRENTE);
+        accountService.aggiungiUtente(animatore);
+
+// CURATORE
+        curatore = new Utente("curatore@gmail.com", "curatore", "Curatore", "Curatore");
+        curatore.addRuolo(Ruolo.CURATORE);
+        curatore.removeRuolo(Ruolo.ACQUIRENTE);
+        accountService.aggiungiUtente(curatore);
+
+// ACQUIRENTE
+        acquirente = new Utente("acquirente@gmail.com", "acquirente", "Acquirente", "Acquirente");
+        accountService.aggiungiUtente(acquirente);
 
         // Creo il venditore e assegno ruoli
         List<Ruolo> ruoliVenditore = new ArrayList<>();
