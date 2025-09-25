@@ -71,14 +71,12 @@ public class NonNullOrEmptyHandler extends Handler {
             case Evento e -> {
                 valida(e.getOrganizzatore());
                 valida(e.getDataEsperienza());
-                valida(e.getPartecipanti());
                 valida(e.getNumMaxPartecipanti());
                 valida(e.getPosizione());
             }
             case Visita v -> {
                 valida(v.getOrganizzatore());
                 valida(v.getDataEsperienza());
-                valida(v.getPartecipanti());
                 valida(v.getNumMaxPartecipanti());
                 valida(v.getPosizione());
                 valida(v.getAzienda());
