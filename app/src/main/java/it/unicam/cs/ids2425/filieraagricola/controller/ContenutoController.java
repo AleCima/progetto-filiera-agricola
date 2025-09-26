@@ -293,4 +293,21 @@ public class ContenutoController {
         contenuti.removeIf(contenuto -> contenuto.getStatoConferma() != Conferma.APPROVATO || !(contenuto instanceof Pacchetto));
         return new ResponseEntity<>(contenuti, HttpStatus.OK);
     }
+
+    @GetMapping("ottieni-contenuto")
+    public ResponseEntity<Object> getContenuto(@RequestParam int id){
+        if (contenutoService.getContenutoById(id) == null){
+            return new ResponseEntity<>("Contenuto non esistente", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(contenutoService.getContenutoById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("condividi")
+    public ResponseEntity<Object> condividiSuSocial(@RequestParam int id, @RequestParam String social){
+        try{
+            return new ResponseEntity<>(contenutoService.ottieniLinkSocial(social, id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

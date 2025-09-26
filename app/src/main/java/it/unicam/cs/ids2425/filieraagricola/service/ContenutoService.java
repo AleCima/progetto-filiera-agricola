@@ -1,5 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricola.service;
 
+import it.unicam.cs.ids2425.filieraagricola.exception.CampoNonValidoException;
 import it.unicam.cs.ids2425.filieraagricola.model.*;
 import it.unicam.cs.ids2425.filieraagricola.repository.ContenutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,12 @@ public class ContenutoService {
         return contenutoRepository.findById(id)
                 .map(c -> c.getVenditore().getEmail().equals(email))
                 .orElse(false); // se il contenuto non esiste, ritorna false
+    }
+
+    public String ottieniLinkSocial(String social, int idContenuto) {
+        if (contenutoRepository.findById(idContenuto).isPresent()) {
+            return SistemaSocial.generateLink(social, idContenuto);
+        } else throw new CampoNonValidoException("Non esiste contenuto con id " + idContenuto);
     }
 
 }
