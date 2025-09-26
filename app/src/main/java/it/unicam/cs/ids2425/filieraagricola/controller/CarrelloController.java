@@ -58,7 +58,7 @@ public class CarrelloController {
 
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PostMapping("/rimuovi-contenuto")
-    public ResponseEntity<Object> rimuoviContenuto(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
+    public ResponseEntity<Object> rimuoviQuantita(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
         Carrello carrelloUt = carrelloService.getCarrelloFromUtente(email);
         Contenuto contenutoDaRimuovere = contenutoService.getContenutoById(rcDTO.getId());
         if (contenutoDaRimuovere == null){
