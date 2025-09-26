@@ -40,7 +40,7 @@ public class AccountController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        if(accService.getUtenteByEmail(uDTO.getEmail())!=null){
+        if(accService.getUtenteByEmail(uDTO.getEmail())!=null || accService.getVenditoreByEmail(uDTO.getEmail())!=null){
             return new ResponseEntity<>("Un account con questa email e' gia stato creato", HttpStatus.BAD_REQUEST);
         }
         accService.aggiungiUtente(u);
@@ -75,6 +75,9 @@ public class AccountController {
             accountDataHandler.check(v);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        if(accService.getUtenteByEmail(vDTO.getEmail())!=null || accService.getVenditoreByEmail(vDTO.getEmail())!=null){
+            return new ResponseEntity<>("Un account con questa email e' gia stato creato", HttpStatus.BAD_REQUEST);
         }
         accService.aggiungiVenditore(v);
         return new ResponseEntity<>("Venditore creato con successo", HttpStatus.CREATED);

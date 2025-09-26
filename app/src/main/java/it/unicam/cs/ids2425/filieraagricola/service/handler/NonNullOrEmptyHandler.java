@@ -36,7 +36,6 @@ public class NonNullOrEmptyHandler extends Handler {
                 valida(p.getNome());
                 valida(p.getDataCaricamento());
                 valida(p.getDescrizione());
-                valida(p.getListaTrasformazioni());
                 valida(p.getPrezzo());
                 valida(p.getDataProduzione());
                 valida(p.getStatoConferma());

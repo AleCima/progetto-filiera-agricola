@@ -11,7 +11,7 @@ public class Venditore implements Account {
 
     private String password;
 
-    @ElementCollection(targetClass = Ruolo.class)
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Ruolo.class)
     @CollectionTable(name = "ruoliVenditore", joinColumns = @JoinColumn(name = "email"))
     @Column(name = "ruolo")
     @Enumerated(EnumType.STRING)

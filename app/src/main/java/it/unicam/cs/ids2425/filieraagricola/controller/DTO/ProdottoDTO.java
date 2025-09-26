@@ -79,7 +79,7 @@ public class ProdottoDTO {
     }
 
     public void setEmailProduttore(String email) {
-        this.emailProduttore = emailProduttore;
+        this.emailProduttore = email;
     }
 
     public int getQuantita() {

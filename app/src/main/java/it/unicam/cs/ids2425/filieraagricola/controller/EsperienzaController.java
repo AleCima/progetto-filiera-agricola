@@ -9,6 +9,7 @@ import it.unicam.cs.ids2425.filieraagricola.service.EsperienzaService;
 import it.unicam.cs.ids2425.filieraagricola.service.PropostaService;
 import it.unicam.cs.ids2425.filieraagricola.service.handler.Handler;
 import it.unicam.cs.ids2425.filieraagricola.service.handler.NonNullOrEmptyHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,13 +21,14 @@ public class EsperienzaController {
 
     private final EsperienzaService espService;
     private final AccountService accService;
-    private final PropostaService propService;
+    private final PropostaService propostaService;
     private final Handler esperienzaDataHandler;
 
-    public EsperienzaController(EsperienzaService espService, AccountService accService, PropostaService propService) {
+    @Autowired
+    public EsperienzaController(EsperienzaService espService, AccountService accService, PropostaService propostaService) {
         this.espService = espService;
         this.accService = accService;
-        this.propService = propService;
+        this.propostaService = propostaService;
         this.esperienzaDataHandler = new NonNullOrEmptyHandler();
     }
 
@@ -59,14 +61,14 @@ public class EsperienzaController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-        propService.aggiungiProposta(proposta);
+        propostaService.aggiungiProposta(proposta);
         return new ResponseEntity<>("Proposta inviata con successo", HttpStatus.OK);
     }
 
 
     @PutMapping("/modifica-proposta")
     public ResponseEntity<Object> modificaProposta(@RequestBody PropostaDTO propostaDTO, @RequestParam int id) {
-        Proposta proposta = propService.getProposta(id);
+        Proposta proposta = propostaService.getProposta(id);
         if (proposta == null) return new ResponseEntity<>("Proposta non trovata", HttpStatus.NOT_FOUND);
 
         Utente organizzatore = accService.getUtenteByEmail(propostaDTO.getOrganizzatore());
@@ -83,15 +85,15 @@ public class EsperienzaController {
         try { esperienzaDataHandler.check(proposta); }
         catch (Exception e) { return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); }
 
-        propService.modificaProposta(proposta);
+        propostaService.modificaProposta(proposta);
         return new ResponseEntity<>("Proposta modificata con successo", HttpStatus.OK);
     }
 
     @DeleteMapping("/annulla-proposta")
     public ResponseEntity<Object> annullaProposta(@RequestParam int id) {
-        Proposta proposta = propService.getProposta(id);
+        Proposta proposta = propostaService.getProposta(id);
         if (proposta == null) return new ResponseEntity<>("Proposta non trovata", HttpStatus.NOT_FOUND);
-        propService.rimuoviProposta(proposta);
+        propostaService.rimuoviProposta(proposta);
         return new ResponseEntity<>("Proposta annullata con successo", HttpStatus.OK);
     }
 
@@ -99,20 +101,20 @@ public class EsperienzaController {
     public ResponseEntity<Object> getProposteVenditore(@RequestParam String email) {
         Venditore venditore = accService.getVenditoreByEmail(email);
         if (venditore == null) return new ResponseEntity<>("Venditore non trovato", HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(propService.getProposteVenditore(venditore), HttpStatus.OK);
+        return new ResponseEntity<>(propostaService.getProposteVenditore(venditore), HttpStatus.OK);
     }
 
     @GetMapping("/proposte-organizzatore")
     public ResponseEntity<Object> getProposteOrganizzatore(@RequestParam String email) {
         Utente organizzatore = accService.getUtenteByEmail(email);
         if (organizzatore == null) return new ResponseEntity<>("Organizzatore non trovato", HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(propService.getProposteOrganizzatore(organizzatore), HttpStatus.OK);
+        return new ResponseEntity<>(propostaService.getProposteOrganizzatore(organizzatore), HttpStatus.OK);
     }
 
-    @PreAuthorize("@propService.isDestinatario(#id, authentication.name) or hasRole('GESTORE')")
+    @PreAuthorize("@propostaService.isDestinatario(#id, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/accetta-proposta")
     public ResponseEntity<Object> accettaProposta(@RequestParam int id) {
-        Proposta proposta = propService.getProposta(id);
+        Proposta proposta = propostaService.getProposta(id);
         if (proposta == null) {
             return new ResponseEntity<>("Proposta non trovata", HttpStatus.NOT_FOUND);
         }
@@ -124,7 +126,7 @@ public class EsperienzaController {
 
         // Cambia il flag a true
         proposta.setAccettata(true);
-        propService.modificaProposta(proposta);
+        propostaService.modificaProposta(proposta);
 
         return new ResponseEntity<>("Proposta accettata con successo", HttpStatus.OK);
     }
@@ -244,6 +246,7 @@ public class EsperienzaController {
 
     // ------------------------ PARTECIPANTI ------------------------
 
+    @PreAuthorize("#emailUtente == authentication.name or hasRole('GESTORE')")
     @PutMapping("/aggiungi-partecipante")
     public ResponseEntity<Object> aggiungiPartecipante(@RequestParam int esperienzaId, @RequestParam String emailUtente) {
         Utente partecipante = accService.getUtenteByEmail(emailUtente);
@@ -258,6 +261,7 @@ public class EsperienzaController {
         return new ResponseEntity<>("Partecipante aggiunto con successo", HttpStatus.OK);
     }
 
+    @PreAuthorize("#emailUtente == authentication.name or hasRole('GESTORE')")
     @PutMapping("/rimuovi-partecipante")
     public ResponseEntity<Object> rimuoviPartecipante(@RequestParam int esperienzaId, @RequestParam String emailUtente) {
         Utente partecipante = accService.getUtenteByEmail(emailUtente);

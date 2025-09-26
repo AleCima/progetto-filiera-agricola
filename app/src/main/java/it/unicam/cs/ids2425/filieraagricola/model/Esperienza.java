@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED) // importante per le sottoclassi Evento e Visita
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // importante per le sottoclassi Evento e Visita
 public abstract class Esperienza {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

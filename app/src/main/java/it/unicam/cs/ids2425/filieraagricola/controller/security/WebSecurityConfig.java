@@ -54,9 +54,6 @@ public class WebSecurityConfig {
 
                         // H2 CONSOLE
                         .requestMatchers("/h2-console/**").permitAll()
-
-                        // Tutte le altre richieste richiedono autenticazione
-                        .anyRequest().authenticated()
                 )
 
                 .csrf(AbstractHttpConfigurer::disable)
