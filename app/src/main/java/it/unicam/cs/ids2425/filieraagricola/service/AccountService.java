@@ -1,5 +1,7 @@
 package it.unicam.cs.ids2425.filieraagricola.service;
 
+import it.unicam.cs.ids2425.filieraagricola.exception.CampoNonValidoException;
+import it.unicam.cs.ids2425.filieraagricola.model.Account;
 import it.unicam.cs.ids2425.filieraagricola.model.Ruolo;
 import it.unicam.cs.ids2425.filieraagricola.model.Utente;
 import it.unicam.cs.ids2425.filieraagricola.model.Venditore;
@@ -76,6 +78,17 @@ public class AccountService {
 
     public List<Venditore> getVenditori() {
         return venditoreRepository.findAll();
+    }
+
+    public Account getAccount(String email){
+        if (utenteRepository.findById(email).isPresent()) {
+            return utenteRepository.findById(email).orElse(null);
+        }
+
+        if (venditoreRepository.findById(email).isPresent()) {
+            return venditoreRepository.findById(email).orElse(null);
+        }
+        return null;
     }
 
 }

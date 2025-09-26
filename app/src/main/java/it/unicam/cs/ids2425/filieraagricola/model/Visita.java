@@ -1,16 +1,13 @@
 package it.unicam.cs.ids2425.filieraagricola.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
 public class Visita extends Esperienza {
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "azienda_email", referencedColumnName = "email")
     private Venditore azienda;
 

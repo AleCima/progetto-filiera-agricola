@@ -16,6 +16,8 @@ import it.unicam.cs.ids2425.filieraagricola.service.handler.PacchettoContenutiHa
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import java.util.List;
 public class ContenutoController {
     private final ContenutoService contenutoService;
     private final AccountService accountService;
-    private Handler contenutoDataHandler;
+    private final Handler contenutoDataHandler;
 
     public ContenutoController(ContenutoService contenutoService, AccountService accountService) {
         this.contenutoService = contenutoService;
@@ -35,10 +37,11 @@ public class ContenutoController {
     }
 
     // Aggiungi Prodotto
+    @PreAuthorize("#pDTO.getEmailProduttore().equals(authentication.name) or hasRole('GESTORE')")
     @PostMapping("/aggiungi-prodotto")
     public ResponseEntity<Object> addContenuto(@RequestBody ProdottoDTO pDTO) {
         Venditore venditore = accountService.getVenditoreByEmail(pDTO.getEmailProduttore());
-        if (venditore == null) return new ResponseEntity<>("Venditore non trovato", HttpStatus.NOT_FOUND);
+        if (venditore == null) return new ResponseEntity<>("Produttore non trovato", HttpStatus.NOT_FOUND);
 
         ProdottoBuilder prodottoBuilder = new ProdottoBuilder();
         Contenuto nuovoContenuto = prodottoBuilder
@@ -65,6 +68,7 @@ public class ContenutoController {
     }
 
     // Aggiungi Trasformazione
+    @PreAuthorize("#tDTO.getEmailTrasformatore().equals(authentication.name) or hasRole('GESTORE')")
     @PostMapping("/aggiungi-trasformazione")
     public ResponseEntity<Object> addContenuto(@RequestBody TrasformazioneDTO tDTO) {
         Venditore venditore = accountService.getVenditoreByEmail(tDTO.getEmailTrasformatore());
@@ -90,6 +94,7 @@ public class ContenutoController {
     }
 
     // Aggiungi Pacchetto
+    @PreAuthorize("#pDTO.getEmailDistributore().equals(authentication.name) or hasRole('GESTORE')")
     @PostMapping("/aggiungi-pacchetto")
     public ResponseEntity<Object> addContenuto(@RequestBody PacchettoDTO pDTO) {
         Venditore venditore = accountService.getVenditoreByEmail(pDTO.getEmailDistributore());
@@ -302,12 +307,12 @@ public class ContenutoController {
         return new ResponseEntity<>(contenutoService.getContenutoById(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
     @GetMapping("condividi")
     public ResponseEntity<Object> condividiSuSocial(@RequestParam int id, @RequestParam String social){
-        try{
-            return new ResponseEntity<>(contenutoService.ottieniLinkSocial(social, id), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        if (contenutoService.getContenutoById(id) == null){
+            return new ResponseEntity<>("Contenuto non esistente", HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>(contenutoService.ottieniLinkSocial(social, id), HttpStatus.OK);
     }
 }
