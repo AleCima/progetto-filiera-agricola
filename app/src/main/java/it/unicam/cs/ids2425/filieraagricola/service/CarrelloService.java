@@ -23,7 +23,6 @@ public class CarrelloService {
     }
 
     public void aggiungiContenuto(String email, RigaCarrello rc){
-        //Deve fa save se no non funzia post
         Utente u = utenteRepository.findById(email).orElse(null);
         u.getCarrello().aggiungiContenuto(rc);
         utenteRepository.save(u);

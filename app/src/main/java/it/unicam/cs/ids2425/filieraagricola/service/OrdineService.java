@@ -15,7 +15,6 @@ import java.util.*;
 @Service
 public class OrdineService {
 
-    //Necessaria repository "Ordine"
     private final OrdineRepository ordineRepository;
     private final ContenutoRepository contenutoRepository;
     private final CarrelloService carrelloService;

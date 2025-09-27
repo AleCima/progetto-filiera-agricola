@@ -1,6 +1,5 @@
 package it.unicam.cs.ids2425.filieraagricola.service;
 
-import it.unicam.cs.ids2425.filieraagricola.exception.CampoNonValidoException;
 import it.unicam.cs.ids2425.filieraagricola.model.Account;
 import it.unicam.cs.ids2425.filieraagricola.model.Ruolo;
 import it.unicam.cs.ids2425.filieraagricola.model.Utente;
@@ -10,13 +9,17 @@ import it.unicam.cs.ids2425.filieraagricola.repository.VenditoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Set;
+
 
 @Service
 public class AccountService {
     private UtenteRepository utenteRepository;
     private VenditoreRepository venditoreRepository;
+    private Set<Ruolo> ruoliVenditoreValidi = new HashSet<>(Set.of(Ruolo.DISTRIBUTORE, Ruolo.PRODUTTORE, Ruolo.TRASFORMATORE));
+    private Set<Ruolo> ruoliUtenteValidi = new HashSet<>(Set.of(Ruolo.ACQUIRENTE, Ruolo.ANIMATORE, Ruolo.CURATORE));
 
     @Autowired
     public AccountService(UtenteRepository utenteRepository, VenditoreRepository venditoreRepository) {
@@ -52,15 +55,21 @@ public class AccountService {
         }
     }
 
-    public void assegnaRuolo(String email, Ruolo r) {
-        Utente utente = getUtenteByEmail(email);
-        if (utente != null) {
-            utente.addRuolo(r);
+    public void assegnaRuolo(Utente utente, Ruolo r) {
+        utente.addRuolo(r);
+        if (ruoliUtenteValidi.contains(r)){
             utenteRepository.save(utente);
         }
     }
+    public void assegnaRuolo(Venditore venditore, Ruolo r) {
+        venditore.addRuolo(r);
+        if (ruoliVenditoreValidi.contains(r)){
+            venditoreRepository.save(venditore);
+        }
+    }
 
-    public void assegnaRuoli(String email, List<Ruolo> ruoli) {
+
+    public void assegnaRuoli(String email, Set<Ruolo> ruoli) {
         Utente utente = getUtenteByEmail(email);
         if (utente != null) {
             utente.setRuoli(ruoli);
