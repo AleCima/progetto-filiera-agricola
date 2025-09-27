@@ -26,8 +26,9 @@ public class WebSecurityConfig {
                         .requestMatchers("/account/modifica-venditore").hasAnyRole("GESTORE", "PRODUTTORE", "TRASFORMATORE", "DISTRIBUTORE")
                         .requestMatchers("/account/elimina-venditore").hasAnyRole("GESTORE", "PRODUTTORE", "TRASFORMATORE", "DISTRIBUTORE")
                         .requestMatchers("/account/elimina-utente").hasAnyRole("GESTORE", "ACQUIRENTE")
-                        .requestMatchers("/account/assegna-ruolo").hasAnyRole("GESTORE")
-                        .requestMatchers("/account/assegna-ruoli").hasAnyRole("GESTORE")
+                        .requestMatchers("/account/ricerca-utente").hasAnyRole("GESTORE", "ACQUIRENTE")
+                        .requestMatchers("/account/assegna-ruolo").hasRole("GESTORE")
+                        .requestMatchers("/account/assegna-ruoli").hasRole("GESTORE")
                         .requestMatchers("/account/**").permitAll() // generica, viene dopo quelle specifiche
 
                         // AUTORIZZAZIONE
@@ -45,6 +46,9 @@ public class WebSecurityConfig {
                         // ESPERIENZA
                         .requestMatchers("/esperienza/accetta-proposta").hasAnyRole("GESTORE", "PRODUTTORE", "TRASFORMATORE", "DISTRIBUTORE")
                         .requestMatchers("/esperienza/proposte-venditore").hasAnyRole("GESTORE", "PRODUTTORE", "TRASFORMATORE", "DISTRIBUTORE", "ANIMATORE")
+                        .requestMatchers("/esperienza/aggiungi-partecipante").hasAnyRole("GESTORE", "ACQUIRENTE")
+                        .requestMatchers("/esperienza/rimuovi-partecipante").hasAnyRole("GESTORE", "ACQUIRENTE")
+                        .requestMatchers("/esperienza/ottieni-esperienze").permitAll()
                         .requestMatchers("/esperienza/**").hasAnyRole("GESTORE", "ANIMATORE")
 
                         // ORDINE

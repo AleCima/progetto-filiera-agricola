@@ -146,13 +146,13 @@ public class AccountController {
      * @param email dell'utente da visualizzare
      * @return utente richiesto
      */
+    @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @GetMapping("/ricerca-utente")
     public ResponseEntity<Object> getUtente(@RequestParam String email){
         Utente utente = accService.getUtenteByEmail(email);
         if(utente == null){
             return new ResponseEntity<>("Utente non trovato", HttpStatus.NOT_FOUND);
         }
-        utente.setPassword("CRIPTATA");
         return new ResponseEntity<>(utente, HttpStatus.OK);
     }
 
@@ -167,7 +167,6 @@ public class AccountController {
         if(venditore == null){
             return new ResponseEntity<>("Venditore non trovato", HttpStatus.NOT_FOUND);
         }
-        venditore.setPassword("CRIPTATA");
         return new ResponseEntity<>(accService.getVenditoreByEmail(email), HttpStatus.OK);
     }
 
@@ -182,7 +181,6 @@ public class AccountController {
             return new ResponseEntity<>("Nessun venditore trovato", HttpStatus.NOT_FOUND);
         }
 
-        venditori.forEach(v -> v.setPassword("CRIPTATA"));
 
         return new ResponseEntity<>(venditori, HttpStatus.OK);
     }

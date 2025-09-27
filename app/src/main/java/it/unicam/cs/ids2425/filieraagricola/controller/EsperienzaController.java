@@ -352,6 +352,14 @@ public class EsperienzaController {
         espService.removePartecipante(esperienzaId, emailUtente);
         return new ResponseEntity<>("Partecipante rimosso con successo", HttpStatus.OK);
     }
+
+    @GetMapping("/ottieni-esperienze")
+    public ResponseEntity<Object> getEsperienze(){
+        espService.getEsperienze();
+        return new ResponseEntity<>(espService.getEsperienze(), HttpStatus.OK);
+    }
+
+
 }
 
 
