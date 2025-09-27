@@ -1,7 +1,6 @@
 package it.unicam.cs.ids2425.filieraagricola.controller.security;
 
 import it.unicam.cs.ids2425.filieraagricola.model.Account;
-import it.unicam.cs.ids2425.filieraagricola.model.Ruolo;
 import it.unicam.cs.ids2425.filieraagricola.service.AccountService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
