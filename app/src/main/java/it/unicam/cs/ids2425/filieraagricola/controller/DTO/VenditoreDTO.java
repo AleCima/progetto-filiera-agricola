@@ -4,18 +4,19 @@ import it.unicam.cs.ids2425.filieraagricola.model.PuntoMappa;
 import it.unicam.cs.ids2425.filieraagricola.model.Ruolo;
 
 import java.util.List;
+import java.util.Set;
 
 public class VenditoreDTO {
 
     private String PIVA;
-    private List<Ruolo> ruoli;
+    private Set<Ruolo> ruoli;
     private String email;
     private String password;
     private String ragioneFiscale;
     private String descrizione;
     private PuntoMappa posizione;
 
-    public VenditoreDTO(String email, String password, String PIVA, String ragioneFiscale, String descrizione, PuntoMappa posizione, List<Ruolo> ruoli) {
+    public VenditoreDTO(String email, String password, String PIVA, String ragioneFiscale, String descrizione, PuntoMappa posizione, Set<Ruolo> ruoli) {
         this.email = email;
         this.password = password;
         this.PIVA = PIVA;
@@ -33,11 +34,11 @@ public class VenditoreDTO {
         this.PIVA = PIVA;
     }
 
-    public List<Ruolo> getRuoli() {
+    public Set<Ruolo> getRuoli() {
         return ruoli;
     }
 
-    public void setRuoli(List<Ruolo> ruoli) {
+    public void setRuoli(Set<Ruolo> ruoli) {
         this.ruoli = ruoli;
     }
 

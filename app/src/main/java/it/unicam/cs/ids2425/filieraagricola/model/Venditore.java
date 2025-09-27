@@ -3,6 +3,7 @@ package it.unicam.cs.ids2425.filieraagricola.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Venditore implements Account {
@@ -15,7 +16,7 @@ public class Venditore implements Account {
     @CollectionTable(name = "ruoliVenditore", joinColumns = @JoinColumn(name = "email"))
     @Column(name = "ruolo")
     @Enumerated(EnumType.STRING)
-    private List<Ruolo> ruoli;
+    private Set<Ruolo> ruoli;
 
     private String PIVA;
     private String ragioneFiscale;
@@ -28,7 +29,7 @@ public class Venditore implements Account {
     public Venditore() {
     }
 
-    public Venditore(String email, String password, String PIVA, String ragioneFiscale, String descrizione, PuntoMappa posizione, List<Ruolo> ruoli) {
+    public Venditore(String email, String password, String PIVA, String ragioneFiscale, String descrizione, PuntoMappa posizione, Set<Ruolo> ruoli) {
         this.ruoli = ruoli;
         this.email = email;
         this.password = password;
@@ -76,7 +77,7 @@ public class Venditore implements Account {
     }
 
     @Override
-    public List<Ruolo> getRuoli() {
+    public Set<Ruolo> getRuoli() {
         return ruoli;
     }
 
@@ -86,7 +87,7 @@ public class Venditore implements Account {
     }
 
     @Override
-    public void setRuoli(List<Ruolo> ruoli) {
+    public void setRuoli(Set<Ruolo> ruoli) {
         this.ruoli = ruoli;
     }
 

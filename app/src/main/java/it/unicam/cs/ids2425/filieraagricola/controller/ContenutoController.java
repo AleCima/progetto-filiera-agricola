@@ -23,6 +23,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe contenente tutte le operazione legate ai contenuti
+ */
 @RestController
 @RequestMapping("/contenuto")
 public class ContenutoController {
@@ -36,7 +39,11 @@ public class ContenutoController {
         contenutoDataHandler = new NonNullOrEmptyHandler();
     }
 
-    // Aggiungi Prodotto
+    /**
+     * Metodo per l'aggiunta di un prodotto, solo chi ha il ruolo produttore puo caricarne uno
+     * @param pDTO Dati del prodotto da caricare presi dal body della richiesta HTTP
+     * @return messaggio di successo/errore
+     */
     @PreAuthorize("#pDTO.getEmailProduttore().equals(authentication.name) or hasRole('GESTORE')")
     @PostMapping("/aggiungi-prodotto")
     public ResponseEntity<Object> addContenuto(@RequestBody ProdottoDTO pDTO) {
@@ -67,7 +74,11 @@ public class ContenutoController {
         return new ResponseEntity<>("Prodotto aggiunto con successo", HttpStatus.OK);
     }
 
-    // Aggiungi Trasformazione
+    /**
+     * Metodo per l'aggiunta di una trasformazione solo i Trasformatori possono usarlo
+     * @param tDTO Dati della trasformazione da inserire
+     * @return messaggio di successo/errore
+     */
     @PreAuthorize("#tDTO.getEmailTrasformatore().equals(authentication.name) or hasRole('GESTORE')")
     @PostMapping("/aggiungi-trasformazione")
     public ResponseEntity<Object> addContenuto(@RequestBody TrasformazioneDTO tDTO) {
@@ -93,7 +104,11 @@ public class ContenutoController {
         return new ResponseEntity<>("Trasformazione aggiunta con successo", HttpStatus.OK);
     }
 
-    // Aggiungi Pacchetto
+    /**
+     * Metodo per l'aggiunta di un pacchetto, solo i distributori possono usarlo
+     * @param pDTO Dati del pacchetto da caricare
+     * @return Messaggio di successo o errore
+     */
     @PreAuthorize("#pDTO.getEmailDistributore().equals(authentication.name) or hasRole('GESTORE')")
     @PostMapping("/aggiungi-pacchetto")
     public ResponseEntity<Object> addContenuto(@RequestBody PacchettoDTO pDTO) {
@@ -129,7 +144,12 @@ public class ContenutoController {
         return new ResponseEntity<>("Pacchetto aggiunto con successo", HttpStatus.OK);
     }
 
-    // Modifica Prodotto
+    /**
+     * Metodo per la modifica di un prodotto gia inserito in precedenza a richiamarlo solo colui che ha in origine caricato il prodotto
+     * @param id Id del prodotto da modificare
+     * @param pDTO Dati del prodotto da modificare presi dal body della richiesta HTTP
+     * @return messaggio di successo o errore
+     */
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/modifica-prodotto")
     public ResponseEntity<Object> updateContenuto(@RequestParam int id, @RequestBody ProdottoDTO pDTO) {
@@ -162,7 +182,12 @@ public class ContenutoController {
         return new ResponseEntity<>("Prodotto modificato con successo", HttpStatus.OK);
     }
 
-    // Modifica Trasformazione
+    /**
+     * Metodo per la modifica di una trasformazione inserita in precedenza, ad usarlo solo chi ha in origine caricato la trasformazione
+     * @param id Id della trasformazione che si vuole modificare
+     * @param tDTO Dati della trasformazione aggiornati
+     * @return messaggio di successo/errore
+     */
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/modifica-trasformazione")
     public ResponseEntity<Object> updateContenuto(@RequestParam int id, @RequestBody TrasformazioneDTO tDTO) {
@@ -190,7 +215,11 @@ public class ContenutoController {
         return new ResponseEntity<>("Trasformazione modificata con successo", HttpStatus.OK);
     }
 
-    // Rimuovi contenuto
+    /**
+     * Metodo per la rimozione di un contenuto, a richiamarlo solo chi ha in origine caricato il contenuto
+     * @param id Id del contenuto da rimuovere
+     * @return messaggio di successo/errore
+     */
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
     @DeleteMapping("rimuovi-contenuto")
     public ResponseEntity<Object> removeContenuto(@RequestParam int id) {
@@ -201,7 +230,12 @@ public class ContenutoController {
         return new ResponseEntity<>("Contenuto eliminato con successo", HttpStatus.OK);
     }
 
-    // Altri metodi add/remove trasformazioni e pacchetti
+    /**
+     * Metodo per aggiungere una trasformazione ad un prodotto, solo chi ha caricato la trasformazione puo aggiungerla al prodotto
+     * @param idProdotto Id del prodotto a cui si vuole inserire la trasformazione
+     * @param idTrasformazione Id della trasformazione che si vuole inserire
+     * @return messaggio di successo o errore
+     */
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#idTrasformazione, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/aggiungi-trasformazione")
     public ResponseEntity<Object> addTrasformazioneTo(@RequestParam int idProdotto, @RequestParam int idTrasformazione) {
@@ -215,6 +249,12 @@ public class ContenutoController {
         return new ResponseEntity<>("Trasformazione aggiunta con successo", HttpStatus.OK);
     }
 
+    /**
+     * Metodo per rimuovere una trasformazione da un prodotto, solo chi ha caricato la trasformazione puo richiamarlo
+     * @param idProdotto Id del prodotto da cui si vuole rimuovere la trasformazione
+     * @param idTrasformazione Id della trasformazione da rimuovere
+     * @return messaggio di successo/errore
+     */
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/rimuovi-trasformazione")
     public ResponseEntity<Object> removeTrasformazioneFrom(@RequestParam int idProdotto, @RequestParam int idTrasformazione) {
@@ -231,6 +271,12 @@ public class ContenutoController {
         return new ResponseEntity<>("Trasformazione rimossa con successo", HttpStatus.OK);
     }
 
+    /**
+     * Metodo per aggiungere un prodotto ad un pacchetto solo il Distributore che ha creato il pacchetto puo aggiungere un prdotto
+     * @param idProdotto Id del prodotto da inserire nel pacchetto
+     * @param idPacchetto Id del Pacchetto a cui si vuole aggiungere il prodotto
+     * @return messaggio di successo/errore
+     */
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#idPacchetto, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/aggiungi-al-pacchetto")
     public ResponseEntity<Object> addToPacchetto(@RequestParam int idProdotto, @RequestParam int idPacchetto) {
@@ -244,6 +290,12 @@ public class ContenutoController {
         return new ResponseEntity<>("Contenuto aggiunto al pacchetto", HttpStatus.OK);
     }
 
+    /**
+     * Metodo per la rimozione di un contenuto da un pacchetto solo il Distributore che ha creato il pacchetto puo aggiungere un prdotto
+     * @param idProdotto Id del prodotto che si vuole rimuovere
+     * @param idPacchetto Id del pacchetto da dove si vuole rimuovere il contenuto
+     * @return messaggio di errore/successo
+     */
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#idPacchetto, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/rimuovi-da-pacchetto")
     public ResponseEntity<Object> removeFromPacchetto(@RequestParam int idProdotto, @RequestParam int idPacchetto) {
@@ -307,6 +359,12 @@ public class ContenutoController {
         return new ResponseEntity<>(contenutoService.getContenutoById(id), HttpStatus.OK);
     }
 
+    /**
+     * Metodo per condividere un contenuto caricato sui social
+     * @param id Id del prodotto che si vuole condividere
+     * @param social Il social dove si vuole condividere il contenuto
+     * @return Messaggio di errore/link per condividere il contenuto
+     */
     @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
     @GetMapping("condividi")
     public ResponseEntity<Object> condividiSuSocial(@RequestParam int id, @RequestParam String social){

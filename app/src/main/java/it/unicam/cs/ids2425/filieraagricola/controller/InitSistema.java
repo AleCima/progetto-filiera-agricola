@@ -6,8 +6,13 @@ import org.springframework.stereotype.Component;
 
 import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+/**
+ * Classe utilizzata per l'inizializzazione di alcuni utenti e venditori per i test
+ */
 @Component
 public class InitSistema {
 
@@ -42,7 +47,7 @@ public class InitSistema {
                 "Ragione Sociale Produttore",
                 "Venditore di prodotti agricoli",
                 new PuntoMappa(1.0, 1.0),
-                List.of(Ruolo.PRODUTTORE)
+                new HashSet<>(List.of(Ruolo.PRODUTTORE))
         );
         accountService.aggiungiVenditore(produttore);
 
@@ -54,7 +59,7 @@ public class InitSistema {
                 "Ragione Sociale Trasformatore",
                 "Venditore trasformatore prodotti",
                 new PuntoMappa(2.0, 2.0),
-                List.of(Ruolo.TRASFORMATORE)
+                new HashSet<>(List.of(Ruolo.TRASFORMATORE))
         );
         accountService.aggiungiVenditore(trasformatore);
 
@@ -66,7 +71,7 @@ public class InitSistema {
                 "Ragione Sociale Distributore",
                 "Venditore distributore prodotti",
                 new PuntoMappa(3.0, 3.0),
-                List.of(Ruolo.DISTRIBUTORE)
+                new HashSet<>(List.of(Ruolo.DISTRIBUTORE))
         );
         accountService.aggiungiVenditore(distributore);
 // ANIMATORE
@@ -86,7 +91,7 @@ public class InitSistema {
         accountService.aggiungiUtente(acquirente);
 
         // Creo il venditore e assegno ruoli
-        List<Ruolo> ruoliVenditore = new ArrayList<>();
+        Set<Ruolo> ruoliVenditore = new HashSet<>();
         ruoliVenditore.add(Ruolo.TRASFORMATORE);
         ruoliVenditore.add(Ruolo.PRODUTTORE);
         ruoliVenditore.add(Ruolo.DISTRIBUTORE);

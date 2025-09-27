@@ -3,7 +3,9 @@ package it.unicam.cs.ids2425.filieraagricola.model;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Utente implements Account {
@@ -16,7 +18,7 @@ public class Utente implements Account {
     @CollectionTable(name = "ruoliUtente", joinColumns = @JoinColumn(name = "email"))
     @Column(name = "ruolo")
     @Enumerated(EnumType.STRING)
-    private List<Ruolo> ruoli = new ArrayList<>();
+    private Set<Ruolo> ruoli = new HashSet<>();
 
 
     private String nome;
@@ -67,19 +69,17 @@ public class Utente implements Account {
     }
 
     @Override
-    public List<Ruolo> getRuoli() {
+    public Set<Ruolo> getRuoli() {
         return ruoli;
     }
 
     @Override
     public void addRuolo(Ruolo ruolo) {
-        if (!ruoli.contains(ruolo)){
-            ruoli.add(ruolo);
-        }
+        ruoli.add(ruolo);
     }
 
     @Override
-    public void setRuoli(List<Ruolo> ruoli) {
+    public void setRuoli(Set<Ruolo> ruoli) {
         this.ruoli.clear();
         this.ruoli.addAll(ruoli);
     }

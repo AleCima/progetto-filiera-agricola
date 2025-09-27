@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Classe contenente tutte le operazioni relative alle esperienz/eventi/visite
+ */
 @RestController
 @RequestMapping("/esperienza")
 public class EsperienzaController {
@@ -34,6 +37,12 @@ public class EsperienzaController {
 
     // ------------------------ PROPOSTE ------------------------
 
+    /**
+     * Metodo per inviare una proposta ad un venditore, che sia un invito ad un evento o una richiesta di una visita
+     * Solo gli animatori possono farlo
+     * @param propostaDTO Dati della proposta da inviare
+     * @return messaggio di successo/errore
+     */
     @PostMapping("/invia-proposta")
     public ResponseEntity<Object> inviaProposta(@RequestBody PropostaDTO propostaDTO) {
         Utente organizzatore = accService.getUtenteByEmail(propostaDTO.getOrganizzatore());
@@ -65,7 +74,12 @@ public class EsperienzaController {
         return new ResponseEntity<>("Proposta inviata con successo", HttpStatus.OK);
     }
 
-
+    /**
+     * Metodo per la modifica di una proposta inviata. Solo gli animatori possono farlo
+     * @param propostaDTO Dati della proposta modificata
+     * @param id Id della proposta da modificare
+     * @return messaggio di errore/successo
+     */
     @PutMapping("/modifica-proposta")
     public ResponseEntity<Object> modificaProposta(@RequestBody PropostaDTO propostaDTO, @RequestParam int id) {
         Proposta proposta = propostaService.getProposta(id);
@@ -89,6 +103,11 @@ public class EsperienzaController {
         return new ResponseEntity<>("Proposta modificata con successo", HttpStatus.OK);
     }
 
+    /**
+     * Metodo per annullare una proposta inviata. Solo gli animatori possono
+     * @param id Id della proposta da eliminare
+     * @return messaggio di Errore/successo
+     */
     @DeleteMapping("/annulla-proposta")
     public ResponseEntity<Object> annullaProposta(@RequestParam int id) {
         Proposta proposta = propostaService.getProposta(id);
@@ -97,6 +116,12 @@ public class EsperienzaController {
         return new ResponseEntity<>("Proposta annullata con successo", HttpStatus.OK);
     }
 
+    /**
+     * Metodo per ottenere le proposte inviate ad un venditore, solo l'interessato o gli animatori possono richiamarlo
+     * @param email Email del venditore di cui vedere le proposte
+     * @return messaggio di errore/lista di proposte
+     */
+    @PreAuthorize("@#email.equals(authentication.email) or hasRole('GESTORE') or hasRole('ANIMATORE')")
     @GetMapping("/proposte-venditore")
     public ResponseEntity<Object> getProposteVenditore(@RequestParam String email) {
         Venditore venditore = accService.getVenditoreByEmail(email);
@@ -104,6 +129,11 @@ public class EsperienzaController {
         return new ResponseEntity<>(propostaService.getProposteVenditore(venditore), HttpStatus.OK);
     }
 
+    /**
+     * Metodo per ottenere le proposte inviate da un organizzatore
+     * @param email Email dell'organizzatore di cui ottenere le proposte
+     * @return messaggio di errore/lista di proposte
+     */
     @GetMapping("/proposte-organizzatore")
     public ResponseEntity<Object> getProposteOrganizzatore(@RequestParam String email) {
         Utente organizzatore = accService.getUtenteByEmail(email);
@@ -111,6 +141,11 @@ public class EsperienzaController {
         return new ResponseEntity<>(propostaService.getProposteOrganizzatore(organizzatore), HttpStatus.OK);
     }
 
+    /**
+     * Metodo richiamato per accettare una proposta, solo destinatari possono
+     * @param id Id della proposta da accettare
+     * @return
+     */
     @PreAuthorize("@propostaService.isDestinatario(#id, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/accetta-proposta")
     public ResponseEntity<Object> accettaProposta(@RequestParam int id) {
@@ -133,6 +168,11 @@ public class EsperienzaController {
 
     // ------------------------ VISITE ------------------------
 
+    /**
+     * Metodo per la creazione di un esperienza(Visita), solo gli animatori possono
+     * @param visitaDTO Dati della visita da creare
+     * @return messaggio di errore/successo
+     */
     @PostMapping("/crea-visita")
     public ResponseEntity<Object> creaVisita(@RequestBody VisitaDTO visitaDTO) {
         Utente organizzatore = accService.getUtenteByEmail(visitaDTO.getOrganizzatore());
@@ -158,6 +198,12 @@ public class EsperienzaController {
         return new ResponseEntity<>("Visita creata con successo", HttpStatus.OK);
     }
 
+    /**
+     * Metodo per la modifica di una visita gia creata
+     * @param visitaDTO Dati aggiornati della visita
+     * @param id Id della visita da aggiornare
+     * @return messaggio di errore/successo
+     */
     @PutMapping("/modifica-visita")
     public ResponseEntity<Object> modificaVisita(@RequestBody VisitaDTO visitaDTO, @RequestParam int id) {
         Visita visita = (Visita) espService.getEsperienzaById(id);
@@ -183,6 +229,11 @@ public class EsperienzaController {
         return new ResponseEntity<>("Visita modificata con successo", HttpStatus.OK);
     }
 
+    /**
+     * Metodo per l'eliminazione di una visita gia creata
+     * @param id Id della visita da eliminare
+     * @return messaggio di errore/successo
+     */
     @DeleteMapping("/elimina-visita")
     public ResponseEntity<Object> eliminaVisita(@RequestParam int id) {
         Esperienza esperienza = espService.getEsperienzaById(id);
@@ -193,6 +244,11 @@ public class EsperienzaController {
 
     // ------------------------ EVENTI ------------------------
 
+    /**
+     * Metodo per la creazine di un esperienza(Evento)
+     * @param eventoDTO Dati dell'evento da inserire
+     * @return messaggio di successo/errore
+     */
     @PostMapping("/crea-evento")
     public ResponseEntity<Object> creaEvento(@RequestBody EventoDTO eventoDTO) {
         Utente organizzatore = accService.getUtenteByEmail(eventoDTO.getOrganizzatore());
@@ -214,6 +270,12 @@ public class EsperienzaController {
         return new ResponseEntity<>("Evento creato con successo", HttpStatus.OK);
     }
 
+    /**
+     * Metodo per la modifica delle informazioni di un evento gia caricato
+     * @param eventoDTO Dati aggiornati dell'evento
+     * @param id Id dell'evento da modificare
+     * @return messaggio di successo/errore
+     */
     @PutMapping("/modifica-evento")
     public ResponseEntity<Object> modificaEvento(@RequestBody EventoDTO eventoDTO, @RequestParam int id) {
         Evento evento = (Evento) espService.getEsperienzaById(id);
@@ -236,6 +298,11 @@ public class EsperienzaController {
         return new ResponseEntity<>("Evento modificato con successo", HttpStatus.OK);
     }
 
+    /**
+     * Metodo per la rimozione di un evento da caricare
+     * @param id Id dell'evento da rimuovere
+     * @return messaggio di successo/errore
+     */
     @DeleteMapping("/elimina-evento")
     public ResponseEntity<Object> eliminaEvento(@RequestParam int id) {
         Esperienza esperienza = espService.getEsperienzaById(id);
@@ -246,6 +313,12 @@ public class EsperienzaController {
 
     // ------------------------ PARTECIPANTI ------------------------
 
+    /**
+     * Metodo per aggiungere un partecipante ad un esperienza, richiamabile da un utente registrato (Acquirente)
+     * @param esperienzaId Id dell'esperienza a cui ci si vuole registrare
+     * @param emailUtente Email dell'utente che si vuole prenotare
+     * @return messaggio di successo/errore
+     */
     @PreAuthorize("#emailUtente == authentication.name or hasRole('GESTORE')")
     @PutMapping("/aggiungi-partecipante")
     public ResponseEntity<Object> aggiungiPartecipante(@RequestParam int esperienzaId, @RequestParam String emailUtente) {
@@ -261,6 +334,12 @@ public class EsperienzaController {
         return new ResponseEntity<>("Partecipante aggiunto con successo", HttpStatus.OK);
     }
 
+    /**
+     * Metodo per togliere la partecipazione ad un esperienza, richiamabile da un utente registrato (Acquirente)
+     * @param esperienzaId Id dell'esperienza a cui si vuole rimuovere la prenotazione
+     * @param emailUtente Email dell'utente interessato
+     * @return
+     */
     @PreAuthorize("#emailUtente == authentication.name or hasRole('GESTORE')")
     @PutMapping("/rimuovi-partecipante")
     public ResponseEntity<Object> rimuoviPartecipante(@RequestParam int esperienzaId, @RequestParam String emailUtente) {

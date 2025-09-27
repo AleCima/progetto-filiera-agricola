@@ -44,6 +44,7 @@ public class WebSecurityConfig {
 
                         // ESPERIENZA
                         .requestMatchers("/esperienza/accetta-proposta").hasAnyRole("GESTORE", "PRODUTTORE", "TRASFORMATORE", "DISTRIBUTORE")
+                        .requestMatchers("/esperienza/proposte-venditore").hasAnyRole("GESTORE", "PRODUTTORE", "TRASFORMATORE", "DISTRIBUTORE", "ANIMATORE")
                         .requestMatchers("/esperienza/**").hasAnyRole("GESTORE", "ANIMATORE")
 
                         // ORDINE

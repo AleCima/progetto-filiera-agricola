@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Classe contenente tutte le possibili operazione per la conferma del caricamento di un contenuto nel sistema
+ * Acceduta solo da Curatori e Gestori
+ */
 @RestController
 @RequestMapping("/autorizzazione")
 public class AutorizzazioneController {
@@ -20,6 +24,10 @@ public class AutorizzazioneController {
         this.contenutoService = contenutoService;
     }
 
+    /**
+     * Metodo che mostra tutti i contenuti in attessa
+     * @return Una lista dei contenuti in attesa
+     */
     @GetMapping("/contenuti-in-attesa")
     public ResponseEntity<Object> getContenutiInAttesa() {
 
@@ -30,7 +38,11 @@ public class AutorizzazioneController {
         return new ResponseEntity<>(contenutiInAttesa, HttpStatus.OK); // Restituisce i contenuti in attesa
     }
 
-
+    /**
+     * Metodo per l'autorizzazione di un contenuto
+     * @param id Id del contenuto da verificare
+     * @return messaggio di successo o insuccesso
+     */
     @PutMapping("/autorizza-contenuto")
     public ResponseEntity<String> autorizzaContenuto(@RequestParam int id ) {
         Contenuto contenuto = contenutoService.getContenutoById(id);
@@ -41,6 +53,11 @@ public class AutorizzazioneController {
         return new ResponseEntity<>("Contenuto autorizzato con successo", HttpStatus.OK); // Restituisce una risposta positiva
     }
 
+    /**
+     * Metodo per il rifiuto di un contenuto
+     * @param id Id del contenuto da verificare
+     * @return messaggio di successo o insuccesso
+     */
     @PutMapping("/rifiuta-contenuto")
     public ResponseEntity<String> rifiutaContenuto(@RequestParam int id ) {
         Contenuto contenuto = contenutoService.getContenutoById(id);

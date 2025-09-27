@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Classe contenente tutte le operazione che posono essere effettuate sul carrello di un utente
+ */
 @RestController
 @RequestMapping("/carrello")
 public class CarrelloController {
@@ -30,6 +33,11 @@ public class CarrelloController {
         cartDataHandler = new NonNullOrEmptyHandler().setNext(new DisponibilitaRigaCarrelloHandler());
     }
 
+    /**
+     * Metodo per la visualizzazione del carrello di un utente, ad invocare questo metodo puo essere l'utente che possiede tale carrello o il gestore
+     * @param email Email dell'utente di cui si vuole visualizzare il carrello
+     * @return Carrello dell'utente
+     */
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @GetMapping("/carrello-utente")
     public ResponseEntity<Object> getCarrelloUtente(@RequestParam String email){
@@ -39,6 +47,12 @@ public class CarrelloController {
         return  new ResponseEntity<>(carrelloService.getCarrelloFromUtente(email), HttpStatus.OK);
     }
 
+    /**
+     * Metodo per l'aggiunta di un contenuto al carrello dell'utente che richiama il metodo
+     * @param email Email dell'utente che vuole inserire un contenuto nel proprio carrello
+     * @param rcDTO Dati del contenuto da aggiungere, presi dal body della richiesta HTTP
+     * @return messaggio di successo o insuccesso
+     */
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PostMapping("/aggiungi-contenuto")
     public ResponseEntity<Object> aggiungiContenutoAlCarrello(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
@@ -56,6 +70,12 @@ public class CarrelloController {
         return new ResponseEntity<>("Contenuto aggiunto correttamente", HttpStatus.OK);
     }
 
+    /**
+     * Metodo per la rimozione di un contenuto o di una quantita custom, richiamabile da un utente sul suo carrello
+     * @param email Email dell'utente possessore del carrello
+     * @param rcDTO Dati ottenuti dalla richiesta HTTP
+     * @return messaggio di successo
+     */
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PostMapping("/rimuovi-contenuto")
     public ResponseEntity<Object> rimuoviQuantita(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
@@ -74,6 +94,12 @@ public class CarrelloController {
         return new ResponseEntity<>("Quantità del contenuto rimossa con successo", HttpStatus.OK);
     }
 
+    /**
+     * Metodo per l'aggiunta di quantita ad un contenuto gia presente nel carrello, richiamabile da un utente sul suo carrello
+     * @param email Email del possessore del carrello
+     * @param rcDTO dati da modificare nel carrello
+     * @return messaggio di successo o errore
+     */
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @PostMapping("/aggiungi-quantita")
     public ResponseEntity<Object> aggiungiQuantita(@RequestParam String email, @RequestBody RigaCarrelloDTO rcDTO){
@@ -90,6 +116,11 @@ public class CarrelloController {
         return new ResponseEntity<>("Quantita aggiunta al carrello correttamente", HttpStatus.OK);
     }
 
+    /**
+     * Metodo per svuotare il proprio carrello
+     * @param email Email del possessore del carrello
+     * @return messaggio di successo
+     */
     @PreAuthorize("#email == authentication.name or hasRole('GESTORE')")
     @DeleteMapping("/svuota-carrello")
     public ResponseEntity<Object> svuotaCarrello(@RequestParam String email){
