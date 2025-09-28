@@ -62,7 +62,7 @@ public class EsperienzaService {
         esperienzaRepository.delete(esperienza);
     }
     public void modificaEsperienza(Esperienza esperienza){
-        esperienzaRepository.delete(esperienza);
+        esperienzaRepository.save(esperienza);
     }
 
 }

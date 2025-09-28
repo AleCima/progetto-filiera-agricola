@@ -121,7 +121,7 @@ public class EsperienzaController {
      * @param email Email del venditore di cui vedere le proposte
      * @return messaggio di errore/lista di proposte
      */
-    @PreAuthorize("@#email.equals(authentication.email) or hasRole('GESTORE') or hasRole('ANIMATORE')")
+    @PreAuthorize("#email.equals(authentication.email) or hasRole('GESTORE') or hasRole('ANIMATORE')")
     @GetMapping("/proposte-venditore")
     public ResponseEntity<Object> getProposteVenditore(@RequestParam String email) {
         Venditore venditore = accService.getVenditoreByEmail(email);

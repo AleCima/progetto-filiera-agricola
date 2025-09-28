@@ -16,7 +16,7 @@ public class Carrello {
     private double prezzoTotale;
 
     // Un carrello può avere più righe
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "carrello_id")
     private List<RigaCarrello> contenuti;
 
@@ -55,7 +55,6 @@ public class Carrello {
     }
 
     public void rimuoviQuantita(Contenuto c, int quant){
-        //TODO da migliorare
         for (RigaCarrello rc : contenuti) {
             if (rc.getContenuto().equals(c)) {
                 if (rc.getQuantita() - quant < 1) {
@@ -76,8 +75,8 @@ public class Carrello {
     }
 
     public void svuota() {
+        contenuti.clear();
         prezzoTotale = 0.0;
-        contenuti = new ArrayList<>();
     }
 }
 

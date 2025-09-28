@@ -138,11 +138,11 @@ public class AccountController {
     @DeleteMapping("/elimina-venditore")
     public ResponseEntity<String> rimuoviVenditore(@RequestParam String email) {
         accService.rimuoviVenditore(email);
-        return new ResponseEntity<>("Venditore modificato con successo", HttpStatus.OK);
+        return new ResponseEntity<>("Venditore eliminato con successo", HttpStatus.OK);
     }
 
     /**
-     * Metodo per la visione di un utente
+     * Metodo per la visione di un utente, i dati di un utente possono essere visionati solo dall'utente stesso o dal gestore
      * @param email dell'utente da visualizzare
      * @return utente richiesto
      */

@@ -2,13 +2,12 @@ package it.unicam.cs.ids2425.filieraagricola.controller;
 
 import it.unicam.cs.ids2425.filieraagricola.model.*;
 import it.unicam.cs.ids2425.filieraagricola.service.AccountService;
+import it.unicam.cs.ids2425.filieraagricola.service.ContenutoService;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 
 /**
  * Classe utilizzata per l'inizializzazione di alcuni utenti e venditori per i test
@@ -17,6 +16,7 @@ import java.util.Set;
 public class InitSistema {
 
     private final AccountService accountService;
+    private final ContenutoService contenutoService;
     private Utente gestore;
     private Venditore produttore;
     private Venditore trasformatore;
@@ -25,9 +25,11 @@ public class InitSistema {
     private Utente curatore;
     private Utente acquirente;
     private Venditore venditore;
+    private Contenuto contenutoDefault;
 
-    public InitSistema(AccountService accountService) {
+    public InitSistema(AccountService accountService, ContenutoService contenutoService) {
         this.accountService = accountService;
+        this.contenutoService = contenutoService;
     }
 
     @PostConstruct
@@ -106,6 +108,19 @@ public class InitSistema {
                 ruoliVenditore
         );
         accountService.aggiungiVenditore(venditore);
+// CONTENUTO
+        contenutoDefault = new Prodotto(
+                new Date(),
+                "Prugne",
+                "Prugne",
+                "Biologico",
+                2.5,
+                produttore,
+                new ArrayList<>(List.of("BIO", "DOC")),
+                new Date(),
+                100
+                );
+        contenutoService.addContenuto(contenutoDefault);
     }
 
     public Utente getGestore() {

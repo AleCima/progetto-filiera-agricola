@@ -81,7 +81,7 @@ public class Utente implements Account {
     @Override
     public void setRuoli(Set<Ruolo> ruoli) {
         this.ruoli.clear();
-        this.ruoli.addAll(ruoli);
+        this.ruoli = ruoli;
     }
 
     @Override

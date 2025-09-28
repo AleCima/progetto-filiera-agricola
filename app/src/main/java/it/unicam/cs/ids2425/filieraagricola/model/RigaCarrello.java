@@ -9,7 +9,7 @@ public class RigaCarrello {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "contenuto_id", referencedColumnName = "id")
     private Contenuto contenuto;
 
