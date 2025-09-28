@@ -3,375 +3,2814 @@
 		"_postman_id": "9f9294ab-91b4-4fb8-a204-a734784aab42",
 		"name": "Testing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "48611562",
-		"_collection_link": "https://lorenzo-perini-2296891.postman.co/workspace/Lorenzo's-Workspace~2fb27dc1-ef12-4c14-8809-b1e1cd9edd45/collection/48611562-9f9294ab-91b4-4fb8-a204-a734784aab42?action=share&source=collection_link&creator=48611562"
+		"_exporter_id": "48229238",
+		"_collection_link": "https://lorenzo-perini-2296891.postman.co/workspace/Lorenzo's-Workspace~2fb27dc1-ef12-4c14-8809-b1e1cd9edd45/collection/48611562-9f9294ab-91b4-4fb8-a204-a734784aab42?action=share&source=collection_link&creator=48229238"
 	},
 	"item": [
 		{
-			"name": "Aggiungi Utente",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"nome\": \"mario\",\r\n    \"cognome\": \"rossi\",\r\n    \"email\": \"mario.rossi@example.com\",\r\n    \"password\": \"password123\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/account/registrazione",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"account",
-						"registrazione"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Ricerca Utente con Email",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/account/ricerca-utente?email=mario.rossi@example.com",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"account",
-						"ricerca-utente"
-					],
-					"query": [
+			"name": "Account",
+			"item": [
+				{
+					"name": "Utente",
+					"item": [
 						{
-							"key": "email",
-							"value": "mario.rossi@example.com"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Modifica Utente",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"nome\": \"mario\",\r\n    \"cognome\": \"bianchi\",\r\n    \"email\": \"mario.rossi@example.com\",\r\n    \"password\": \"password333\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/account/modifica-utente?precEmail=mario.rossi@example.com",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"account",
-						"modifica-utente"
-					],
-					"query": [
+							"name": "Aggiungi Utente",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"mario\",\r\n    \"cognome\": \"rossi\",\r\n    \"email\": \"mario.rossi@example.com\",\r\n    \"password\": \"password123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/account/registrazione",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"account",
+										"registrazione"
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"key": "precEmail",
-							"value": "mario.rossi@example.com"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Elimina Utente",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/account/elimina-account?email=mario.rossi@example.com",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"account",
-						"elimina-account"
-					],
-					"query": [
+							"name": "Ricerca Utente con Email",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password123",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "mario.rossi@example.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/account/ricerca-utente?email=mario.rossi@example.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"account",
+										"ricerca-utente"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "mario.rossi@example.com"
+										}
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"key": "email",
-							"value": "mario.rossi@example.com"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Aggiungi venditore",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"mario.rossi@example.com\",\r\n  \"password\": \"password123\",\r\n  \"PIVA\": \"IT12345678901\",\r\n  \"ragioneFiscale\": \"Mario Rossi SRL\",\r\n  \"descrizione\": \"Venditore di prodotti agricoli\",\r\n  \"posizione\": {\r\n    \"latitudine\": 45.123,\r\n    \"longitudine\": 12.123\r\n  },\r\n  \"ruoli\": [\"PRODUTTORE\",\"DISTRIBUTORE\",\"TRASFORMATORE\"]\r\n}\r\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/account/registrazione-venditore",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"account",
-						"registrazione-venditore"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Modifica Venditore",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"mario.rossi@example.com\",\r\n  \"password\": \"password123\",\r\n  \"PIVA\": \"IT1237778901\",\r\n  \"ragioneFiscale\": \"Mario Bianchi SRL\",\r\n  \"descrizione\": \"Venditore di prodotti agricoli\",\r\n  \"posizione\": {\r\n    \"latitudine\": 45.123,\r\n    \"longitudine\": 12.123\r\n  },\r\n  \"ruoli\": [\"PRODUTTORE\",\"TRASFORMATORE\"]\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/account/modifica-venditore?precEmail=mario.rossi@example.com",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"account",
-						"modifica-venditore"
-					],
-					"query": [
+							"name": "Modifica Utente",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password123",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "mario.rossi@example.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"mario\",\r\n    \"cognome\": \"bianchi\",\r\n    \"email\": \"mario.rossi@example.com\",\r\n    \"password\": \"password333\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/account/modifica-utente?email=mario.rossi@example.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"account",
+										"modifica-utente"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "mario.rossi@example.com"
+										}
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"key": "precEmail",
-							"value": "mario.rossi@example.com"
+							"name": "Elimina Utente",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "gestore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "gestore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/account/elimina-utente?email=mario.rossi@example.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"account",
+										"elimina-utente"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "mario.rossi@example.com"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Elimina Venditore",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
 				},
-				"url": {
-					"raw": "http://localhost:8080/account/elimina-venditore?email=mario.rossi@example.com",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"account",
-						"elimina-venditore"
-					],
-					"query": [
+				{
+					"name": "Venditore",
+					"item": [
 						{
-							"key": "email",
-							"value": "mario.rossi@example.com"
+							"name": "Aggiungi venditore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"mario.rossi.venditore@example.com\",\r\n  \"password\": \"password123\",\r\n  \"PIVA\": \"IT12345678901\",\r\n  \"ragioneFiscale\": \"Mario Rossi SRL\",\r\n  \"descrizione\": \"Venditore di prodotti agricoli\",\r\n  \"posizione\": {\r\n    \"latitudine\": 45.123,\r\n    \"longitudine\": 12.123\r\n  },\r\n  \"ruoli\": [\"PRODUTTORE\",\"DISTRIBUTORE\",\"TRASFORMATORE\"]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/account/registrazione-venditore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"account",
+										"registrazione-venditore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Modifica Venditore",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "gestore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "gestore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"mario.rossi.venditore@example.com\",\r\n  \"password\": \"password123\",\r\n  \"PIVA\": \"IT1237778901\",\r\n  \"ragioneFiscale\": \"Mario Bianchi SRL\",\r\n  \"descrizione\": \"Venditore di prodotti agricoli\",\r\n  \"posizione\": {\r\n    \"latitudine\": 45.123,\r\n    \"longitudine\": 12.123\r\n  },\r\n  \"ruoli\": [\"PRODUTTORE\",\"TRASFORMATORE\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/account/modifica-venditore?email=mario.rossi.venditore@example.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"account",
+										"modifica-venditore"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "mario.rossi.venditore@example.com"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Elimina Venditore",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "mario.rossi.venditore@example.com",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "password123",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/account/elimina-venditore?email=mario.rossi.venditore@example.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"account",
+										"elimina-venditore"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "mario.rossi.venditore@example.com"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ricerca Venditore con Email",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/account/ricerca-venditore?email=mario.rossi.venditore@example.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"account",
+										"ricerca-venditore"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "mario.rossi.venditore@example.com"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ricerca venditori",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "gestore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "gestore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/account/ricerca-venditori",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"account",
+										"ricerca-venditori"
+									]
+								}
+							},
+							"response": []
 						}
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Ricerca Venditore con Email",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/account/ricerca-venditore?email=mario.rossi@example.com",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"account",
-						"ricerca-venditore"
-					],
-					"query": [
-						{
-							"key": "email",
-							"value": "mario.rossi@example.com"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Ottieni Carrelo da Utente",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/carrello/carrello-utente?email=mario.rossi@example.com",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"carrello",
-						"carrello-utente"
-					],
-					"query": [
-						{
-							"key": "email",
-							"value": "mario.rossi@example.com"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Aggiungi Prodotto Richiede un venditore",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"dataCaricamento\": \"2025-09-21\",\r\n  \"descrizione\": \"Mele biologiche fresche\",\r\n  \"nome\": \"Mela Golden\",\r\n  \"metodoDiColtivazione\": \"Biologico\",\r\n  \"prezzo\": 2.50,\r\n  \"produttoreEmail\": \"mario.rossi@example.com\",\r\n  \"certificazioni\": [\"BIO\", \"DOP\"],\r\n  \"dataProduzione\": \"2025-09-01\",\r\n  \"quantita\": 100\r\n}\r\n"
 				},
-				"url": {
-					"raw": "http://localhost:8080/contenuto/aggiungi-prodotto",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"contenuto",
-						"aggiungi-prodotto"
-					]
+				{
+					"name": "Assegna ruolo",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gestore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "gestore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/account/assegna-ruolo?email=acquirente@gmail.com&ruolo=ANIMATORE",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"assegna-ruolo"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "acquirente@gmail.com"
+								},
+								{
+									"key": "ruolo",
+									"value": "ANIMATORE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assegna ruoli",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gestore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "gestore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\"ANIMATORE\",\"CURATORE\"]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/account/assegna-ruoli?email=acquirente@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"assegna-ruoli"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "acquirente@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Aggiungi contenuto al carrello",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"id\" : 1,\r\n    \"quant\": 5\r\n}\r\n"
-				},
-				"url": {
-					"raw": "http://localhost:8080/carrello/aggiungi-contenuto?email=mario.rossi@example.com",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"carrello",
-						"aggiungi-contenuto"
-					],
-					"query": [
+			"name": "Esperienza",
+			"item": [
+				{
+					"name": "Proposta",
+					"item": [
 						{
-							"key": "email",
-							"value": "mario.rossi@example.com"
+							"name": "Invia proposta",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "animatore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "animatore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"titolo\": \"Collaborazione per fiera agricola\",\r\n  \"descrizione\": \"Proposta di organizzare una fiera dei prodotti locali insieme.\",\r\n  \"organizzatore\": \"animatore@gmail.com\",\r\n  \"destinatario\": \"produttore@gmail.com\",\r\n  \"accettata\": false\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:8080/esperienza/invia-proposta",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"esperienza",
+										"invia-proposta"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Modifica Proposta",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "animatore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "animatore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"titolo\": \"Nuovo titolo della proposta\",\r\n  \"descrizione\": \"Descrizione aggiornata della proposta.\",\r\n  \"organizzatore\": \"animatore@gmail.com\",\r\n  \"destinatario\": \"produttore@gmail.com\",\r\n  \"accettata\": false\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:8080/esperienza/modifica-proposta?id=1\n",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"esperienza",
+										"modifica-proposta"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1\n"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Elimina proposta",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "gestore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "gestore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8080/esperienza/annulla-proposta?id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"esperienza",
+										"annulla-proposta"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Proposte venditore",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "animatore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "animatore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/esperienza/proposte-venditore?email=produttore@gmail.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"esperienza",
+										"proposte-venditore"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "produttore@gmail.com"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Proposte organizzatore",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "animatore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "animatore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/esperienza/proposte-organizzatore?email=animatore@gmail.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"esperienza",
+										"proposte-organizzatore"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "animatore@gmail.com"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accetta proposta",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "produttore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "produttore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/esperienza/accetta-proposta?id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"esperienza",
+										"accetta-proposta"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
+				},
+				{
+					"name": "Evento",
+					"item": [
+						{
+							"name": "Crea Evento",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "animatore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "animatore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"titolo\": \"prima\",\r\n    \"descrizione\": \"prova\",\r\n    \"organizzatore\": \"animatore@gmail.com\",\r\n    \"dataEsperienza\": \"2025-12-01T10:00:00\",\r\n    \"numMaxPartecipanti\": 25,\r\n    \"posizione\": {\r\n        \"latitudine\": 43.615,\r\n        \"longitudine\": 13.518\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8080/esperienza/crea-evento",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"esperienza",
+										"crea-evento"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Modifica evento",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "gestore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "gestore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"organizzatore\": \"mario.rossi@example.com\",\r\n  \"dataEsperienza\": \"2025-12-01T10:00:00\",\r\n  \"numMaxPartecipanti\": 25,\r\n  \"posizione\": {\r\n    \"latitudine\": 43.615,\r\n    \"longitudine\": 13.518\r\n  }\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8080/esperienza/modifica-evento?id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"esperienza",
+										"modifica-evento"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Elimina evento",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "gestore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "gestore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8080/esperienza/elimina-evento?id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"esperienza",
+										"elimina-evento"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Visita",
+					"item": [
+						{
+							"name": "Crea Visita",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "animatore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "animatore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"organizzatore\": \"animatore@gmail.com\",\r\n  \"dataEsperienza\": \"2025-12-01T10:00:00\",\r\n  \"numMaxPartecipanti\": 25,\r\n  \"posizione\": {\r\n    \"latitudine\": 43.615,\r\n    \"longitudine\": 13.518\r\n  },\r\n  \"azienda\": \"produttore@gmail.com\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:8080/esperienza/crea-visita",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"esperienza",
+										"crea-visita"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Modifca visita",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "animatore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "animatore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"organizzatore\": \"animatore@gmail.com\",\r\n  \"dataEsperienza\": \"2025-12-01T10:00:00\",\r\n  \"numMaxPartecipanti\": 25,\r\n  \"posizione\": {\r\n    \"latitudine\": 43.615,\r\n    \"longitudine\": 13.518\r\n  },\r\n  \"azienda\": \"distributore@gmail.com\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8080/esperienza/modifica-visita?id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"esperienza",
+										"modifica-visita"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Elimina visita",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "animatore",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "animatore@gmail.com",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8080/esperienza/elimina-visita?id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"esperienza",
+										"elimina-visita"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Ottieni Esperienze",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/esperienza/ottieni-esperienze",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"esperienza",
+								"ottieni-esperienze"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiungi partecipante",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "acquirente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "acquirente@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/esperienza/aggiungi-partecipante?esperienzaId=1&emailUtente=acquirente@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"esperienza",
+								"aggiungi-partecipante"
+							],
+							"query": [
+								{
+									"key": "esperienzaId",
+									"value": "1"
+								},
+								{
+									"key": "emailUtente",
+									"value": "acquirente@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rimuovi partecipante",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "acquirente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "acquirente@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/esperienza/rimuovi-partecipante?esperienzaId=1&emailUtente=acquirente@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"esperienza",
+								"rimuovi-partecipante"
+							],
+							"query": [
+								{
+									"key": "esperienzaId",
+									"value": "1"
+								},
+								{
+									"key": "emailUtente",
+									"value": "acquirente@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "Carrello",
+			"item": [
+				{
+					"name": "Aggiungi contenuto al carrello",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "acquirente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "acquirente@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : 1,\r\n    \"quantita\": 5\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/carrello/aggiungi-contenuto?email=acquirente@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"carrello",
+								"aggiungi-contenuto"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "acquirente@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiungi quantita a contenuto nel carrello",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "acquirente@gmail.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "acquirente",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : 1,\r\n    \"quantita\": 10\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/carrello/aggiungi-quantita?email=acquirente@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"carrello",
+								"aggiungi-quantita"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "acquirente@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rimuovi quantita/contenuto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "acquirente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "acquirente@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : 1,\r\n    \"quantita\": 4\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/carrello/rimuovi-contenuto?email=acquirente@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"carrello",
+								"rimuovi-contenuto"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "acquirente@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ottieni Carrello da Utente",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "acquirente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "acquirente@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/carrello/carrello-utente?email=acquirente@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"carrello",
+								"carrello-utente"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "acquirente@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Svuota Carrello",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "acquirente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "acquirente@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/carrello/svuota-carrello?email=acquirente@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"carrello",
+								"svuota-carrello"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "acquirente@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contenuto",
+			"item": [
+				{
+					"name": "Aggiungi Prodotto Richiede un venditore",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "produttore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "produttore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dataCaricamento\": \"2025-09-26T10:00:00Z\",\r\n  \"descrizione\": \"Pomodori biologici raccolti a mano\",\r\n  \"nome\": \"Pomodoro Bio\",\r\n  \"metodoDiColtivazione\": \"Biologico\",\r\n  \"prezzo\": 3.50,\r\n  \"emailProduttore\": \"produttore@gmail.com\",\r\n  \"certificazioni\": [\"BIO\", \"DOC\"],\r\n  \"dataProduzione\": \"2025-09-20T08:00:00Z\",\r\n  \"quantita\": 100,\r\n  \"listaTrasformazioni\": []\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/aggiungi-prodotto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"aggiungi-prodotto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiungi Trasformazione",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "trasformatore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "trasformatore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dataCaricamento\": \"2025-09-21\",\r\n  \"descrizione\": \"Frantoio\",\r\n  \"emailTrasformatore\": \"trasformatore@gmail.com\",\r\n  \"prezzo\": 250.0,\r\n  \"quantita\": 5\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/aggiungi-trasformazione",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"aggiungi-trasformazione"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiungi Pacchetto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "distributore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "distributore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dataCaricamento\": \"2025-09-21\",\r\n  \"descrizione\": \"Mele e frantoio\",\r\n  \"nome\": \"Melee\",\r\n  \"prezzo\": 250.0,\r\n  \"emailDistributore\": \"distributore@gmail.com\",\r\n  \"quantita\": 5,\r\n  \"listaProdotti\": [1,2]\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/aggiungi-pacchetto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"aggiungi-pacchetto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modifica Prodotto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "produttore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "produttore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dataCaricamento\": \"2025-09-26T10:00:00Z\",\r\n  \"descrizione\": \"Pomodori biologici raccolti a mano\",\r\n  \"nome\": \"Pomodoro Bio\",\r\n  \"metodoDiColtivazione\": \"Biologico\",\r\n  \"prezzo\": 3.50,\r\n  \"emailProduttore\": \"produttore@gmail.com\",\r\n  \"certificazioni\": [\"BIO\", \"DOC\"],\r\n  \"dataProduzione\": \"2025-09-20T08:00:00Z\",\r\n  \"quantita\": 100\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/modifica-prodotto?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"modifica-prodotto"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiungi Trasformazione a Prodotto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "trasformatore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "trasformatore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/aggiungi-trasformazione?idProdotto=1&idTrasformazione=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"aggiungi-trasformazione"
+							],
+							"query": [
+								{
+									"key": "idProdotto",
+									"value": "1"
+								},
+								{
+									"key": "idTrasformazione",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiungi prodotto al pacchetto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gestore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "gestore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/aggiungi-al-pacchetto?idProdotto=1&idPacchetto=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"aggiungi-al-pacchetto"
+							],
+							"query": [
+								{
+									"key": "idProdotto",
+									"value": "1"
+								},
+								{
+									"key": "idPacchetto",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rimuovi prodotto dal pacchetto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gestore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "gestore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/rimuovi-da-pacchetto?idProdotto=1&idPacchetto=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"rimuovi-da-pacchetto"
+							],
+							"query": [
+								{
+									"key": "idProdotto",
+									"value": "1"
+								},
+								{
+									"key": "idPacchetto",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rimuovi Trasformazione a Prodotto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "trasformatore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "trasformatore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/rimuovi-trasformazione?idProdotto=1&idTrasformazione=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"rimuovi-trasformazione"
+							],
+							"query": [
+								{
+									"key": "idProdotto",
+									"value": "1"
+								},
+								{
+									"key": "idTrasformazione",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modifica Trasformazione",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gestore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "gestore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dataCaricamento\": \"2025-09-25T00:00:00Z\",\r\n  \"descrizione\": \"Trasformazione esempio\",\r\n  \"emailTrasformatore\": \"trasformatore@gmail.com\",\r\n  \"prezzo\": 150.75,\r\n  \"quantita\": 100\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/modifica-trasformazione?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"modifica-trasformazione"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ottieni tutti i contenuti",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/ottieni-contenuti",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"ottieni-contenuti"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ottieni Contenuti Venditore",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dataCaricamento\": \"2025-09-25T00:00:00Z\",\r\n  \"descrizione\": \"Trasformazione esempio\",\r\n  \"emailTrasformatore\": \"produttore@gmail.com\",\r\n  \"prezzo\": 150.75,\r\n  \"quantita\": 100\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/ottieni-contenuti-venditore?emailVenditore=produttore@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"ottieni-contenuti-venditore"
+							],
+							"query": [
+								{
+									"key": "emailVenditore",
+									"value": "produttore@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ottieni Prodotti",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dataCaricamento\": \"2025-09-25T00:00:00Z\",\r\n  \"descrizione\": \"Trasformazione esempio\",\r\n  \"emailTrasformatore\": \"produttore@gmail.com\",\r\n  \"prezzo\": 150.75,\r\n  \"quantita\": 100\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/ottieni-prodotti",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"ottieni-prodotti"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ottieni Trasformazioni",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dataCaricamento\": \"2025-09-25T00:00:00Z\",\r\n  \"descrizione\": \"Trasformazione esempio\",\r\n  \"emailTrasformatore\": \"trasformatore@gmail.com\",\r\n  \"prezzo\": 150.75,\r\n  \"quantita\": 100\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/ottieni-trasformazioni",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"ottieni-trasformazioni"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ottieni Pacchetti",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dataCaricamento\": \"2025-09-25T00:00:00Z\",\r\n  \"descrizione\": \"Trasformazione esempio\",\r\n  \"emailTrasformatore\": \"produttore@gmail.com\",\r\n  \"prezzo\": 150.75,\r\n  \"quantita\": 100\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/ottieni-pacchetti",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"ottieni-pacchetti"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Condividi social",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "produttore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "produttore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/contenuto/condividi?id=1&social=Twitter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"condividi"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								},
+								{
+									"key": "social",
+									"value": "Twitter"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rimuovi Contenuto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "produttore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "produttore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/contenuto/rimuovi-contenuto?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contenuto",
+								"rimuovi-contenuto"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Autorizzazione",
+			"item": [
+				{
+					"name": "Ottieni Contenuti in attesa",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "curatore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "curatore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/autorizzazione/contenuti-in-attesa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autorizzazione",
+								"contenuti-in-attesa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autorizza Contenuti",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "curatore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "curatore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/autorizzazione/autorizza-contenuto?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autorizzazione",
+								"autorizza-contenuto"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rifiuta Contenuto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gestore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "gestore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/autorizzazione/rifiuta-contenuto?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"autorizzazione",
+								"rifiuta-contenuto"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ordine",
+			"item": [
+				{
+					"name": "Aggiungi Ordine",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "acquirente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "acquirente@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dataOrdine\": \"2025-09-22T00:00:00.000Z\",\r\n  \"cartaDiCredito\": {\r\n    \"numCarta\": \"1234-5678-9012-3456\",\r\n    \"CVV\": \"123\",\r\n    \"scadenza\": \"2025-09-22T00:00:00.000Z\"    \r\n  },\r\n  \"indirizzoDiFatturazione\": {\r\n    \"Via\": \"Via Roma\",\r\n    \"nCivico\": \"1\",\r\n    \"comune\": \"Roma\",\r\n    \"CAP\": \"00100\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ordine/aggiungi?email=acquirente@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ordine",
+								"aggiungi"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "acquirente@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiorna Ordine",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "acquirente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "acquirente@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dataOrdine\": \"2025-09-22T00:00:00.000Z\",\r\n  \"cartaDiCredito\": {\r\n    \"numCarta\": \"1234-5678-9012-3456\",\r\n    \"CVV\": \"142\",\r\n    \"scadenza\": \"2025-09-22T00:00:00.000Z\"    \r\n  },\r\n  \"indirizzoDiFatturazione\": {\r\n    \"Via\": \"Via Roma\",\r\n    \"nCivico\": \"1\",\r\n    \"comune\": \"Roma\",\r\n    \"CAP\": \"00100\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ordini/aggiorna?id=1&email=acquirente@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ordini",
+								"aggiorna"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								},
+								{
+									"key": "email",
+									"value": "acquirente@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rimuovi Ordine",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "acquirente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "acquirente@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ordini/rimuovi?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ordini",
+								"rimuovi"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ottieni ordini utente",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "acquirente",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "acquirente@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ordine/ottieni-ordini-utente?email=acquirente@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ordine",
+								"ottieni-ordini-utente"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "acquirente@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ottieni ordini venditore",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "produttore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "produttore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ordine/ottieni-ordini-venditore?email=produttore@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ordine",
+								"ottieni-ordini-venditore"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "produttore@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Evadi",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gestore",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "gestore@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ordine/evadi?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ordine",
+								"evadi"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OSM",
+			"item": [
+				{
+					"name": "Stampa Venditori",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/osm/venditori",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"osm",
+								"venditori"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stampa esperienze",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/osm/esperienze",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"osm",
+								"esperienze"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stampa esperienza ricercata",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/osm/esperienza-posizione?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"osm",
+								"esperienza-posizione"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stampa Posizione Venditore",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/osm/venditore-posizione?email=produttore@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"osm",
+								"venditore-posizione"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "produttore@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
