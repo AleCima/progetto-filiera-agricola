@@ -12,7 +12,7 @@ public class Ordine {
 
     private Date dataOrdine;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "carrello_id", referencedColumnName = "id")
     private Carrello carrello;
 

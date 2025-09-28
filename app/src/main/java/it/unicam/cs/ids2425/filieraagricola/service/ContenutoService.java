@@ -3,19 +3,23 @@ package it.unicam.cs.ids2425.filieraagricola.service;
 import it.unicam.cs.ids2425.filieraagricola.exception.CampoNonValidoException;
 import it.unicam.cs.ids2425.filieraagricola.model.*;
 import it.unicam.cs.ids2425.filieraagricola.repository.ContenutoRepository;
+import it.unicam.cs.ids2425.filieraagricola.repository.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ContenutoService {
 
     private final ContenutoRepository contenutoRepository;
+    private final CarrelloService carrelloService;
 
     @Autowired
-    public ContenutoService(ContenutoRepository contenutoRepository) {
+    public ContenutoService(ContenutoRepository contenutoRepository, CarrelloService carrelloService) {
         this.contenutoRepository = contenutoRepository;
+        this.carrelloService = carrelloService;
     }
 
     public List<Contenuto> getContenuti() {
@@ -40,6 +44,7 @@ public class ContenutoService {
     }
 
     public void removeContenuto(Contenuto contenuto) {
+        carrelloService.rimuoviRigaCarrelloIfContains(contenuto);
         contenutoRepository.delete(contenuto);
     }
 

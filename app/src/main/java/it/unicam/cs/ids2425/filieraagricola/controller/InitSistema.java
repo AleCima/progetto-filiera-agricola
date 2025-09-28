@@ -26,6 +26,8 @@ public class InitSistema {
     private Utente acquirente;
     private Venditore venditore;
     private Contenuto contenutoDefault;
+    private Trasformazione trasformazioneDefault;
+    private Pacchetto pacchettoDefault;
 
     public InitSistema(AccountService accountService, ContenutoService contenutoService) {
         this.accountService = accountService;
@@ -121,6 +123,26 @@ public class InitSistema {
                 100
                 );
         contenutoService.addContenuto(contenutoDefault);
+// TRASFORMAZIONE
+        trasformazioneDefault = new Trasformazione(
+                new Date(),
+                "Marmellate",
+                trasformatore,
+                100.0,
+                5
+        );
+        contenutoService.addContenuto(trasformazioneDefault);
+//PACCHETTO
+        pacchettoDefault = new Pacchetto(
+                new Date(),
+                "Prugne Marmellate",
+                "Marmellata di prugne",
+                250.0,
+                distributore,
+                5,
+                Collections.emptyList()
+        );
+        contenutoService.addContenuto(pacchettoDefault);
     }
 
     public Utente getGestore() {
