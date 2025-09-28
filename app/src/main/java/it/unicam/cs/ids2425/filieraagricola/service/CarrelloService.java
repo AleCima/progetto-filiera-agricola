@@ -54,4 +54,14 @@ public class CarrelloService {
         }
         return false;
     }
+
+    public void rimuoviRigaCarrelloIfContains(Contenuto contenuto){
+        List<Utente> utenti = utenteRepository.findAll();
+        for (Utente u : utenti){
+            if(this.contains(u.getCarrello(), contenuto)){
+                this.rimuoviContenuto(u.getEmail(), contenuto, 100);
+            }
+        }
+        utenteRepository.saveAll(utenti);
+    }
 }

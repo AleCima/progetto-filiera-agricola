@@ -13,6 +13,7 @@ import it.unicam.cs.ids2425.filieraagricola.service.ContenutoService;
 import it.unicam.cs.ids2425.filieraagricola.service.handler.Handler;
 import it.unicam.cs.ids2425.filieraagricola.service.handler.NonNullOrEmptyHandler;
 import it.unicam.cs.ids2425.filieraagricola.service.handler.PacchettoContenutiHandler;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -224,7 +225,11 @@ public class ContenutoController {
         Contenuto c = contenutoService.getContenutoById(id);
         if (c == null) return new ResponseEntity<>("Contenuto non trovato", HttpStatus.NOT_FOUND);
 
-        contenutoService.removeContenuto(c);
+        try{
+            contenutoService.removeContenuto(c);
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseEntity<>("Il contenuto è presente altrove nel sistema(Pacchetto, Ordine)", HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>("Contenuto eliminato con successo", HttpStatus.OK);
     }
 
@@ -253,7 +258,7 @@ public class ContenutoController {
      * @param idTrasformazione Id della trasformazione da rimuovere
      * @return messaggio di successo/errore
      */
-    @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#id, authentication.name) or hasRole('GESTORE')")
+    @PreAuthorize("@contenutoService.contenutoVenditoreCheck(#idTrasformazione, authentication.name) or hasRole('GESTORE')")
     @PutMapping("/rimuovi-trasformazione")
     public ResponseEntity<Object> removeTrasformazioneFrom(@RequestParam int idProdotto, @RequestParam int idTrasformazione) {
         Prodotto prodotto = (Prodotto) contenutoService.getContenutoById(idProdotto);
